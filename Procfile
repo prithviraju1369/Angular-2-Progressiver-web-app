@@ -1,0 +1,1 @@
+web:node ./svr.server.js
