@@ -1,9 +1,4 @@
-<!--<h1>Home</h1>
-<ul>
-<li *ngFor="let user of users ">
-    {{user.name}}</li>
-</ul>
-<shared></shared>-->
+
 <div class="start-container start-alignment">
     <div class="start-alignment start-content">
         <span>Manage your shopping list online and offline</span>
@@ -12,7 +7,7 @@
         <span>Simple and Useful</span>
     </div>
     <div class="start-alignment start-button">
-        <button md-raised-button>Get started !</button>
+        <a [routerLink]="['/create']" md-raised-button>Get started !</a>
         <span>Let's get started and create your shopping list ...</span>
     </div>
     <div class="start-alignment start-help">

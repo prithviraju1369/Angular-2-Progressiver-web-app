@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import {CommonModule} from '@angular/common';
+import { FormsModule }   from '@angular/forms';
 
-import { HomeRoutingModule } from './home.routing';
+import { CreateRoutingModule } from './create.routing';
 import { SharedModule } from './../shared/shared.module';
-import { HomeComponent }   from './home/home.component';
+import { CreateComponent }   from './create/create.component';
 import {UsersService} from './../services/users.service';
 import { MaterialModule } from '@angular/material';
 @NgModule({
   imports: [
-    HomeRoutingModule,SharedModule,
+    CreateRoutingModule,SharedModule,
+    FormsModule,
     MaterialModule.forRoot(),
     CommonModule
   ],
   exports: [],
-  declarations: [HomeComponent],
+  declarations: [CreateComponent],
   providers: [UsersService],
 })
-export class HomeModule { }
+export class CreateModule { }
