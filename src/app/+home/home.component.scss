@@ -1,0 +1,27 @@
+.start-container{
+    height:100%;
+    text-align: center;
+}
+.start-alignment{
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+}
+.start-content{
+    text-align: start;
+}
+.start-alignment span{
+    font-size: 1em;
+    line-height: 1.5em;
+    margin: 1em 0;
+}
+.start-button button{
+    margin: auto;
+    background: gray;
+    border-radius: 5px;
+}
+
+
+.start-help{
+
+}

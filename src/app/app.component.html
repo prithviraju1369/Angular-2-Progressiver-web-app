@@ -1,8 +1,38 @@
 <md-toolbar color="primary">
-    <span>Angular 2</span>
-    <span class="header-remaining-space"></span>
+    <!--<div class="toolbar-align">-->
+    <span style="padding-left: 1em;">
+    <md-icon>pets</md-icon>
+    Fregg!
+    </span>
+    <span style="flex:1 1 auto;"></span>
+    <span class="toolbar-img-align">
+    <img src="./../assets/images/logo_fergg_100px.jpg">
+    </span>
+    
+    <md-toolbar-row class="toolbar-subtext">
+    <span>
+        A Mobile Shopping List
+    </span>
+    </md-toolbar-row>
+    <!--</div>-->
+    
+<!--<span class="header-remaining-space"></span>
     <a routerLink="/home" routerLinkActive="active">Home</a>
-    <a routerLink="/about" routerLinkActive="active">About</a>
+    <a routerLink="/about" routerLinkActive="active">About</a>-->
 </md-toolbar>
-
-<router-outlet></router-outlet>
+<md-sidenav-layout>
+    <md-sidenav align="start" mode="side" closed #sidenav>
+        sidenav
+    </md-sidenav>
+    <div class="content">
+        <div class="app-main-container">
+            <router-outlet></router-outlet>
+        </div>
+        <div class="app-footer-container" color="primary">
+                <span style="width:60%">Get in touch with us</span>
+                <span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-facebook.png"></span>
+                <span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-twitter.png"></span>
+                <span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-mail.png"></span>
+        </div>
+    </div>
+</md-sidenav-layout>

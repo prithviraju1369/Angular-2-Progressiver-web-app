@@ -1,12 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
-html{
-    max-width:100vw;
-    min-height: 100vh;
-    box-shadow: none;
+html {
+  height: 100vh;
+  width:100vw;
+  /*box-sizing: border-box;*/
+  overflow-x: hidden;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 body{
+    position: relative;
     margin: 0;
-    padding: 0;
+    /*padding-bottom: 6rem;*/
+    min-height: 100%;
+    font-family: "Helvetica Neue", Arial, sans-serif;
 }
 .load-container{
     position: relative;
