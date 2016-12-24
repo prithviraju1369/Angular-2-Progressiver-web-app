@@ -1,1 +1,1 @@
-web:node ./svr/server.js
+web:node server.js
