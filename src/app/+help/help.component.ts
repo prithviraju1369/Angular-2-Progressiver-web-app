@@ -9,10 +9,11 @@ import { Observable } from 'rxjs/Observable';
 
 
 @Component({
-  selector: 'about',
-  templateUrl: './about.component.html'
+  selector: 'help',
+  templateUrl: './help.component.html',
+  styleUrls: ['./help.component.scss']
 })
-export class AboutComponent implements OnInit {
+export class HelpComponent implements OnInit {
     private abtusers:user[];
     constructor(public _userService: UsersService) {
 
@@ -20,7 +21,7 @@ export class AboutComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getUsers();
+        // this.getUsers();
     }
      getUsers(){
         // Get all comments

@@ -14,24 +14,12 @@ import { Observable } from 'rxjs/Observable';
     providers:[UsersService]
 })
 export class CreateComponent implements OnInit {
-    private commentsUrl = 'api';
-    private users:user[];
     constructor(
         public _userService: UsersService) {
     }
 
     ngOnInit() {
-        this.getUsers();
     }
-     getUsers(){
-        // Get all comments
-         this._userService.getUsersFirebase()
-                           .subscribe(
-                               users => this.users = users, //Bind to view
-                                err => {
-                                    // Log errors if any
-                                    console.log(err);
-                                });
-    }
+ 
 
 }

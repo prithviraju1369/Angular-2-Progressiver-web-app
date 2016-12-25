@@ -1,0 +1,15 @@
+.help-container{
+    height:100%;
+    text-align: start;
+}
+.help-alignment{
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+}
+
+.help-alignment div{
+    font-size: 1em;
+    line-height: 1.5em;
+    margin: 1em 0;
+}

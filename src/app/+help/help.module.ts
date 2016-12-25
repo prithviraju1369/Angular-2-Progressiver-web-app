@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import { AboutRoutingModule } from './about.routing';
+import { HelpRoutingModule } from './help.routing';
 import { SharedModule } from './../shared/shared.module';
-import { AboutComponent }   from './about.component';
+import { HelpComponent }   from './help.component';
 import {UsersService} from './../services/users.service';
 
 
 @NgModule({
   imports: [
-    AboutRoutingModule,SharedModule,CommonModule
+    HelpRoutingModule,SharedModule,CommonModule
   ],
   exports: [],
-  declarations: [AboutComponent],
+  declarations: [HelpComponent],
   providers: [UsersService],
 })
-export class AboutModule { }
+export class HelpModule { }
