@@ -7,10 +7,14 @@ import { SharedModule } from './../shared/shared.module';
 import { CreateComponent }   from './create/create.component';
 import {UsersService} from './../services/users.service';
 import { MaterialModule } from '@angular/material';
+import { AngularFireModule } from 'angularfire2';
+import { firebaseConfig } from './../config/firebase-config';
+
 @NgModule({
   imports: [
     CreateRoutingModule,SharedModule,
     FormsModule,
+    AngularFireModule.initializeApp(firebaseConfig),
     MaterialModule.forRoot(),
     CommonModule
   ],
