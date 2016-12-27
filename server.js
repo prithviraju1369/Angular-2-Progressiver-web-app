@@ -19,7 +19,7 @@ app.get('/users', function(req,res){
     res.send(users);
 });
 
-var transporter = nodemailer.createTransport('smtps://prithviraju1369%40gmail.com:Narenamrit1369@smtp.gmail.com');
+var transporter = nodemailer.createTransport('smtps://prithviraju1369%40gmail.com:test@smtp.gmail.com');
 var siteUrl;
 var sendUrl;
 app.post('/api/email',function(req,res){
