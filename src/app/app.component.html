@@ -1,7 +1,9 @@
 <md-toolbar color="primary">
     <!--<div class="toolbar-align">-->
     <span style="padding-left: 1em;">
-    <md-icon>pets</md-icon>
+        <span *ngIf="detectDevice()">
+    <md-icon>menu</md-icon>
+        </span>
     Fregg!
     </span>
     <span style="flex:1 1 auto;"></span>
@@ -16,14 +18,41 @@
     </md-toolbar-row>
     <!--</div>-->
     
-<!--<span class="header-remaining-space"></span>
-    <a routerLink="/home" routerLinkActive="active">Home</a>
-    <a routerLink="/about" routerLinkActive="active">About</a>-->
 </md-toolbar>
-<md-sidenav-layout>
-    <!--<md-sidenav align="start" mode="side" opened #sidenav1>
-        Test
-    </md-sidenav>-->
+
+<md-sidenav-container>
+    <md-sidenav *ngIf="detectDevice()" #start mode="over" opened (open)="closeStartButton.focus()">
+      <div>
+          <img src="./../assets/images/nav_create_new_shopping_list.png">
+          Create new shopping list
+      </div>
+      <div>
+          <img src="./../assets/images/nav_manage_catalog.png">
+          Manage catalog
+      </div>
+      <div>
+          <img src="./../assets/images/nav_help.png">
+          Help
+      </div>
+      <br>
+      <button md-button #closeStartButton (click)="start.close()">Close</button>
+    </md-sidenav>
+    <md-sidenav *ngIf="!detectDevice()" #end mode="side" align="start" opened>
+        <div class="nav-container">
+      <div class="nav-item">
+          <img class="sidenav-tems-align" src="./../assets/images/nav_create_new_shopping_list.png">
+          <span class="sidenav-tems-align">Create new shopping list</span>
+      </div>
+      <div class="nav-item">
+          <img class="sidenav-tems-align" src="./../assets/images/nav_manage_catalog.png">
+          <span class="sidenav-tems-align">Manage catalog</span>
+      </div>
+      <div class="nav-item">
+          <img class="sidenav-tems-align" src="./../assets/images/nav_help.png">
+          <span class="sidenav-tems-align">Help</span>
+      </div>
+        </div>
+    </md-sidenav>
     <div class="content">
         <div class="app-main-container">
             <router-outlet></router-outlet>
@@ -35,4 +64,4 @@
                 <span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-mail.png"></span>
         </div>
     </div>
-</md-sidenav-layout>
+  </md-sidenav-container>

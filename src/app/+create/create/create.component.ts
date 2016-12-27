@@ -47,7 +47,10 @@ export class CreateComponent implements OnInit {
         this.CheckUsers();
     }
     addInvitedUsers(){
-        this.users.push('a');
+        this.users.push('');
+    }
+    usersChange(ind,val){
+        this.users[ind]=val;
     }
 
     ItemNotIn(obj){

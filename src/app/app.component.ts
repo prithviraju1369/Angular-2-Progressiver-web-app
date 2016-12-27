@@ -8,27 +8,18 @@ import { Component, AfterViewInit } from '@angular/core';
 export class AppComponent implements AfterViewInit {
   title = 'app works!';
 
-  ismobile:boolean=true;
-
   ngAfterViewInit() {
-    this.detectDevice()
   }
 
   detectDevice(){
-    if(window.innerWidth <= 800 && window.innerHeight <= 600){ 
-      return this.mobileDevice(); 
+    if(window.innerWidth <= 800 && window.innerHeight <= 700){ 
+      return true; 
     }else{
-      return this.desktopDevice()
+      return false;
     }
   }
 
-  mobileDevice(){
-      this.ismobile=true;
-  }
-
-  desktopDevice(){
-      this.ismobile=false;
-  }
+  
 }
 
 

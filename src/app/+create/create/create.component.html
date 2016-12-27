@@ -23,11 +23,10 @@
                 <h5>Invite user</h5>
             </div>
             <md-input-container style="width: 100%">
-                <input md-input placeholder="email address"  name="initialEmail" [(ngModel)]="initialEmail">
+                <input md-input placeholder="email address" type="email" name="initialEmail" [(ngModel)]="initialEmail">
             </md-input-container>
             <md-input-container style="width: 100%" *ngFor="let usr of users ;let in=index" >
-                <input md-input placeholder="email address" [(ngModel)]="usr[in]" name="inviteduser">
-                {{usr[in]}}
+                <input md-input placeholder="email address" type="email" (focusout)="usersChange(in,$event.target.value)" [(ngModel)]="usr[in]" name="inviteduser" >
             </md-input-container>
             <div class="form-align-items" >
                 <md-icon (tap)="addInvitedUsers()">add</md-icon>
