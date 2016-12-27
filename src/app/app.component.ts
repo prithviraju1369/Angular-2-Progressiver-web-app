@@ -12,7 +12,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   detectDevice(){
-    if(window.innerWidth <= 800 && window.innerHeight <= 700){ 
+    if(window.innerWidth <= 800){ 
       return true; 
     }else{
       return false;

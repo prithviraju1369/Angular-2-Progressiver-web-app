@@ -50,13 +50,13 @@ md-sidenav{
 }
 
 .content{
-    height: 100%;
+    position: relative;
+    height: inherit;
     /*min-height: 90vh;*/
 }
 .app-main-container{
     margin: 0 1em;
-    min-height: 70vh;
-    margin-bottom: 20px;
+    min-height: 85%;
 }
 md-sidenav-container.md-sidenav-content{
     margin-left: 0;
@@ -66,6 +66,7 @@ md-sidenav-container.md-sidenav-content{
     right: 0;
     bottom: 0;
     left: 0;
+    height:10%;
     padding: 1rem;
     background-color:#1c5792;
     text-align: center;
@@ -82,4 +83,7 @@ md-sidenav-container.md-sidenav-content{
 .nav-item{
     border-bottom: 1px solid black;
     background-color: #90CAF9;
+}
+md-sidenav-container{
+    height:90vh;
 }

@@ -49,10 +49,9 @@ export class CreateComponent implements OnInit {
     addInvitedUsers(){
         this.users.push('');
     }
-    usersChange(ind,val){
-        this.users[ind]=val;
+    customTrackBy(index: number, obj: any): any {
+        return index;
     }
-
     ItemNotIn(obj){
         let exists=this.exists.filter(function(item){
             return item.email === obj.email;

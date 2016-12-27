@@ -1,56 +1,59 @@
+<div style="height:100%">
 <md-toolbar color="primary">
     <!--<div class="toolbar-align">-->
-    <span style="padding-left: 1em;">
-        <span *ngIf="detectDevice()">
-    <md-icon>menu</md-icon>
-        </span>
+    <!--<span style="padding-left: 1em;">
+        <span *ngIf="detectDevice()" (tap)="start.close()">
+    <md-icon>menu</md-icon>-->
+    <!--</span>-->
     Fregg!
-    </span>
+    <!--</span>-->
     <span style="flex:1 1 auto;"></span>
-    <span class="toolbar-img-align">
+<span class="toolbar-img-align">
     <img src="./../assets/images/logo_fergg_100px.jpg">
     </span>
-    
-    <md-toolbar-row class="toolbar-subtext">
+
+<md-toolbar-row class="toolbar-subtext">
     <span>
         A Mobile Shopping List
     </span>
-    </md-toolbar-row>
-    <!--</div>-->
-    
+</md-toolbar-row>
+<!--</div>-->
+
 </md-toolbar>
 
 <md-sidenav-container>
     <md-sidenav *ngIf="detectDevice()" #start mode="over" opened (open)="closeStartButton.focus()">
-      <div>
-          <img src="./../assets/images/nav_create_new_shopping_list.png">
-          Create new shopping list
-      </div>
-      <div>
-          <img src="./../assets/images/nav_manage_catalog.png">
-          Manage catalog
-      </div>
-      <div>
-          <img src="./../assets/images/nav_help.png">
-          Help
-      </div>
-      <br>
-      <button md-button #closeStartButton (click)="start.close()">Close</button>
+        <div class="nav-container">
+            <div class="nav-item">
+                <img class="sidenav-tems-align" src="./../assets/images/nav_create_new_shopping_list.png">
+                <span class="sidenav-tems-align">Create new shopping list</span>
+            </div>
+            <div class="nav-item">
+                <img class="sidenav-tems-align" src="./../assets/images/nav_manage_catalog.png">
+                <span class="sidenav-tems-align">Manage catalog</span>
+            </div>
+            <div class="nav-item">
+                <img class="sidenav-tems-align" src="./../assets/images/nav_help.png">
+                <span class="sidenav-tems-align">Help</span>
+            </div>
+        </div>
+        <br>
+        <button md-button #closeStartButton (click)="start.close()">Close</button>
     </md-sidenav>
     <md-sidenav *ngIf="!detectDevice()" #end mode="side" align="start" opened>
         <div class="nav-container">
-      <div class="nav-item">
-          <img class="sidenav-tems-align" src="./../assets/images/nav_create_new_shopping_list.png">
-          <span class="sidenav-tems-align">Create new shopping list</span>
-      </div>
-      <div class="nav-item">
-          <img class="sidenav-tems-align" src="./../assets/images/nav_manage_catalog.png">
-          <span class="sidenav-tems-align">Manage catalog</span>
-      </div>
-      <div class="nav-item">
-          <img class="sidenav-tems-align" src="./../assets/images/nav_help.png">
-          <span class="sidenav-tems-align">Help</span>
-      </div>
+            <div class="nav-item">
+                <img class="sidenav-tems-align" src="./../assets/images/nav_create_new_shopping_list.png">
+                <span class="sidenav-tems-align">Create new shopping list</span>
+            </div>
+            <div class="nav-item">
+                <img class="sidenav-tems-align" src="./../assets/images/nav_manage_catalog.png">
+                <span class="sidenav-tems-align">Manage catalog</span>
+            </div>
+            <div class="nav-item">
+                <img class="sidenav-tems-align" src="./../assets/images/nav_help.png">
+                <span class="sidenav-tems-align">Help</span>
+            </div>
         </div>
     </md-sidenav>
     <div class="content">
@@ -58,10 +61,11 @@
             <router-outlet></router-outlet>
         </div>
         <div class="app-footer-container" color="primary">
-                <span style="width:60%">Get in touch with us</span>
-                <span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-facebook.png"></span>
-                <span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-twitter.png"></span>
-                <span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-mail.png"></span>
-        </div>
-    </div>
-  </md-sidenav-container>
+            <span style="width:60%">Get in touch with us</span>
+<span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-facebook.png"></span>
+<span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-twitter.png"></span>
+<span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-mail.png"></span>
+</div>
+</div>
+</md-sidenav-container>
+</div>
