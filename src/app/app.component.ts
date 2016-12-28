@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,13 @@ import { Component, AfterViewInit } from '@angular/core';
 export class AppComponent implements AfterViewInit {
   title = 'app works!';
 
+  @ViewChild('start') start;
+
   ngAfterViewInit() {
+  }
+
+  hideNav(){
+    this.start.toggle();
   }
 
   detectDevice(){
