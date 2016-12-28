@@ -19,7 +19,7 @@
 </md-toolbar>
 
 <md-sidenav-container>
-    <md-sidenav *ngIf="detectDevice()" #start mode="over" opened (open)="closeStartButton.focus()">
+    <md-sidenav *ngIf="detectDevice()" #start mode="over" (open)="closeStartButton.focus()">
         <div class="nav-container">
             <div class="nav-item">
                 <img class="sidenav-tems-align" src="./../assets/images/nav_create_new_shopping_list.png">
