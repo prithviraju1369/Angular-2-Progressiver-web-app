@@ -17,7 +17,7 @@ export class AppComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy(){
-    
+    alert(1);
   }
 
   hideNav(){
