@@ -1,16 +1,23 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit,OnDestroy {
   title = 'app works!';
 
   @ViewChild('start') start;
+  
+  isMobile;
 
-  ngAfterViewInit() {
+  ngOnInit() {
+    this.detectDevice();
+  }
+
+  ngOnDestroy(){
+    
   }
 
   hideNav(){
@@ -19,9 +26,9 @@ export class AppComponent implements AfterViewInit {
 
   detectDevice(){
     if(window.innerWidth <= 800){ 
-      return true; 
+      this.isMobile=true;
     }else{
-      return false;
+      this.isMobile=false;
     }
   }
 

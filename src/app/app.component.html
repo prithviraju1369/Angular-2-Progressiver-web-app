@@ -1,7 +1,7 @@
 <div style="height:100%">
 <md-toolbar color="primary">
     <span style="padding-left: 1em;">
-<span *ngIf="detectDevice()" (tap)="hideNav()">
+<span *ngIf="isMobile" (tap)="hideNav()">
     <md-icon>menu</md-icon>
     </span> Fregg!
 </span>
@@ -19,46 +19,58 @@
 </md-toolbar>
 
 <md-sidenav-container>
-    <md-sidenav *ngIf="detectDevice()" #start mode="over" (open)="closeStartButton.focus()">
+    <md-sidenav *ngIf="isMobile" #start mode="over" opened="false" (open)="closeStartButton.focus()">
         <div class="nav-container">
             <div class="nav-item">
-                <img class="sidenav-tems-align" src="./../assets/images/nav_create_new_shopping_list.png">
-                <span class="sidenav-tems-align">Create new shopping list</span>
+                <a [routerLink]="['/create']">
+                    <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_create_new_shopping_list.png">
+                    <span class="sidenav-tems-align">Create new shopping list</span>
+                </a>
             </div>
             <div class="nav-item">
-                <img class="sidenav-tems-align" src="./../assets/images/nav_manage_catalog.png">
-                <span class="sidenav-tems-align">Manage catalog</span>
+                <a>
+                    <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_manage_catalog.png">
+                    <span class="sidenav-tems-align">Manage catalog</span>
+                </a>
             </div>
             <div class="nav-item">
-                <img class="sidenav-tems-align" src="./../assets/images/nav_help.png">
-                <span class="sidenav-tems-align">Help</span>
+                <a [routerLink]="['/help']">
+                    <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_help.png">
+                    <span class="sidenav-tems-align">Help</span>
+                </a>
             </div>
         </div>
         <br>
-        <button md-button #closeStartButton (click)="start.close()">Close</button>
-    </md-sidenav>
-    <md-sidenav *ngIf="!detectDevice()" #end mode="side" align="start" opened>
-        <div class="nav-container">
-            <div class="nav-item">
-                <img class="sidenav-tems-align" src="./../assets/images/nav_create_new_shopping_list.png">
+        <button style="display: none;" md-button #closeStartButton (click)="start.close()">Close</button>
+</md-sidenav>
+<md-sidenav *ngIf="!isMobile" #end mode="side" align="start" opened>
+    <div class="nav-container">
+        <div class="nav-item">
+            <a [routerLink]="['/create']">
+                <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_create_new_shopping_list.png">
                 <span class="sidenav-tems-align">Create new shopping list</span>
-            </div>
-            <div class="nav-item">
-                <img class="sidenav-tems-align" src="./../assets/images/nav_manage_catalog.png">
+            </a>
+        </div>
+        <div class="nav-item">
+            <a>
+                <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_manage_catalog.png">
                 <span class="sidenav-tems-align">Manage catalog</span>
-            </div>
-            <div class="nav-item">
-                <img class="sidenav-tems-align" src="./../assets/images/nav_help.png">
+            </a>
+        </div>
+        <div class="nav-item">
+            <a [routerLink]="['/help']">
+                <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_help.png">
                 <span class="sidenav-tems-align">Help</span>
-            </div>
+            </a>
         </div>
-    </md-sidenav>
-    <div class="content">
-        <div class="app-main-container">
-            <router-outlet></router-outlet>
-        </div>
-        <div class="app-footer-container" color="primary">
-            <span style="width:60%">Get in touch with us</span>
+    </div>
+</md-sidenav>
+<div class="content">
+    <div class="app-main-container">
+        <router-outlet></router-outlet>
+    </div>
+    <div class="app-footer-container" color="primary">
+        <span style="width:60%">Get in touch with us</span>
 <span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-facebook.png"></span>
 <span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-twitter.png"></span>
 <span style="width:10%"><img height="24px" src="./../assets/images/btn-footer-mail.png"></span>

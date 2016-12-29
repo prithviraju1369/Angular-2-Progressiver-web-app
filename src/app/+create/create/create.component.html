@@ -29,7 +29,7 @@
                 <input md-input placeholder="email address" type="email" [(ngModel)]="users[in]" name="inviteduser{{in}}" >
             </md-input-container>
             <div class="form-align-items" >
-                <md-icon (tap)="addInvitedUsers()">add</md-icon>
+                <md-icon style="cursor: pointer;" (tap)="addInvitedUsers()">add</md-icon>
                 <h5>Add more users</h5>
             </div>
             <button md-raised-button (tap)="CreateList()">Create</button>

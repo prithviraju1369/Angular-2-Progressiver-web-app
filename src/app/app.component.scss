@@ -77,6 +77,9 @@ md-sidenav-container.md-sidenav-content{
     }
 .footer-container{
 }
+.nav-item img{
+    margin:1em;
+}
 .sidenav-tems-align{
     display: inline-block;
     vertical-align: middle;
@@ -84,6 +87,7 @@ md-sidenav-container.md-sidenav-content{
 .nav-item{
     border-bottom: 1px solid black;
     background-color: #90CAF9;
+    cursor:pointer;
 }
 md-sidenav-container{
    min-height:90vh;
