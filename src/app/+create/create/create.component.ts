@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { SharedComponent } from './../../shared/shared.component';
 import { CreateService } from './../create.service';
 import {user} from './../../model/user';
@@ -6,6 +8,9 @@ import {user} from './../../model/user';
 import { Observable } from 'rxjs/Observable';
 
 import { list } from './../../model/user';
+
+
+import { FirebaseObjectObservable} from 'angularfire2';
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
 
@@ -15,7 +20,7 @@ import { list } from './../../model/user';
     styleUrls: ['./create.component.scss'],
     providers:[CreateService]
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent implements OnInit,OnDestroy {
     // shoppingList :list; 
     model=new list();
     title:string;
@@ -23,17 +28,25 @@ export class CreateComponent implements OnInit {
     usersFirebase=[];
     initialEmail:string;
     inviteUsers:Array<string>;
+    emailedUsers:Array<any>=[];
     languages = ['English', 'German'];
     exists:user[];
     notexists:user[];
     array:Array<any>=[];
-    sList:Array<any>=[];
+    sList:FirebaseObjectObservable<any>;
+    reqSubscribe;
+    sListKey:string;
     constructor(
-        public _createService: CreateService) {
+        public _createService: CreateService,
+        private router: Router) {
+            this.router=router;
     }
 
     ngOnInit() {
         this.getUsers();
+    }
+    ngOnDestroy(){
+        this.reqSubscribe.unsubscribe();
     }
     CreateList(){
         console.log(this.model);
@@ -77,7 +90,10 @@ export class CreateComponent implements OnInit {
         let sListTemp:list =this.model;
         sListTemp.users=[];
         let sListCreated$=self._createService.createSList(sListTemp);
-        sListCreated$.subscribe(x=>this.sList=x);
+        sListCreated$.subscribe(x=>{
+            this.sList=x;
+            this.sListKey=x.$key;
+        });
         self._createService.resetSList();
         
         let request$=Observable.from(this.array)
@@ -96,8 +112,17 @@ export class CreateComponent implements OnInit {
                 //     return this.sendKeys(data);
                 // });
                 
-        let reqSubscribe=request$.subscribe(
+        this.reqSubscribe=request$.subscribe(
                 val=>{
+                    if(val){
+                        self.emailedUsers.push(val);
+                        if(self.emailedUsers.length == self.inviteUsers.length)
+                        {
+                            if(self.sList){
+                                self.router.navigate([`list/${self.sListKey}`,{email:self.model.email}])
+                            }
+                        }
+                    }
                     console.log(val);
                 }
             );

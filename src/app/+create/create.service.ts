@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {user,list} from './../model/user';
 
-import { AngularFire, FirebaseListObservable, FirebaseRef} from 'angularfire2';
+import { AngularFire, FirebaseListObservable,FirebaseObjectObservable, FirebaseRef} from 'angularfire2';
 
 // Import RxJs required methods
 // import 'rxjs/add/operator/map';
@@ -28,13 +28,13 @@ export class CreateService {
         this.sListUsersRef=fb.database().ref('sListUsers');
     }
 
-    createSList(list: list): Observable<any[]> {
+    createSList(list: list): FirebaseObjectObservable<any> {
         const sListRef = this.af.database.list(`sList`);
 
         this.sList = sListRef.push(list);
         this.sListUsersKey = this.sList.child("users");
 
-        return this.af.database.list(`sList/${this.sList.getKey()}`);
+        return this.af.database.object(`sList/${this.sList.getKey()}`);
     }
     resetSList():void{
         this.resetInvitedUsers();
