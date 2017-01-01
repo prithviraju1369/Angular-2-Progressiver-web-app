@@ -130,10 +130,10 @@ export class CreateComponent implements OnInit,OnDestroy {
                     console.log(val);
                 }
             );
-        if(!window.navigator.onLine)
-        {
-            self.snackBar.open('Shopping List will be Created and email will be sent, once device comes online, Don\'t close the Browser', 'Okay');
-        }
+        // if(!window.navigator.onLine)
+        // {
+        //     self.snackBar.open('Shopping List will be Created and email will be sent, once device comes online, Don\'t close the Browser', 'Okay');
+        // }
         
     }
     sendKeys(data: any):Observable<any>{

@@ -56,7 +56,7 @@ listRef.child('sListUsers').on('child_changed', function(dataSnapshot) {
         if (msg.hasOwnProperty(property)) {
             if(msg[property]) {
                 msg[property]=false;
-                queryEmail(property);
+                queryEmail(key);
                 // listRef.child('sListUsers').child(key).update(msg);
             }
         }
