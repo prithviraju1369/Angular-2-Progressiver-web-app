@@ -1,0 +1,13 @@
+var firebase={
+  "type": "service_account",
+  "project_id": "shoppinglist-12407",
+  "private_key_id": "bd42a0f70717357f67bb6d8c2ec1edb5f1e39755",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC0DZ4a8z7ZSMHW\nSmipWBa9TSjWpDcHUKSb/rlMXMh5QDlBGGkGE5mli7JnB/KuMJ0HJwhGyS2mSOJe\nFWGjiRdzPV7ipWGC+73TcFxvO2pA3Vz3FnDEkSgmMi6HimuykuckfRW5+PIL3s77\n4btuQwOH6fTCrnv5QIQMgMfO4V4/NMRr+GtUC5KPcMg8Zbj6BmnmENjoq6inT8lZ\nU3qele5sctKI2DohieCsWCdQ4dz1bAsVwmjgWRN+d6VW50ZmItwD6Zy1rjfwn45J\n7uvMG95UPYsw6hSG+/ilsCNJBHJhNTTq8d5huzfDNEv3dnBm8Zrnb2RD79sxxTHQ\nJyVB2461AgMBAAECggEAQIkI/FvnUPY1E9vDu77pF5zKYHSnjKWo+ojIXch7yons\ne5qGOjlYPu/dV/SPVUPzZJbm7og5JnrFODetsXH3x8RdeBsS4mHc3iZN20iOgwVU\nxvNyI+JrY5Vk/AvvIihpVLjIysmh6ANKaRm1loXKhDKlGgp0QRiQu/KEq3A32asz\ngGgNEFcWydlQwWF/TENSq/WdudBBJcljanBKfvP2s+m5QBgohLAsUIeo25kFBe+l\nyXVfD2XAyIhEeHnEFxEWTeAj22Zm3MPncF8Xd+ulVZYVHYAHoQqLwaNwlLMnSi+Z\nmLfLi70C1yNvBSGqu35MTHjB4cH/w8awlbLFs1ZdmQKBgQDstZi4BPkwUjv6BQMm\npIqa42kDyniZxrjqMQSoG2KCuA8WuyZdTKDSXGS+Excu1XxW9aph8T+WrTHPs+12\nn5AsxEBPI5IR/sN/I6x1Kv2D+UaOBU3dYUZTb1uH+l3Gwgl3cVaaDSds1PgTGbun\ngnylvvQGPNWh3ilneL/C5swthwKBgQDCugTK/1ao785EpqdJ4os6+e8RIUXhPCaQ\nIAzbG8sQEs6yvPYk+Anvl+bBBiWFcSokoHwGGOsPHM7btbJKhkhBn6BkIpigDtGd\nzfpcvvIize0KxqLlBzbeQG5YkJag1vXRZMD+aYob1m4zJjei+cM7LpLLcMuFnehs\nSQZwnANQ4wKBgCLci+VuNhT7x4GHA3PJf/BX1buNMj3TmqBDH+BySAvgd7htT7Ul\n9/mDSgMEZMGtB2b3P2S1Vxwl3dQtN6fk0CMHtEDziCvGTZyH8HpBHp01NULtXQ5h\nqS3YlK5uHSmMokBJHOwLS+cnZnHJtG1zNlBi0yWoB/6S7Z4jlnpp62A5AoGAQAcE\nPm844nF/ZElb5kpsN2co+Xv0SzwI/gjb0UvROCbG+jRxxvQb6EENKdjIi5kLH2H5\nhdO5ro1tYwbaafC/X3yKM4LApphYykeJE+fhHBqT36AyvZXir6+F2O8p6BbmWwSD\nBORU+hRGxeDCGH+Bdzs4H1amRPgIDVrxmCNkX7sCgYBiNdLzgSEanGh4Oc7r9eZw\n8ZmbhD6wuUGO564W7JF7yf++5MpfJRXos5WOtZVo1EYb75UsAANBr3FdUJXEqKtC\nZBxFDzyPRYGGeLPrC58apWvU4y40ASybLqtkOQ2H9TXhmh+cjXL/F68rvUhpISPL\nwwalTHYdLx2DCj4m5Jdmkw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-5ck0p@shoppinglist-12407.iam.gserviceaccount.com",
+  "client_id": "105785606657926685706",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-5ck0p%40shoppinglist-12407.iam.gserviceaccount.com"
+}
+module.exports = firebase;

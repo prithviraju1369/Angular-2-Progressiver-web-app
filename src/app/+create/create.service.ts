@@ -20,10 +20,12 @@ export class CreateService {
     private sList: any;
     private sListUsersKey: any;
     roorRef;
+    sListUsersRef;
     mailedUsers:Array<any>=[];
     constructor( @Inject(FirebaseRef) public fb, private http: Http, af: AngularFire) {
         this.af = af;
         this.roorRef = fb.database().ref('users');
+        this.sListUsersRef=fb.database().ref('sListUsers');
     }
 
     createSList(list: list): Observable<any[]> {
@@ -47,10 +49,14 @@ export class CreateService {
 
     createSListUser(usr: any): void {
         console.log(this.sList);
-        let testme = this.af.database.object(`sList/${usr.$key}/users`);
+        let sListKey=usr.$key;
+        let insertData={};
+        insertData[sListKey]=true;
+        let testme = this.af.database.object(`sListUsers`);
         if (this.invitedUsers.indexOf(usr.$key) < 0) {
             this.invitedUsers.push(usr.$key);
             this.sListUsersKey.update(this.invitedUsers);
+            this.sListUsersRef.child(this.sList.getKey()).update(insertData);
             // this.sendEmailToUser(usr.$key);
         }
     }

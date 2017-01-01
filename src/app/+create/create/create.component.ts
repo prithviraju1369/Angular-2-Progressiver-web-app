@@ -90,11 +90,11 @@ export class CreateComponent implements OnInit {
                 .map(data=>{
                     this.createSListUser(data);
                     return this.sendKeys(data);
-                })
-                .map(data=>{
-                    this.sendEmail(data);
-                    return this.sendKeys(data);
                 });
+                // .map(data=>{
+                //     this.sendEmail(data);
+                //     return this.sendKeys(data);
+                // });
                 
         let reqSubscribe=request$.subscribe(
                 val=>{
