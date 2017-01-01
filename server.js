@@ -56,7 +56,7 @@ listRef.child('sListUsers').on('child_changed', function(dataSnapshot) {
         if (msg.hasOwnProperty(property)) {
             if(msg[property]) {
                 msg[property]=false;
-                queryEmail(key);
+                queryEmail(key,property);
                 // listRef.child('sListUsers').child(key).update(msg);
             }
         }
@@ -70,20 +70,20 @@ listRef.child('sListUsers').on('child_changed', function(dataSnapshot) {
     }
     
 });
-var queryEmail=function(property){
+var queryEmail=function(key,property){
     listRef.child('users').orderByKey().equalTo(property).limitToLast(1).on("value",function(data){
         var obj =data.val();
         if(obj){
-        sendEmail(property,obj[property].email)
+        sendEmail(key,property, obj[property].email)
         }
     });
 }
 
 
-var sendEmail=function(key,mailId){
+var sendEmail=function(key,property,mailId){
     // siteUrl=req.protocol + '://' + req.get('host');
     siteUrl="https://angular2-progressive-app.herokuapp.com";
-    sendUrl= siteUrl+"/#/list/"+key+";email="+mailId;
+    sendUrl= siteUrl+"/#/list/"+key+";email="+property;
     var mailOptions = {
         from: 'prithviraju1369@gmail.com', // sender address
         to: mailId, // list of receivers

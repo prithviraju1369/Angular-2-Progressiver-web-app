@@ -123,7 +123,8 @@ export class CreateComponent implements OnInit,OnDestroy {
                         {
                             if(self.sList) 
                             {
-                                self.router.navigate([`list/${self.sListKey}`,{email:self.model.email}])
+                                let userEmailKey=self.emailedUsers.find(self.findUserEmailKey,self);
+                                self.router.navigate([`list/${self.sListKey}`,{email:userEmailKey.$key}])
                             }
                         }
                     }
@@ -135,6 +136,9 @@ export class CreateComponent implements OnInit,OnDestroy {
         //     self.snackBar.open('Shopping List will be Created and email will be sent, once device comes online, Don\'t close the Browser', 'Okay');
         // }
         
+    }
+    findUserEmailKey(item:any):boolean{
+        return item.email==this.model.email;
     }
     sendKeys(data: any):Observable<any>{
         return data;
