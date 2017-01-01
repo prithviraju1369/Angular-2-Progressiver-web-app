@@ -73,7 +73,10 @@ listRef.child('sListUsers').on('child_changed', function(dataSnapshot) {
 var queryEmail=function(property){
     listRef.child('users').orderByKey().equalTo(property).limitToLast(1).on("value",function(data){
         var obj =data.val();
+        debugger
+        if(obj){
         sendEmail(property,obj[property].email)
+        }
     });
 }
 
