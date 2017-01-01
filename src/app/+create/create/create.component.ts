@@ -1,6 +1,6 @@
 import { Component, OnInit,OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-
+import {MdSnackBar} from '@angular/material';
 import { SharedComponent } from './../../shared/shared.component';
 import { CreateService } from './../create.service';
 import {user} from './../../model/user';
@@ -18,7 +18,7 @@ import { FirebaseObjectObservable} from 'angularfire2';
     selector: 'create',
     templateUrl: './create.component.html',
     styleUrls: ['./create.component.scss'],
-    providers:[CreateService]
+    providers:[CreateService,MdSnackBar]
 })
 export class CreateComponent implements OnInit,OnDestroy {
     // shoppingList :list; 
@@ -36,10 +36,12 @@ export class CreateComponent implements OnInit,OnDestroy {
     sList:FirebaseObjectObservable<any>;
     reqSubscribe;
     sListKey:string;
+    snackBar;
     constructor(
         public _createService: CreateService,
-        private router: Router) {
+        private router: Router,snackBar: MdSnackBar) {
             this.router=router;
+            this.snackBar=snackBar;
     }
 
     ngOnInit() {
@@ -77,6 +79,7 @@ export class CreateComponent implements OnInit,OnDestroy {
     }
     CheckUsers(){
         let self=this;
+        self.emailedUsers=[];
         for(let i=0;i<this.inviteUsers.length;i++){
             if(this.inviteUsers && this.inviteUsers[i]!=""){
                 let obj={
@@ -118,7 +121,8 @@ export class CreateComponent implements OnInit,OnDestroy {
                         self.emailedUsers.push(val);
                         if(self.emailedUsers.length == self.inviteUsers.length)
                         {
-                            if(self.sList){
+                            if(self.sList) 
+                            {
                                 self.router.navigate([`list/${self.sListKey}`,{email:self.model.email}])
                             }
                         }
@@ -126,6 +130,10 @@ export class CreateComponent implements OnInit,OnDestroy {
                     console.log(val);
                 }
             );
+        if(!window.navigator.onLine)
+        {
+            self.snackBar.open('Shopping List will be Created and email will be sent, once device comes online, Don\'t close the Browser', 'Okay');
+        }
         
     }
     sendKeys(data: any):Observable<any>{
