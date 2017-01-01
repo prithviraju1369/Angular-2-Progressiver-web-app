@@ -8,6 +8,7 @@ var firebaseAdmin=require('firebase-admin');
 var serviceAccount = require("./firebase-secret.js");
 
 
+
 app.use(express.static(path.join(__dirname, './dist')));
 
 app.use(bodyParser.urlencoded({ extended: false }))
