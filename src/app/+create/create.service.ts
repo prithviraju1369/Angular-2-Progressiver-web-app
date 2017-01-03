@@ -55,7 +55,7 @@ export class CreateService {
         let testme = this.af.database.object(`sListUsers`);
         if (this.invitedUsers.indexOf(usr.$key) < 0) {
             this.invitedUsers.push(usr.$key);
-            this.sListUsersKey.update(this.invitedUsers);
+            // this.sListUsersKey.update(this.invitedUsers);
             this.sListUsersRef.child(this.sList.getKey()).update(insertData);
             // this.sendEmailToUser(usr.$key);
         }

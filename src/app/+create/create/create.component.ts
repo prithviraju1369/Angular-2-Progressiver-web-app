@@ -48,7 +48,7 @@ export class CreateComponent implements OnInit,OnDestroy {
         this.getUsers();
     }
     ngOnDestroy(){
-        this.reqSubscribe.unsubscribe();
+        // this.reqSubscribe.unsubscribe();
     }
     CreateList(){
         console.log(this.model);
