@@ -113,4 +113,32 @@ export class CreateService {
         var result = this.af.database.list('/users');
         return result;
     }
+    createFirebaseCatalog(catalog:Object){
+         const addArticle = this.af.database.list(`articles`);
+         const addCatalog = this.af.database.list(`catalog/english`);
+         for (var property in catalog) {
+            if (catalog.hasOwnProperty(property)) {
+                let insertData={};
+                let myArtcileArr=[];
+                let myCatalogObj={};
+                let catalogObj={};
+                catalogObj["name"]=property;
+                catalogObj["articles"]=[];
+               
+                let propertyAdded=addCatalog.push(catalogObj)
+                for(var i=0;i<catalog[property].length;i++)
+                {
+                      let val=catalog[property][i]
+                      let articleAdded= addArticle.push(val);
+                      var key=articleAdded.key;
+                      insertData[key]=true;
+                      let addToCatalog=this.af.database.list(`catalog/english/${propertyAdded.key}/articles`)
+                      addToCatalog.push(key);
+                      myArtcileArr.push(insertData);
+                      catalogObj["articles"].push(key);
+                }
+            }
+        }
+    }
+    
 }

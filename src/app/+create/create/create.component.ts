@@ -46,6 +46,24 @@ export class CreateComponent implements OnInit,OnDestroy {
 
     ngOnInit() {
         this.getUsers();
+        this.addArticles();
+    }
+    addArticles(){
+        let catalog=
+{"Fruits & Vegetables": ["Apples", "Apricot", "Artichokes", "Asparagus", "Aubergine", "Avocado", "Bananas", "Basil", "Beetroot", "Berries", "Blackberries", "Blueberries", "Broccoli", "Cabbage", "Carrots", "Cauliflower", "Celery", "Cherries", "Cherry tomatoes", "Chillies", "Chives", "Coriander", "Courgette", "Cranberries", "Cucumber", "Dates", "Fennel", "Figs", "Fruits", "Garlic", "Ginger", "Grapefruit", "Grapes", "Herbs", "Kiwi fruit", "Leek", "Lemon", "Lettuce", "Lime", "Mandarins", "Mango", "Melon", "Mint", "Mushrooms", "Nectarine", "Olives", "Onions", "Orange", "Parsley", "Passion fruit", "Peach", "Pears", "Peas", "Pepper", "Pineaple", "Plums", "Potatoes", "Pumpkin", "Radish", "Raspberries", "Rhubarb", "Rocket", "Sage", "Salad", "Scallions", "Spinach", "Strawberries", "Sun-dried tomatoes", "Sweet Potatoes", "Sweet corn", "Thyme", "Tomatoes", "Vegetables", "Watermelon"],
+ "Bread & Pastries": ["Bagels", "Baguette", "Bread", "Bred roll", "Burns", "Crispbread", "Croissant", "Crumpets", "Dinner rolles", "English Muffins", "Pancakes mix", "Pie", "Pizza dough", "Puff pastry", "Pumpkin Pie", "Scones", "Sliced bread", "Toast", "Tortillas", "Waffles"],
+ "Milk & Cheese": ["Blue cheese", "Butter", "Cheddar", "Cheese", "Clotted cream", "Cottage cheese", "Cream", "Cream cheese", "Creme fraiche", "Eggs", "Feta", "Gorgonzola", "Grated cheese", "Margarine", "Mascarpone", "Milk", "Mozarella", "Parmesan"],
+ "Meat & Fish": ["Anchovies", "Bacon", "Beef", "Bratwurst", "Chicken", "Chicken breast", "Cold cuts", "Fish", "Ham", "Lamb", "Lobster", "Meat", "Minced meat", "Mussels", "Oysters", "Pork", "Prawns", "Prosciutto", "Salami", "Salmon", "Sausage", "Sliced beef", "Steak", "Tuna", "Turkey", "Turkey breast", "Veal"],
+ "Ingredients & Spices": ["Almonds", "BBQ sauce", "Baking powder", "Balsamic vinegar", "Beans", "Bicarbonate Soda", "Breadcrumbs", "Brown sauce", "Canned tomatoes", "Chutney", "Cinnamon", "Coconut milk", "Cornflour", "Cranberry sauce", "Dip", "Gravy", "Hazelnuts", "Hot sauce", "Icing sugar", "Ketchup", "Lentils", "Maple syrup", "Marmite", "Mashed potatoes", "Mayonnaise", "Mustard", "Nuts", "Oil", "Olive oil", "Oregano", "Paprika", "Pasta sauce", "Peanut butter", "Peppercorns", "Pickle", "Pine nuts", "Rosemary", "Salad dressing", "Salt", "Soy sauce", "Stock", "Sugar", "Tomato puree", "Tomato sauce", "Vanilla sugar", "Vinegar", "Walnuts", "Yeast"],
+ "Frozen & Convenience": ["Bakde beans", "Burritos", "Chicken wings", "Chinese food", "Chips", "Dumplings", "Fish fingers", "Frozen vegetables", "Ice cream", "Pizza"],
+ "Grain Products": ["Basmati rice", "Cereal", "Chickpeas", "Corn flakes", "Couscous", "Flour", "Muesli", "Noodles", "Oatmeal", "Pasta", "Penne", "Rice", "Risotto rice", "Semolina", "Spaghetti", "Tofu"],
+ "Snacks & Sweets": ["Biscuits", "Cake", "Chewing gum", "Chocolate", "Christmas cookies", "Crackers", "Crisps", "Custard", "Dessert", "Dried fruits", "Gingerbread", "Honey", "Jam", "Jelly", "Lemon curd", "Marshmallows", "Nougat cream", "Peanuts", "Pop corn", "Pretzels", "Snacks", "Sweets", "Tortilla chips"],
+ "Beverage & Tobacco": ["Ale", "Apple juice", "Beer", "Beverages", "Bottled water", "Champagne", "Cider", "Cigarettes", "Coffe", "Cola", "Diet Cola", "Diet soda", "Energy drink", "Fruit juice", "Gin", "Ginger Ale", "Hot chocolate", "Iced tea", "Orange juice", "Prosecco", "Red wine", "Rum", "Smoothie", "Soda", "Spirits", "Sports drink", "Tea", "Tonic water", "Vodka", "Water", "Whisky", "White wine"],
+ "Household & Health": ["Aluminium foil", "Baby food", "Bathroom cleaner", "Batteries", "Body lotion", "Candles", "Charcoal", "Cleaning supplies", "Cling film", "Conditioner", "Cotton pads", "Cotton swabs", "Dental floss", "Deodorant", "Dishwater salt", "Dishwater tabs", "Fabric softener", "Face cream", "Facial tissues", "Flowers", "Glass cleaner", "Hair gel", "Hair spray", "Hand cream", "Insect repellent", "Laundry detergent", "Light bulb", "Makeup remover", "Mouthwash", "Nail polish", "Nail polish remove", "Napkins", "Nappies", "Painkiller", "Paper towels", "Razor", "Razor blades", "Shampoo", "Shaving cream", "Shower gel", "Soap", "Sponge", "Sunscreen", "Tampons", "Tissues", "Toilet cleaner", "Toilet paper", "Tootbrush", "Toothpaste", "Vitamins", "Washing-up liquid", "Wrapping paper"],
+ "Pet Supplies": ["Bird food", "Cat food", "Cat litter", "Cat treats", "Dog food", "Dog treats", "Fish food"],
+ }
+;
+        // this._createService.createFirebaseCatalog(catalog);
     }
     ngOnDestroy(){
         // this.reqSubscribe.unsubscribe();

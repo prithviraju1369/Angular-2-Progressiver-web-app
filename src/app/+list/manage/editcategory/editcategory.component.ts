@@ -1,13 +1,13 @@
 import { Component, OnInit ,Inject} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { SharedComponent } from './../../shared/shared.component';
-import { ListService } from './../list.service';
-import { user } from './../../model/user';
+import { SharedComponent } from './../../../shared/shared.component';
+import { ListService } from './../../list.service';
+import { user } from './../../../model/user';
 
 import { Observable } from 'rxjs/Observable';
 
-import { list } from './../../model/user';
+import { list } from './../../../model/user';
 
 import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
 
@@ -20,13 +20,13 @@ export class catalog{
 }
 
 @Component({
-    selector: 'list',
-    templateUrl:'./list.component.html',
-    styleUrls: ['./list.component.scss'],
+    selector: 'editcategory',
+    templateUrl:'./editcategory.component.html',
+    styleUrls: ['./editcategory.component.scss'],
     providers: [ListService]
 })
 
-export class ListComponent implements OnInit {
+export class EditCategoryComponent implements OnInit {
     private url;
     private user;
     af: AngularFire;

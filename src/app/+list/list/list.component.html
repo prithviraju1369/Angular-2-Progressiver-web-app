@@ -1,1 +1,24 @@
 <h3>Welcome {{url}}</h3>
+<div class="slist">
+    <div class="slist-search">
+        <form>
+            <md-input-container style="width: 100%;" >
+<input md-input placeholder="What do you wanna buy ?" type="search" name="search" [(ngModel)]="search">
+</md-input-container>
+</form>
+</div>
+<div class="slist-catalog">
+    <div *ngFor="let p of catalogs; let i=index">
+        <h3 (tap)="toggleCatalog($event)">{{ p.name }}</h3>
+        <div style="display:none;" class="slist-articles">
+        <div class="slist-article-direction">
+            <div class="slist-article" *ngFor="let a of p.articles">
+                <div class="">
+                    {{a.name}}
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+</div>
+</div>
