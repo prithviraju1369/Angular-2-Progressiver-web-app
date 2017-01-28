@@ -24,4 +24,30 @@ export class ListService {
     getArticles(data):any{
         return this.af.database.object(`/articles/${data}`).subscribe(x=>x);
     }
+    getAllCategories():Observable<any>{
+        let a;
+        let items=this.af.database.list('/catalog/english')
+                .map(x=>x);
+        return items;
+    }
+    getAllArticles():Observable<any>{
+        let items=this.af.database.list('/articles')
+            .map(x=>x);
+        return items;
+    }
+    searchArticles(val:string):Observable<any>{
+        let test=this.af.database.list('articles', {
+            query: {
+                orderByChild: '$value',
+                equalTo: val
+            }
+        });
+        debugger
+        return this.af.database.list('articles', {
+            query: {
+                orderByChild: '$value',
+                equalTo: val
+            }
+        })
+    }
 }

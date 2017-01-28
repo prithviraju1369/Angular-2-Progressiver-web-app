@@ -8,7 +8,7 @@ import { user } from './../../model/user';
 import { Observable } from 'rxjs/Observable';
 
 import { list } from './../../model/user';
-
+import { Subject } from 'rxjs/Subject';
 import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
 
 export class catalog{
@@ -31,6 +31,8 @@ export class ListComponent implements OnInit {
     private user;
     af: AngularFire;
     catalogs:catalog[]=[];
+    searchitems: Observable<Array<string>>;
+    private searchTerms = new Subject<string>();
     constructor(@Inject(FirebaseRef) public fb,  af: AngularFire,
         public _listService: ListService,
         private route: ActivatedRoute,
@@ -47,29 +49,27 @@ export class ListComponent implements OnInit {
             });
         this.user.subscribe(c=>console.log(c));
         this.getCatalog();
+        
+        this.searchitems = this.searchTerms
+            .debounceTime(300)
+            .distinctUntilChanged()
+            .switchMap(term => term 
+                ? this._listService.searchArticles(term)
+                : Observable.of<any[]>([]))
+      .catch(error => {
+        console.log(`Error in component ... ${error}`);
+        return Observable.of<any[]>([]);
+      });        
+    }
+
+
+    searchArticle(val){
+        // Push a search term into the observable stream.
+        this.searchTerms.next(val);
     }
 
     getCatalog(){
         let catalogs$=this._listService.getAllDefaultCatalog();
-        // .map(x=>{
-        //    return x;
-        // });
-
-        //  catalogs$.subscribe(x=>{
-        //     this.catalogs=x;
-        //     if(this.catalogs && this.catalogs.length>0){
-        //         this.catalogs.forEach(function(item){
-        //             for (var property in item.articles) {
-        //                 if (item.articles.hasOwnProperty(property)) {
-        //                     var a=this._listService.getArticles(item.articles[property]);
-        //                     debugger
-        //                     item.articlesName.push()
-        //                 }
-        //             }
-        //         })
-        //     }
-        // });
-
         let self=this;
         
         let items = this.af.database.list('/catalog/english')
@@ -97,9 +97,6 @@ export class ListComponent implements OnInit {
                 })
             }
         });
-
-
-
     }
 
     pushToCatalog(item){
@@ -156,8 +153,5 @@ export class ListComponent implements OnInit {
         }else{
             currentEle.style.display='none';
         }
-
     }
-
-
 }

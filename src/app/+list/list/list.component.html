@@ -3,9 +3,9 @@
     <div class="slist-search">
         <form>
             <md-input-container style="width: 100%;" >
-<input md-input placeholder="What do you wanna buy ?" type="search" name="search" [(ngModel)]="search">
-</md-input-container>
-</form>
+                <input md-input placeholder="What do you wanna buy ?"  #term type="search" name="search" [(ngModel)]="search" (keyup)="searchArticle(term.value)">
+            </md-input-container>
+        </form>
 </div>
 <div class="slist-catalog">
     <div *ngFor="let p of catalogs; let i=index">

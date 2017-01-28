@@ -11,8 +11,6 @@ import { list } from './../../model/user';
 
 
 import { FirebaseObjectObservable} from 'angularfire2';
-// import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/catch';
 
 @Component({
     selector: 'create',
@@ -61,8 +59,7 @@ export class CreateComponent implements OnInit,OnDestroy {
  "Beverage & Tobacco": ["Ale", "Apple juice", "Beer", "Beverages", "Bottled water", "Champagne", "Cider", "Cigarettes", "Coffe", "Cola", "Diet Cola", "Diet soda", "Energy drink", "Fruit juice", "Gin", "Ginger Ale", "Hot chocolate", "Iced tea", "Orange juice", "Prosecco", "Red wine", "Rum", "Smoothie", "Soda", "Spirits", "Sports drink", "Tea", "Tonic water", "Vodka", "Water", "Whisky", "White wine"],
  "Household & Health": ["Aluminium foil", "Baby food", "Bathroom cleaner", "Batteries", "Body lotion", "Candles", "Charcoal", "Cleaning supplies", "Cling film", "Conditioner", "Cotton pads", "Cotton swabs", "Dental floss", "Deodorant", "Dishwater salt", "Dishwater tabs", "Fabric softener", "Face cream", "Facial tissues", "Flowers", "Glass cleaner", "Hair gel", "Hair spray", "Hand cream", "Insect repellent", "Laundry detergent", "Light bulb", "Makeup remover", "Mouthwash", "Nail polish", "Nail polish remove", "Napkins", "Nappies", "Painkiller", "Paper towels", "Razor", "Razor blades", "Shampoo", "Shaving cream", "Shower gel", "Soap", "Sponge", "Sunscreen", "Tampons", "Tissues", "Toilet cleaner", "Toilet paper", "Tootbrush", "Toothpaste", "Vitamins", "Washing-up liquid", "Wrapping paper"],
  "Pet Supplies": ["Bird food", "Cat food", "Cat litter", "Cat treats", "Dog food", "Dog treats", "Fish food"],
- }
-;
+ };
         // this._createService.createFirebaseCatalog(catalog);
     }
     ngOnDestroy(){

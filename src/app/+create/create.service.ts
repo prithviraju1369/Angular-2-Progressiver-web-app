@@ -128,7 +128,7 @@ export class CreateService {
                 let propertyAdded=addCatalog.push(catalogObj)
                 for(var i=0;i<catalog[property].length;i++)
                 {
-                      let val=catalog[property][i]
+                      let val=catalog[property][i];
                       let articleAdded= addArticle.push(val);
                       var key=articleAdded.key;
                       insertData[key]=true;

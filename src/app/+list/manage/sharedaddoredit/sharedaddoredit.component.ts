@@ -1,4 +1,4 @@
-import { Component, OnInit ,Inject} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 
 
@@ -8,13 +8,7 @@ import { Component, OnInit ,Inject} from '@angular/core';
     styleUrls: ['./sharedaddoredit.component.scss'],
 })
 
-export class SharedAddOrEditComponent implements OnInit {
-    constructor() {
-        
-    }
-
-    ngOnInit() {
-        
-    }
-
+export class SharedAddOrEditComponent {
+    @Input() title:string;
+    @Input() list: Array<any>;
 }
