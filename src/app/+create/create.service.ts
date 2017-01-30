@@ -129,7 +129,11 @@ export class CreateService {
                 for(var i=0;i<catalog[property].length;i++)
                 {
                       let val=catalog[property][i];
-                      let articleAdded= addArticle.push(val);
+                      var obj={
+                          name:val,
+                          default:true
+                      }
+                      let articleAdded= addArticle.push(obj);
                       var key=articleAdded.key;
                       insertData[key]=true;
                       let addToCatalog=this.af.database.list(`catalog/english/${propertyAdded.key}/articles`)

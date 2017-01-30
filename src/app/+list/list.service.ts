@@ -36,13 +36,7 @@ export class ListService {
         return items;
     }
     searchArticles(val:string):Observable<any>{
-        let test=this.af.database.list('articles', {
-            query: {
-                orderByChild: '$value',
-                equalTo: val
-            }
-        });
-        debugger
+        
         return this.af.database.list('articles', {
             query: {
                 orderByChild: '$value',

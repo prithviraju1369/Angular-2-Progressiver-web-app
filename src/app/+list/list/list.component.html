@@ -3,9 +3,16 @@
     <div class="slist-search">
         <form>
             <md-input-container style="width: 100%;" >
-                <input md-input placeholder="What do you wanna buy ?"  #term type="search" name="search" [(ngModel)]="search" (keyup)="searchArticle(term.value)">
+                <input md-input placeholder="What do you wanna buy ?" id="listSearch" #term type="search" name="search" [(ngModel)]="search">
             </md-input-container>
         </form>
+        <div class="slist-article-direction">
+        <div class="slist-article" *ngFor="let a of searchArticles">
+                <div class="">
+                    {{a.name}}
+                </div>
+            </div>
+        </div>
 </div>
 <div class="slist-catalog">
     <div *ngFor="let p of catalogs; let i=index">

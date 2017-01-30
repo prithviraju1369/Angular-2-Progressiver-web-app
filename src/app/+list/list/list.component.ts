@@ -32,6 +32,8 @@ export class ListComponent implements OnInit {
     af: AngularFire;
     catalogs:catalog[]=[];
     searchitems: Observable<Array<string>>;
+    articles:Array<any>=[];
+    searchArticles:Array<any>=[];
     private searchTerms = new Subject<string>();
     constructor(@Inject(FirebaseRef) public fb,  af: AngularFire,
         public _listService: ListService,
@@ -50,22 +52,43 @@ export class ListComponent implements OnInit {
         this.user.subscribe(c=>console.log(c));
         this.getCatalog();
         
-        this.searchitems = this.searchTerms
-            .debounceTime(300)
-            .distinctUntilChanged()
-            .switchMap(term => term 
-                ? this._listService.searchArticles(term)
-                : Observable.of<any[]>([]))
-      .catch(error => {
-        console.log(`Error in component ... ${error}`);
-        return Observable.of<any[]>([]);
-      });        
+        const search=document.getElementById("listSearch");
+        let search$=Observable.fromEvent(search,"keyup")
+            .map((x:any)=>x.target.value)
+            .map(x=>{
+                return this.performSearch(x);
+            });
+       
+        search$.subscribe(x=>{
+            this.searchArticles=x;
+        });   
+        this.getAllArticles();     
+    }
+
+    performSearch(inp):Array<any>{
+        let arr=[]
+        for(let i=0;i<this.articles.length;i++){
+            if(this.articles[i].name.search(inp)>-1){
+                arr.push(this.articles[i]);
+            }
+        }
+        if(arr.length==0)
+        {
+            var obj={
+                name:inp,
+                default:false
+            };
+            arr.push(obj);
+        }
+        return arr;
     }
 
 
-    searchArticle(val){
-        // Push a search term into the observable stream.
-        this.searchTerms.next(val);
+    getAllArticles(){
+        let articles$=this._listService.getAllArticles();
+        articles$.subscribe(x=>{
+            this.articles=x;
+        });
     }
 
     getCatalog(){
@@ -117,7 +140,7 @@ export class ListComponent implements OnInit {
         for(var i = 0; i <= this.catalogs.length; i++){
             if(this.catalogs[i] && this.catalogs[i].id==id){
                 var obj:catalog={};
-                obj.name=item.$value;
+                obj.name=item.name;
                 obj.id=item.$key;
                 this.pushToArticles(obj,this.catalogs[i].id);
                 console.log(this.catalogs);
