@@ -167,6 +167,7 @@ export class ListComponent implements OnInit {
             }
         }
     }
+    
 
     toggleCatalog(evt){
         let parentNode=evt.target.parentElement;
