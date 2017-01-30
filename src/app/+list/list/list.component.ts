@@ -66,6 +66,9 @@ export class ListComponent implements OnInit {
     }
 
     performSearch(inp):Array<any>{
+        if(inp.trim()==''){
+            return [];
+        }
         let arr=[]
         for(let i=0;i<this.articles.length;i++){
             if(this.articles[i].name.search(inp)>-1){
@@ -167,7 +170,7 @@ export class ListComponent implements OnInit {
             }
         }
     }
-    
+
 
     toggleCatalog(evt){
         let parentNode=evt.target.parentElement;
