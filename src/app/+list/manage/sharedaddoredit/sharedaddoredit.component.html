@@ -8,10 +8,11 @@
     <div class="item-alignment">
         <select id="list" name="Category value" style="width: 100%;display:flex;"
                   required
-                  [(ngModel)]="model" name="list">
-            <option *ngFor="let lan of list" [value]="lan.name">{{lan.name}}</option>
+                  [(ngModel)]="modelValue" name="list">
+            <option *ngFor="let lan of list" [value]="lan">{{lan}}</option>
           </select>
     </div>
+	
     <div class="button-container">
         <div class="buttons">
         <button md-raised-button (tap)="Save()">Save</button>

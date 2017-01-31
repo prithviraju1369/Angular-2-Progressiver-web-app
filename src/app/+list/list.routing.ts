@@ -13,9 +13,9 @@ const routes: Routes = [
   { path: '', component: ListComponent },
   // { path: 'manage', component: ManageComponent },
   { path: 'addcategory', component: AddCategoryComponent },
-  { path: 'editcategory/:id', component: EditCategoryComponent },
+  { path: 'editcategory/:catId', component: EditCategoryComponent },
   { path: 'addarticle', component: AddArticleComponent },
-  { path: 'editarticle/id', component: EditArticleComponent }
+  { path: 'editarticle/:artId', component: EditArticleComponent }
   // { path: 'deletecategory/id', component: DeleteCategoryComponent }
 ];
 

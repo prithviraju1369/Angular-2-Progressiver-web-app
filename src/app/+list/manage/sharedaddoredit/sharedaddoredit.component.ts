@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,Output,EventEmitter} from '@angular/core';
 
 
 
@@ -11,4 +11,15 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SharedAddOrEditComponent {
     @Input() title:string;
     @Input() list: Array<any>;
+	@Input() titleValue:string;
+	@Input() modelValue:string;
+	@Output() onSaved = new EventEmitter<any>();
+	
+	Save(){
+		let obj:any={};
+		obj.name=this.titleValue;
+		obj.order=this.modelValue;
+		this.onSaved.emit(obj);
+	}
+	
 }

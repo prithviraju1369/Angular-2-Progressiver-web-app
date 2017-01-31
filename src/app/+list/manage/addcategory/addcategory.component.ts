@@ -29,6 +29,8 @@ export class catalog{
 export class AddCategoryComponent implements OnInit {
     private url;
     private user;
+	private sId;
+	private modelValue;
     title:string='Add Category';
     list:Array<any>=[];
     af: AngularFire;
@@ -45,18 +47,27 @@ export class AddCategoryComponent implements OnInit {
         this.user=this.route.params
             .switchMap((params: Params) => {
                 this.url = params['email'];
+                this.sId = params['id'];
                 return Observable.from([1,2,3]).map(x=>x);
             });
         this.user.subscribe(c=>console.log(c));
-        this.getAllCategories();
+        this.getAllCategoriesForUser();
     }
-    getAllCategories(){
+    getAllCategoriesForUser(){
         // this.list.push({name:'Category'});
-        let categoryObs=this._listService.getAllCategories();
+        let categoryObs=this._listService.getAllCategoriesForUser(this.url);
         categoryObs.subscribe(x=>{
-            this.list=this.list.concat(x);
+            this.modelValue=x.length+1;
+			let listArr=Array.apply(1, {length: this.modelValue}).map(Number.call, Number);
+			this.list= listArr.map(function(val){return ++val;});
         });
     }
+	
+	onSaved(obj){
+		obj.isDefault=false;
+		this._listService.addCategory(obj,this.sId);
+		
+	}
     
 
 }

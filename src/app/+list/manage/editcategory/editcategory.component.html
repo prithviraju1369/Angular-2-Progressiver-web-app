@@ -1,1 +1,1 @@
-<sharedaddoredit [title]="title" [list]="list"></sharedaddoredit>
+<sharedaddoredit [title]="title" [titleValue]="category.name"  [modelValue]="category.order" [list]="list" (onSaved)="onSaved($event)"></sharedaddoredit>

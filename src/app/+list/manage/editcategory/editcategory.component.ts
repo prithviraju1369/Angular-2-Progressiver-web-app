@@ -29,10 +29,14 @@ export class catalog{
 export class EditCategoryComponent implements OnInit {
     private url;
     private user;
+    private sId;
+    private catId;
+	private modelValue;
     af: AngularFire;
     catalogs:catalog[]=[];
     title:string='Edit Category';
     list:Array<any>=[];
+    category:Object={};
     constructor(@Inject(FirebaseRef) public fb,  af: AngularFire,
         public _listService: ListService,
         private route: ActivatedRoute,
@@ -45,18 +49,41 @@ export class EditCategoryComponent implements OnInit {
         this.user=this.route.params
             .switchMap((params: Params) => {
                 this.url = params['email'];
+				this.sId=params['id'];
+                this.catId=params['catId'];
                 return Observable.from([1,2,3]).map(x=>x);
             });
         this.user.subscribe(c=>console.log(c));
-        this.getAllCategories();
+        this.getCategory()
     }
+    
 
-    getAllCategories(){
-        // this.list.push({name:'Category'});
-        let categoryObs=this._listService.getAllCategories();
-            categoryObs.subscribe(x=>{
-                this.list=this.list.concat(x);
-            });
+    getCategory(){
+        let getCategory$=this._listService.getCategoryById(this.catId);
+        getCategory$.subscribe(x=>{
+            this.category=x;
+            debugger
+            this.modelValue=x.order;
+
+        })
+
+         let categoryObs=this._listService.getAllCategoriesForUser(this.url);
+        categoryObs.subscribe(x=>{
+            var flags = [], output = [], l = x.length, i;
+            for( i=0; i<l; i++) {
+                if( flags[x[i].$key]) continue;
+                flags[x[i].$key] = true;
+                output.push(x[i].$key);
+            }
+			let listArr=Array.apply(1, {length: output.length}).map(Number.call, Number);
+			this.list= listArr.map(function(val){return ++val;});
+        });
     }
+	
+	onSaved(obj){
+		obj.isDefault=false;
+		this._listService.editCategory(obj,this.sId,this.catId);
+		
+	}
 
 }

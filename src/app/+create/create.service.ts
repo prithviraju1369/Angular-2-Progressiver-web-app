@@ -123,6 +123,7 @@ export class CreateService {
                 let myCatalogObj={};
                 let catalogObj={};
                 catalogObj["name"]=property;
+				catalogObj["isDefault"]=true;
                 catalogObj["articles"]=[];
                
                 let propertyAdded=addCatalog.push(catalogObj)
@@ -131,7 +132,7 @@ export class CreateService {
                       let val=catalog[property][i];
                       var obj={
                           name:val,
-                          default:true
+                          isDefault:true
                       }
                       let articleAdded= addArticle.push(obj);
                       var key=articleAdded.key;

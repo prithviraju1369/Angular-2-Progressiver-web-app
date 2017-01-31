@@ -31,6 +31,7 @@ export class ListComponent implements OnInit {
     private user;
     af: AngularFire;
     catalogs:catalog[]=[];
+    usersCatalogs:catalog[]=[];
     searchitems: Observable<Array<string>>;
     articles:Array<any>=[];
     searchArticles:Array<any>=[];
@@ -51,6 +52,7 @@ export class ListComponent implements OnInit {
             });
         this.user.subscribe(c=>console.log(c));
         this.getCatalog();
+        this.getUsersCatalog();
         
         const search=document.getElementById("listSearch");
         let search$=Observable.fromEvent(search,"keyup")
@@ -94,11 +96,62 @@ export class ListComponent implements OnInit {
         });
     }
 
-    getCatalog(){
-        let catalogs$=this._listService.getAllDefaultCatalog();
+    getUsersCatalog(){
         let self=this;
         
-        let items = this.af.database.list('/catalog/english')
+        let items = this.af.database.list('/catalog/english',{
+				query:{
+				orderByChild: `users/${self.url}`,
+				equalTo:true
+				}
+			})
+        .map(x=>{
+			return x.sort(function(a, b){
+				var keyA = a.order,
+					keyB = b.order;
+				// Compare the 2 dates
+				if(keyA < keyB) return -1;
+				if(keyA > keyB) return 1;
+				return 0;
+			});
+		}).subscribe(x=>{
+            if(x!=undefined){
+			debugger
+                x.forEach(function(item){
+                    let it:catalog={};
+                    it.id=item.$key;
+                    it.name=item.name;
+                    it.articles=[];
+                    self.pushToUsersCatalog(it);
+                    for (var property in item.articles) {
+                        if (item.articles.hasOwnProperty(property)) {
+                            self.af.database.object(`/articles/${item.articles[property]}`).subscribe(x=>{
+                                debugger
+                                if(x!=undefined){
+                                    self.catalogs.forEach(function(ob){
+                                        if(ob.name==item.name){
+                                            self.changeInUsersCatalogs(x,item.$key);
+                                        }
+                                    });
+                                }
+                            })
+                        }
+                    }
+                })
+            }
+        });
+	}
+   
+
+    getCatalog(){
+        let self=this;
+        
+        let items = this.af.database.list('/catalog/english',{
+				query:{
+				orderByChild: 'isDefault',
+				equalTo:true
+				}
+			})
         .map(x=>x).subscribe(x=>{
             if(x!=undefined){
                 x.forEach(function(item){
@@ -110,6 +163,7 @@ export class ListComponent implements OnInit {
                     for (var property in item.articles) {
                         if (item.articles.hasOwnProperty(property)) {
                             self.af.database.object(`/articles/${item.articles[property]}`).subscribe(x=>{
+                                debugger
                                 if(x!=undefined){
                                     self.catalogs.forEach(function(ob){
                                         if(ob.name==item.name){
@@ -150,6 +204,52 @@ export class ListComponent implements OnInit {
             }
         }
     }
+
+    	pushToUsersCatalog(item){
+        let updated:boolean=false;
+        for(let i=0;i<this.usersCatalogs.length;i++){
+            if(this.usersCatalogs[i].id==item.id)
+            {
+                this.usersCatalogs[i].name=item.name;
+                updated=true;
+            }
+        }
+        if(!updated)
+            this.usersCatalogs.push(item);
+        
+    }
+
+    changeInUsersCatalogs( item, id ) {
+        for(var i = 0; i <= this.catalogs.length; i++){
+            if(this.usersCatalogs[i] && this.usersCatalogs[i].id==id){
+                var obj:catalog={};
+                obj.name=item.name;
+                obj.id=item.$key;
+                this.pushToUserArticles(obj,this.usersCatalogs[i].id);
+            }
+        }
+    }
+	
+	pushToUserArticles(item,id){
+        let updated:boolean=false;
+        for(let i=0;i<this.usersCatalogs.length;i++){
+            if(this.usersCatalogs[i].id==id)
+            {
+                for(let j=0;j<this.usersCatalogs[i].articles.length;j++)
+                {
+                    if(this.usersCatalogs[i].articles[j].id==item.id){
+                        this.usersCatalogs[i].articles[j].name=item.name;
+                        updated=true;
+                    }
+                }
+                if(!updated)
+                {
+                    this.usersCatalogs[i].articles.push(item);
+                }
+            }
+        }
+    }
+
 
     pushToArticles(item,id){
         let updated:boolean=false;
