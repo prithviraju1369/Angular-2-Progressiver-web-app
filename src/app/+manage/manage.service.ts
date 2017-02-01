@@ -6,7 +6,7 @@ import {user,list} from './../model/user';
 import { AngularFire, FirebaseListObservable, FirebaseRef} from 'angularfire2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 @Injectable()
-export class ListService {
+export class ManageService {
     af: AngularFire;
     items: FirebaseListObservable<any[]>;
     private url;
@@ -18,7 +18,7 @@ export class ListService {
         this.getAllRelatedUsers();
         this.user=this.route.params
             .switchMap((params: Params) => {
-                this.url = params['email'];
+                this.url = '-K_PcS3U-bzP0Jgye_Xo';
                 debugger
                 this.sId = params['id'];
                 return Observable.from([1,2,3]).map(x=>x);

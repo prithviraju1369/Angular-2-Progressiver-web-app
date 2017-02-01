@@ -6,11 +6,7 @@ import { ListRoutingModule } from './list.routing';
 import { SharedModule } from './../shared/shared.module';
 import { ListComponent }   from './list/list.component';
 // import { ManageComponent } from './manage/manage.component';
-import { AddArticleComponent } from './manage/addarticle/addarticle.component';
-import { EditArticleComponent } from './manage/editarticle/editarticle.component';
-import { AddCategoryComponent } from './manage/addcategory/addcategory.component';
-import { EditCategoryComponent } from './manage/editcategory/editcategory.component';
-import { SharedAddOrEditComponent } from './manage/sharedaddoredit/sharedaddoredit.component';
+
 import {UsersService} from './../services/users.service';
 import { MaterialModule } from '@angular/material';
 import { AngularFireModule } from 'angularfire2';
@@ -26,8 +22,7 @@ import { firebaseConfig } from './../config/firebase-config';
     CommonModule
   ],
   exports: [],
-  declarations: [ListComponent,AddArticleComponent,EditCategoryComponent,EditArticleComponent,
-          AddCategoryComponent,SharedAddOrEditComponent],
+  declarations: [ListComponent],
   providers: [UsersService],
 })
 export class ListModule { }

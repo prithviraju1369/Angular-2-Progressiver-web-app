@@ -1,0 +1,40 @@
+<div class="slist">
+<h3>Manage Catalog</h3>
+<div>
+    <a [routerLink]="['/manage/addarticle']">Add new article</a>
+</div>
+<div>
+    <a [routerLink]="['/manage/addcategory']">Add new category</a>
+</div>
+<div class="slist-catalog">
+    <div *ngFor="let p of usersCatalogs; let i=index">
+        <h3 (tap)="toggleCatalog($event)">{{ p.name }}</h3>
+        <p><a [routerLink]="['/manage/editcategory',{catId:p.id}]">Edit</a></p>
+        <div style="display:none;" class="slist-articles">
+        <div class="slist-article-direction">
+            <div class="slist-article" *ngFor="let a of p.articles">
+                <div class="">
+                    {{a.name}}
+                    <p><a [routerLink]="['/manage/editarticle',{artId:a.id,catId:p.id}]">Edit</a></p>
+                    <p (tap)="deleteArticle(a.id,p.id)">Delete</p>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+</div>
+<div class="slist-catalog">
+    <div *ngFor="let p of catalogs; let i=index">
+        <h3 (tap)="toggleCatalog($event)">{{ p.name }}</h3>
+        <div style="display:none;" class="slist-articles">
+        <div class="slist-article-direction">
+            <div class="slist-article" *ngFor="let a of p.articles">
+                <div class="">
+                    {{a.name}}
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+</div>
+</div>

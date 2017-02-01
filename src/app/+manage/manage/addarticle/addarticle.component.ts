@@ -2,11 +2,9 @@ import { Component, OnInit ,Inject} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { SharedComponent } from './../../../shared/shared.component';
-import { ListService } from './../../list.service';
+import { ManageService } from './../../manage.service';
 import { user } from './../../../model/user';
-
 import { Observable } from 'rxjs/Observable';
-
 import { list } from './../../../model/user';
 
 import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
@@ -20,23 +18,24 @@ export class catalog{
 }
 
 @Component({
-    selector: 'addcategory',
-    templateUrl:'./addcategory.component.html',
-    styleUrls: ['./addcategory.component.scss'],
-    providers: [ListService]
+    selector: 'addarticle',
+    templateUrl:'./addarticle.component.html',
+    styleUrls: ['./addarticle.component.scss'],
+    providers: [ManageService]
 })
 
-export class AddCategoryComponent implements OnInit {
+export class AddArticleComponent implements OnInit {
     private url;
     private user;
 	private sId;
 	private modelValue;
-    title:string='Add Category';
-    list:Array<any>=[];
     af: AngularFire;
     catalogs:catalog[]=[];
+    title:string='Add Article';
+    list:Array<any>=[];
+	listDup:Array<any>=[];
     constructor(@Inject(FirebaseRef) public fb,  af: AngularFire,
-        public _listService: ListService,
+        public _manageService: ManageService,
         private route: ActivatedRoute,
         private router: Router
     ) {
@@ -46,28 +45,56 @@ export class AddCategoryComponent implements OnInit {
     ngOnInit() {
         this.user=this.route.params
             .switchMap((params: Params) => {
-                this.url = params['email'];
-                this.sId = params['id'];
+                this.url = '-K_PcS3U-bzP0Jgye_Xo';
+				this.sId = params['id'];
                 return Observable.from([1,2,3]).map(x=>x);
             });
         this.user.subscribe(c=>console.log(c));
         this.getAllCategoriesForUser();
     }
-    getAllCategoriesForUser(){
+
+   getAllCategoriesForUser(){
         // this.list.push({name:'Category'});
-        let categoryObs=this._listService.getAllCategoriesForUser(this.url);
+        let categoryObs=this._manageService.getAllCategoriesForUser(this.url);
         categoryObs.subscribe(x=>{
-            this.modelValue=x.length+1;
-			let listArr=Array.apply(1, {length: this.modelValue}).map(Number.call, Number);
-			this.list= listArr.map(function(val){return ++val;});
+			this.list=[];
+            this.listDup=x;
+			for(let i=0;i<x.length;i++){
+				let val:any=x[i];
+				let item={
+					name:val.name,
+					value:val.$key,
+				}
+				this.list.push(item);
+			}
+			
         });
     }
 	
 	onSaved(obj){
 		obj.isDefault=false;
-		this._listService.addCategory(obj,this.sId);
+		this.checkArticleExists(obj);
+        this.router.navigate(['manage']);
 		
 	}
-    
+	
+	checkArticleExists(obj){
+		let self=this;
+		this._manageService.checkArticleExists(obj.name)
+			.subscribe(x=>{
+				if(x && x.length>0){
+					self._manageService.addArticleToCategory(x[0].$key,obj.order)
+				}else{
+					let item={
+						name:obj.name,
+						isDefault:false
+					};
+					self._manageService.addArticleAndAddToCategory(item,obj.order)
+				}
+			});
+	}
+
+
+
 
 }

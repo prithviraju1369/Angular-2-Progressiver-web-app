@@ -1,0 +1,37 @@
+.slist{
+    height:100%;
+}
+.slist-search{
+    height:10%;
+}
+.slist-myItems{
+    min-height: 20vh;
+}
+.slist-catalog h3{
+    background: orange;
+    cursor: pointer;
+    padding: 5px 0;
+}
+.slist-article-direction{
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+}
+.slist-article{
+    display: inline;
+}
+.slist-article{
+    height: 100px;
+    width: 100px;
+    border-radius: 5px;
+    background: #90CAF9;
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 10em;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin:0 2px;
+}

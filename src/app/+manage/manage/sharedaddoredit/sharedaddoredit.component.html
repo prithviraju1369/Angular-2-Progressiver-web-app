@@ -9,7 +9,7 @@
         <select id="list" name="Category value" style="width: 100%;display:flex;"
                   required
                   [(ngModel)]="modelValue" name="list">
-            <option *ngFor="let lan of list" [value]="lan">{{lan}}</option>
+            <option *ngFor="let lan of list" [value]="lan.value">{{lan.name}}</option>
           </select>
     </div>
 	

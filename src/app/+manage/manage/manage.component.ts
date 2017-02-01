@@ -2,7 +2,7 @@ import { Component, OnInit ,Inject} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { SharedComponent } from './../../shared/shared.component';
-import { ListService } from './../list.service';
+import { ManageService } from './../manage.service';
 import { user } from './../../model/user';
 
 import { Observable } from 'rxjs/Observable';
@@ -20,13 +20,13 @@ export class catalog{
 }
 
 @Component({
-    selector: 'list',
-    templateUrl:'./list.component.html',
-    styleUrls: ['./list.component.scss'],
-    providers: [ListService]
+    selector: 'manage',
+    templateUrl:'./manage.component.html',
+    styleUrls: ['./manage.component.scss'],
+    providers: [ManageService]
 })
 
-export class ListComponent implements OnInit {
+export class ManageComponent implements OnInit {
     private url;
     private user;
     af: AngularFire;
@@ -37,7 +37,7 @@ export class ListComponent implements OnInit {
     searchArticles:Array<any>=[];
     private searchTerms = new Subject<string>();
     constructor(@Inject(FirebaseRef) public fb,  af: AngularFire,
-        public _listService: ListService,
+        public _manageService: ManageService,
         private route: ActivatedRoute,
         private router: Router
     ) {
@@ -47,50 +47,19 @@ export class ListComponent implements OnInit {
     ngOnInit() {
         this.user=this.route.params
             .switchMap((params: Params) => {
-                this.url = params['email'];
+                this.url = '-K_PcS3U-bzP0Jgye_Xo';
                 return Observable.from([1,2,3]).map(x=>x);
             });
         this.user.subscribe(c=>console.log(c));
         this.getCatalog();
         this.getUsersCatalog();
         
-        const search=document.getElementById("listSearch");
-        let search$=Observable.fromEvent(search,"keyup")
-            .map((x:any)=>x.target.value)
-            .map(x=>{
-                return this.performSearch(x);
-            });
-       
-        search$.subscribe(x=>{
-            this.searchArticles=x;
-        });   
+        
         this.getAllArticles();     
     }
 
-    performSearch(inp):Array<any>{
-        if(inp.trim()==''){
-            return [];
-        }
-        let arr=[]
-        for(let i=0;i<this.articles.length;i++){
-            if(this.articles[i].name.search(inp)>-1){
-                arr.push(this.articles[i]);
-            }
-        }
-        if(arr.length==0)
-        {
-            var obj={
-                name:inp,
-                default:false
-            };
-            arr.push(obj);
-        }
-        return arr;
-    }
-
-
     getAllArticles(){
-        let articles$=this._listService.getAllArticles();
+        let articles$=this._manageService.getAllArticles();
         articles$.subscribe(x=>{
             this.articles=x;
         });
@@ -212,6 +181,7 @@ export class ListComponent implements OnInit {
             if(this.usersCatalogs[i].id==item.id)
             {
                 this.usersCatalogs[i].name=item.name;
+                this.usersCatalogs[i].id=item.id;
                 updated=true;
             }
         }
@@ -281,5 +251,9 @@ export class ListComponent implements OnInit {
         }else{
             currentEle.style.display='none';
         }
+    }
+
+    deleteArticle(artId,catId){
+        this._manageService.removeArticleFromCategory(artId,catId);
     }
 }

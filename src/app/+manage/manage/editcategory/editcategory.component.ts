@@ -2,7 +2,7 @@ import { Component, OnInit ,Inject} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { SharedComponent } from './../../../shared/shared.component';
-import { ListService } from './../../list.service';
+import { ManageService } from './../../manage.service';
 import { user } from './../../../model/user';
 
 import { Observable } from 'rxjs/Observable';
@@ -23,7 +23,7 @@ export class catalog{
     selector: 'editcategory',
     templateUrl:'./editcategory.component.html',
     styleUrls: ['./editcategory.component.scss'],
-    providers: [ListService]
+    providers: [ManageService]
 })
 
 export class EditCategoryComponent implements OnInit {
@@ -38,7 +38,7 @@ export class EditCategoryComponent implements OnInit {
     list:Array<any>=[];
     category:Object={};
     constructor(@Inject(FirebaseRef) public fb,  af: AngularFire,
-        public _listService: ListService,
+        public _manageService: ManageService,
         private route: ActivatedRoute,
         private router: Router
     ) {
@@ -48,27 +48,27 @@ export class EditCategoryComponent implements OnInit {
     ngOnInit() {
         this.user=this.route.params
             .switchMap((params: Params) => {
-                this.url = params['email'];
+                this.url = '-K_PcS3U-bzP0Jgye_Xo';
 				this.sId=params['id'];
                 this.catId=params['catId'];
                 return Observable.from([1,2,3]).map(x=>x);
             });
         this.user.subscribe(c=>console.log(c));
-        this.getCategory()
+        this.getCategory();
     }
     
 
     getCategory(){
-        let getCategory$=this._listService.getCategoryById(this.catId);
+        let getCategory$=this._manageService.getCategoryById(this.catId);
         getCategory$.subscribe(x=>{
             this.category=x;
-            debugger
             this.modelValue=x.order;
 
         })
 
-         let categoryObs=this._listService.getAllCategoriesForUser(this.url);
+         let categoryObs=this._manageService.getAllCategoriesForUser(this.url);
         categoryObs.subscribe(x=>{
+			this.list=[];
             var flags = [], output = [], l = x.length, i;
             for( i=0; i<l; i++) {
                 if( flags[x[i].$key]) continue;
@@ -76,14 +76,22 @@ export class EditCategoryComponent implements OnInit {
                 output.push(x[i].$key);
             }
 			let listArr=Array.apply(1, {length: output.length}).map(Number.call, Number);
-			this.list= listArr.map(function(val){return ++val;});
+			let listArrMap= listArr.map(function(val){return ++val;});
+			for(let i=0;i<listArrMap.length;i++){
+				let val=listArrMap[i];
+				let item={
+					name:val,
+					value:val
+				}
+				this.list.push(item);
+			}
         });
     }
 	
 	onSaved(obj){
 		obj.isDefault=false;
-		this._listService.editCategory(obj,this.sId,this.catId);
-		
+		this._manageService.editCategory(obj,this.catId);
+		this.router.navigate(['manage']);
 	}
 
 }
