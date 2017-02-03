@@ -15,8 +15,8 @@
             <div class="slist-article" *ngFor="let a of p.articles">
                 <div class="">
                     {{a.name}}
-                    <p><a [routerLink]="['/manage/editarticle',{artId:a.id,catId:p.id}]">Edit</a></p>
-                    <p (tap)="deleteArticle(a.id,p.id)">Delete</p>
+                    <p><a [routerLink]="['/manage/editarticle',{artId:a.$key,catId:p.id}]">Edit</a></p>
+                    <p (tap)="deleteArticle(a.$key,p.id)">Delete</p>
                 </div>
             </div>
         </div>

@@ -98,84 +98,71 @@ export class ListComponent implements OnInit {
 
     getUsersCatalog(){
         let self=this;
-        
         let items = this.af.database.list('/catalog/english',{
-				query:{
-				orderByChild: `users/${self.url}`,
-				equalTo:true
-				}
-			})
-        .map(x=>{
-			return x.sort(function(a, b){
-				var keyA = a.order,
-					keyB = b.order;
-				// Compare the 2 dates
-				if(keyA < keyB) return -1;
-				if(keyA > keyB) return 1;
-				return 0;
-			});
-		}).subscribe(x=>{
-            if(x!=undefined){
-			debugger
-                x.forEach(function(item){
-                    let it:catalog={};
-                    it.id=item.$key;
-                    it.name=item.name;
-                    it.articles=[];
-                    self.pushToUsersCatalog(it);
-					debugger
-                    for (var property in item.articles) {
-                        if (item.articles.hasOwnProperty(property)) {
-                            self.af.database.object(`/articles/${item.articles[property]}`).subscribe(x=>{
-                                debugger
-                                if(x!=undefined){
-                                    self.usersCatalogs.forEach(function(ob){
-                                        if(ob.name==item.name){
-                                            self.changeInUsersCatalogs(x,item.$key);
-                                        }
-                                    });
-                                }
-                            })
+                        query:{
+                        orderByChild: 'isDefault',
+                        equalTo:false
+                        }
+                    }).map(x=>{
+                        return x;
+                    }).subscribe(x=>{
+                        let self=this;
+                        this.usersCatalogs=[];
+                        if(x!=undefined){
+                        for(let i=0;i<x.length;i++){
+                            let item={
+                                name:x[i].name,
+                                id:x[i].$key,
+                                articles:[]
+                            };
+                            this.usersCatalogs.push(item);
+                            for (var property in x[i].articles) {
+                        if (x[i].articles.hasOwnProperty(property)) {
+                            self.af.database.object(`/articles/${x[i].articles[property]}`).subscribe(x=>{
+                                this.usersCatalogs[i].articles.push(x);
+                            });
                         }
                     }
-                })
+                }
             }
         });
-	}
+    }
    
 
     getCatalog(){
         let self=this;
-        
         let items = this.af.database.list('/catalog/english',{
-				query:{
-				orderByChild: 'isDefault',
-				equalTo:true
-				}
-			})
-        .map(x=>x).subscribe(x=>{
-            if(x!=undefined){
-                x.forEach(function(item){
-                    let it:catalog={};
-                    it.id=item.$key;
-                    it.name=item.name;
-                    it.articles=[];
-                    self.pushToCatalog(it);
-                    for (var property in item.articles) {
-                        if (item.articles.hasOwnProperty(property)) {
-                            self.af.database.object(`/articles/${item.articles[property]}`).subscribe(x=>{
-                                debugger
-                                if(x!=undefined){
-                                    self.catalogs.forEach(function(ob){
-                                        if(ob.name==item.name){
-                                            self.changeInCatalogs(x,item.$key);
-                                        }
-                                    });
-                                }
-                            })
+                        query:{
+                        orderByChild: 'isDefault',
+                        equalTo:true
+                        }
+                    }).map(x=>{
+                        return x.sort(function(a, b){
+                            var keyA = a.order,
+                                keyB = b.order;
+                            // Compare the 2 dates
+                            if(keyA < keyB) return -1;
+                            if(keyA > keyB) return 1;
+                            return 0;
+                        });
+                    }).subscribe(x=>{
+                        let self=this;
+                        this.catalogs=[];
+                        if(x!=undefined){
+                        for(let i=0;i<x.length;i++){
+                            let item={
+                                name:x[i].name,
+                                articles:[]
+                            };
+                            this.catalogs.push(item);
+                            for (var property in x[i].articles) {
+                        if (x[i].articles.hasOwnProperty(property)) {
+                            self.af.database.object(`/articles/${x[i].articles[property]}`).subscribe(x=>{
+                                this.catalogs[i].articles.push(x);
+                            });
                         }
                     }
-                })
+                }
             }
         });
     }
