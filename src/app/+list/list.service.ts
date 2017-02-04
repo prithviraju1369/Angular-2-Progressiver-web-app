@@ -27,6 +27,41 @@ export class ListService {
 
     }
 
+    addArticleToList(sList,art){
+        let articleInList=this.af.database.list(`/sList/${sList}/articles`);
+        let findArtInList=this.af.database.list(`/sList/${sList}/articles`,{
+            query:{
+                orderByChild:'id',
+                equalTo:art.id
+            }
+        }).map(x=>x).subscribe(x=>{
+            if(x && x.length>0){}else{
+                articleInList.push(art);
+            }
+        })
+        
+    }
+
+    addArticleAndAddToList(sList,obj){
+        let addArticle=this.af.database.list('articles');
+        let checkInAArticle=this.af.database.list('articles',{
+            query:{
+                orderByChild:'name',
+                equalTo:obj.name
+            }
+        }).map(x=>x).subscribe(x=>{
+            if(x && x.length>0){
+                let obj={
+                    id:x[0].$key
+                }
+                this.addArticleToList(sList,obj);        
+            }else{
+                let articleAdded:any= addArticle.push(obj);
+                this.addArticleToList(sList,articleAdded.key); 
+            }
+        });
+    }
+
     getAllDefaultCatalog(): any{
         let a;
         let items = this.af.database.list('/catalog/english')
@@ -36,6 +71,21 @@ export class ListService {
     getArticles(data):any{
         return this.af.database.object(`/articles/${data}`).subscribe(x=>x);
     }
+
+    getArticlesForSlist(sList){
+        return this.af.database.list(`/sList/${sList}/articles`)
+    }
+
+    getArticleByName(name):any{
+        let getArticle= this.af.database.list(`/articles`, {
+            query:{
+                orderByChild:'name',
+                equalTo:name
+            }
+        });
+        return getArticle;
+    }
+
     getAllCategories():Observable<any>{
         let a;
         let items=this.af.database.list('/catalog/english')
@@ -143,12 +193,7 @@ export class ListService {
 		let articleAdded= addArticle.push(obj);
 		var key=articleAdded.key;
 		this.addArticleToCategory(key,catId);
-	}
-	
-	addArticle(obj){
-		let addArticle=this.af.database.list('articles');
-		let articleAdded= addArticle.push(obj);
-	}
+    }
 	
 	getArticle(id):Observable<any>{
         return this.af.database.object(`/articles/${id}`);
@@ -159,7 +204,6 @@ export class ListService {
 				let val='';
 				for(let i=0;i<x.length;i++){
 					if(x[i].$value==artId){
-					debugger;
 						val=x[i].$key;
 					}
 				}
@@ -205,5 +249,64 @@ export class ListService {
         }
 
         return arrFinal.filter((v, i, a) => a.indexOf(v) === i); ;
+    }
+
+    addIsBasked(key,sListId){
+        let articleItem=this.af.database.list(`sList/${sListId}/articles/`);
+        let article=this.af.database.list(`sList/${sListId}/articles/`,{
+            query:{
+                orderByChild:'id',
+                equalTo:key
+            }
+        }).map(
+            x=>x
+        ).subscribe(x=>{
+            if(x && x.length>0){
+                articleItem.update(x[0].$key,{isBasked:true});
+            }
+        })
+    }
+
+    removeArticleFromSList(key,sListId){
+        let self=this;
+        let articleItem=this.af.database.list(`sList/${sListId}/articles/`);
+        let article=this.af.database.list(`sList/${sListId}/articles/`,{
+            query:{
+                orderByChild:'id',
+                equalTo:key
+            }
+        }).map(
+            x=>x
+        ).subscribe(x=>{
+            if(x && x.length>0){
+                self.af.database.list(`sList/${sListId}/articles/${x[0].$key}`).remove();
+            }
+        })
+    }
+
+    updateSList(item,sListId){
+        let articleItem=this.af.database.list(`sList/${sListId}/articles/`);
+        let article=this.af.database.list(`sList/${sListId}/articles/`,{
+            query:{
+                orderByChild:'id',
+                equalTo:item.id
+            }
+        }).map(
+            x=>x
+        ).subscribe(x=>{
+            if(x && x.length>0){
+                articleItem.update(x[0].$key,{
+                    isBasked:item.isBasked,
+                    description:item.description,
+                    amount:item.amount
+                });
+            }
+        })       
+    }
+
+    getRecentSListArticles(sList){
+        return this.af.database.list(`sList/${sList}/articles`).map(arr=>{
+            return arr;
+        });
     }
 }

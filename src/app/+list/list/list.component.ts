@@ -19,6 +19,18 @@ export class catalog{
         ){}   
 }
 
+export class listArticle{
+    constructor(
+        public isBasked?: boolean,
+        public id?: string,
+        public name?: string,
+        public description?: string,
+        public amount?: string,   
+        public price?: string,
+        
+        ){}   
+}
+
 @Component({
     selector: 'list',
     templateUrl:'./list.component.html',
@@ -28,6 +40,7 @@ export class catalog{
 
 export class ListComponent implements OnInit {
     private url;
+    private sList;
     private user;
     af: AngularFire;
     catalogs:catalog[]=[];
@@ -35,6 +48,8 @@ export class ListComponent implements OnInit {
     searchitems: Observable<Array<string>>;
     articles:Array<any>=[];
     searchArticles:Array<any>=[];
+    articlesList:Array<listArticle>=[];
+    selectedArticleList:listArticle={};
     private searchTerms = new Subject<string>();
     constructor(@Inject(FirebaseRef) public fb,  af: AngularFire,
         public _listService: ListService,
@@ -48,11 +63,14 @@ export class ListComponent implements OnInit {
         this.user=this.route.params
             .switchMap((params: Params) => {
                 this.url = params['email'];
+                this.sList = params['id'];
                 return Observable.from([1,2,3]).map(x=>x);
             });
         this.user.subscribe(c=>console.log(c));
         this.getCatalog();
         this.getUsersCatalog();
+
+        this.getArticleBySlist();
         
         const search=document.getElementById("listSearch");
         let search$=Observable.fromEvent(search,"keyup")
@@ -74,6 +92,12 @@ export class ListComponent implements OnInit {
         let arr=[]
         for(let i=0;i<this.articles.length;i++){
             if(this.articles[i].name.search(inp)>-1){
+                let item=this.articles[i];
+                if(this.findInListArticles(item.$key)){
+                    item.backGroundColor='#F24646';
+                }else{
+                    item.backGroundColor='#6B8E23';
+                }
                 arr.push(this.articles[i]);
             }
         }
@@ -88,12 +112,81 @@ export class ListComponent implements OnInit {
         return arr;
     }
 
+    findInListArticles(nameKey){
+        let exists=false;
+        for (var i=0; i < this.articlesList.length; i++) {
+            if (this.articlesList[i].id === nameKey) {
+                exists=true;;
+            }
+        }
+        return exists;
+    }
+
 
     getAllArticles(){
         let articles$=this._listService.getAllArticles();
         articles$.subscribe(x=>{
             this.articles=x;
         });
+    }
+
+    getArticleBySlist(){
+        this._listService.getArticlesForSlist(this.sList).map(x=>x)
+            .subscribe(x=>{
+                if(x && x.length){
+                    this.articlesList=[];
+                    for(let i=0;i<x.length;i++){
+                        let item:listArticle={};
+                        item.id=x[i].id;
+                        item.description=x[i].description;
+                        item.isBasked=x[i].isBasked;
+                        item.amount=x[i].amount;
+                        item.price=x[i].price;
+                        this.articlesList.push(item);
+                        this.af.database.object(`/articles/${x[i].id}`).subscribe(p=>{
+                            if(p){
+                                for(let j=0;j<this.articlesList.length;j++){
+                                    if(this.articlesList[j].id==p.$key){
+                                        this.articlesList[j].name=p.name;
+                                    }
+                                }
+                            }
+                                
+                            });
+                    }
+                }
+            })
+    }
+
+    addToLIst(item:any){
+        this.searchArticles=[];
+        if(item.$key){
+            this.addArticleToLIst(item.$key);
+        }else{
+            let obj={
+                name:item.name,
+                isDefault:false
+            }
+            this._listService.getArticleByName(obj.name).map(x=>x)
+                .subscribe(x=>{
+                    if(x && x.length>0){
+                        item.$key=x[0].$key;
+                        this.addArticleToLIst(x[0].$key);    
+                    }else{
+                        this._listService.addArticleAndAddToList(this.sList,obj);
+                    }
+                    
+                })
+            
+        }
+    }
+
+    addArticleToLIst(key:string){
+        let obj:listArticle={
+            id:key
+        };
+        this._listService.addArticleToList(this.sList,obj);
+
     }
 
     getUsersCatalog(){
@@ -118,8 +211,8 @@ export class ListComponent implements OnInit {
                             this.usersCatalogs.push(item);
                             for (var property in x[i].articles) {
                         if (x[i].articles.hasOwnProperty(property)) {
-                            self.af.database.object(`/articles/${x[i].articles[property]}`).subscribe(x=>{
-                                this.usersCatalogs[i].articles.push(x);
+                            self.af.database.object(`/articles/${x[i].articles[property]}`).subscribe(p=>{
+                                this.usersCatalogs[i].articles.push(p);
                             });
                         }
                     }
@@ -259,7 +352,6 @@ export class ListComponent implements OnInit {
         }
     }
 
-
     toggleCatalog(evt){
         let parentNode=evt.target.parentElement;
         let currentEle=parentNode.getElementsByClassName('slist-articles')[0];
@@ -268,5 +360,94 @@ export class ListComponent implements OnInit {
         }else{
             currentEle.style.display='none';
         }
+    }
+
+    selectedArticleInList(a){
+        this.selectedArticleList=a;
+        let box:any=document.getElementsByClassName('slist-article-details');
+        box[0].style.display='block';
+    }
+
+    addArticleAmount(amount){
+        var regex = /(\d+)/g;
+        let split='';
+        let num=amount.match(regex);
+        num=this.getNumberFromString(amount);
+        if(num){
+            if(this.isKg(amount)){
+                num=parseFloat(num)+parseFloat("0.1");
+                split=amount.split("k");
+                this.selectedArticleList.amount=(Math.round(num*10)/10)+"k"+split[1].toLowerCase();
+            }else if(this.isg(amount)){
+                if(num<100){
+                    num=parseFloat(num)+parseFloat("10");
+                    this.selectedArticleList.amount=(Math.round(num*10)/10)+"g";
+                }else{
+                    num=parseFloat(num)+parseFloat("50");
+                    this.selectedArticleList.amount=(Math.round(num*10)/10)+"g";
+                }
+            }else{
+                this.selectedArticleList.amount=(parseFloat((Math.round(amount*10)/10).toString())+parseFloat("1")).toString();
+            }
+        }
+    }
+
+    getNumberFromString(str){
+        var regex = /[+-]?\d+(\.\d+)?/g;
+        var floats = str.match(regex).map(function(v) { return parseFloat(v); });
+        if(floats && floats.length>0){
+            return floats[0];
+        }else{
+            return null;
+        }
+    }
+
+    reduceArticleAmount(amount){
+        var regex = /(\d+)/g;
+        let split='';
+        let num=amount.match(regex);
+        num=this.getNumberFromString(amount);
+        if(num){
+            if(this.isKg(amount)){
+                num=parseFloat(num)-parseFloat("0.1");
+                split=amount.split("k");
+                this.selectedArticleList.amount=(Math.round(num*10)/10)+"k"+split[1].toLowerCase();
+            }else if(this.isg(amount)){
+                if(num<100){
+                    num=parseFloat(num)-parseFloat("10");
+                    this.selectedArticleList.amount=(Math.round(num*10)/10)+"g";
+                }else{
+                    num=parseFloat(num)-parseFloat("50");
+                    this.selectedArticleList.amount=(Math.round(num*10)/10)+"g";
+                }
+            }else{
+                this.selectedArticleList.amount=(parseFloat((Math.round(amount*10)/10).toString())-parseFloat("1")).toString();
+            }
+        }
+    }
+
+    isKg(amount){
+        return amount.toLowerCase().indexOf('kg') !== -1
+    }
+
+    isg(amount){
+        return amount.toLowerCase().indexOf('g') !== -1
+    }
+
+    addToBasked(item){
+        this._listService.addIsBasked(item.id,this.sList);
+        let box:any=document.getElementsByClassName('slist-article-details');
+        box[0].style.display='none';       
+    }
+    removeArticleFromSList(item){
+        this._listService.removeArticleFromSList(item.id,this.sList);
+        let box:any=document.getElementsByClassName('slist-article-details');
+        box[0].style.display='none';   
+    }
+
+    updateSList(item){
+        this._listService.updateSList(item,this.sList);
+        let box:any=document.getElementsByClassName('slist-article-details');
+        box[0].style.display='none';   
     }
 }

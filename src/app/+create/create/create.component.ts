@@ -20,7 +20,7 @@ import { FirebaseObjectObservable} from 'angularfire2';
 })
 export class CreateComponent implements OnInit,OnDestroy {
     // shoppingList :list; 
-    model=new list();
+    model=new list(false);
     title:string;
     users=[];
     usersFirebase=[];
@@ -104,7 +104,7 @@ export class CreateComponent implements OnInit,OnDestroy {
             }
         }
         
-        
+        this.model.isFinished=false;
         let sListTemp:list =this.model;
         sListTemp.users=[];
         let sListCreated$=self._createService.createSList(sListTemp);
