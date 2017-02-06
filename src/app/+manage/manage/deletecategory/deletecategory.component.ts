@@ -56,10 +56,10 @@ export class DeleteCategoryComponent implements OnInit {
                 // this.catId=params['catId'];
                 return Observable.from([1,2,3]).map(x=>x);
             });
-        this.user.subscribe({
-
+        this.user.subscribe(x=>{
+            this.syncChanges();
         });
-        this.getCategory();
+        
     }
     
     syncChanges(){
@@ -70,8 +70,8 @@ export class DeleteCategoryComponent implements OnInit {
             return err;
             }
             if(docs && docs.rows.length>0){
-            self.url=docs.rows[0].doc.email;
-            this.getAllCategoriesForUser();
+            self.url=docs.rows[0].doc.user;
+            self.getCategory();
             }
         });
     }

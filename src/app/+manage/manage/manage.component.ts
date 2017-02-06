@@ -43,6 +43,7 @@ export class ManageComponent implements OnInit {
         private router: Router
     ) {
         this.af = af;
+        this.db = new PouchDB("sList");
     }
 
     ngOnInit() {
@@ -65,7 +66,7 @@ export class ManageComponent implements OnInit {
             return err;
             }
             if(docs && docs.rows.length>0){
-            self.url=docs.rows[0].doc.email;
+            self.url=docs.rows[0].doc.user;
                 self.getCatalog();
                 self.getUsersCatalog();
                 self.getAllArticles(); 

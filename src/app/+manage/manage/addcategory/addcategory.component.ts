@@ -66,7 +66,7 @@ export class AddCategoryComponent implements OnInit {
             return err;
             }
             if(docs && docs.rows.length>0){
-            self.url=docs.rows[0].doc.email;
+            self.url=docs.rows[0].doc.user;
             self.getAllCategoriesForUser();
             }
         });

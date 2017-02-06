@@ -36,7 +36,9 @@ export class ListService {
             }
         }).map(x=>x).subscribe(x=>{
             if(x && x.length>0){}else{
+                if(sList){
                 articleInList.push(art);
+                }
             }
         })
         
@@ -49,7 +51,8 @@ export class ListService {
                 orderByChild:'name',
                 equalTo:obj.name
             }
-        }).map(x=>x).subscribe(x=>{
+        }).map(x=>x);
+        checkInAArticle.subscribe(x=>{
             if(x && x.length>0){
                 let obj={
                     id:x[0].$key
@@ -296,7 +299,7 @@ export class ListService {
         ).subscribe(x=>{
             if(x && x.length>0){
                 articleItem.update(x[0].$key,{
-                    isBasked:item.isBasked,
+                    isBasked:item.isBasked ?item.isBasked:false,
                     description:item.description,
                     amount:item.amount
                 });

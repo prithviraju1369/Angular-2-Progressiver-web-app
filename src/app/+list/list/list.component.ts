@@ -1,4 +1,4 @@
-import { Component, OnInit ,Inject} from '@angular/core';
+import { Component, OnInit ,Inject,OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { SharedComponent } from './../../shared/shared.component';
@@ -40,11 +40,12 @@ export class listArticle{
     providers: [ListService]
 })
 
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit,OnDestroy  {
     private url;
     private sList;
     private user;
     db:any;
+    clearArticle:any;
     af: AngularFire;
     catalogs:catalog[]=[];
     usersCatalogs:catalog[]=[];
@@ -63,11 +64,25 @@ export class ListComponent implements OnInit {
         this.db = new PouchDB("sList");
     }
 
+     ngOnDestroy(){
+        // document.removeEventListener('tap', this.enter, false);
+        console.log("Removed event listener"); 
+        
+    }
+
     ngOnInit() {
         this.user=this.route.params
             .switchMap((params: Params) => {
                 this.url = params['email'];
                 this.sList = params['id'];
+                this.clearArticle = params['clearArticle'];
+                if( params['again'] =="true"){
+                    this.af.database.list(`sList/${this.sList}/articles`).remove();
+                }
+                else if(this.clearArticle=="true"){
+                    this.router.navigate([`list/${this.sList}`,{email:this.url,clearArticle:true,again:true}]);                    
+                    window.location.reload();
+                }
                 this.getOrAddUsernameToLocalDB();
                 return Observable.from([1,2,3]).map(x=>x);
             });
@@ -88,7 +103,7 @@ export class ListComponent implements OnInit {
             this.searchArticles=x;
         });   
         this.getAllArticles();     
-        this.showSideMenu()
+        this.showSideMenu();
     }
     showSideMenu(){
         
@@ -186,8 +201,8 @@ export class ListComponent implements OnInit {
     getArticleBySlist(){
         this._listService.getArticlesForSlist(this.sList).map(x=>x)
             .subscribe(x=>{
+                this.articlesList=[];
                 if(x && x.length){
-                    this.articlesList=[];
                     for(let i=0;i<x.length;i++){
                         let item:listArticle={};
                         item.id=x[i].id;
@@ -220,13 +235,16 @@ export class ListComponent implements OnInit {
                 name:item.name,
                 isDefault:false
             }
-            this._listService.getArticleByName(obj.name).map(x=>x)
-                .subscribe(x=>{
-                    if(x && x.length>0){
-                        item.$key=x[0].$key;
-                        this.addArticleToLIst(x[0].$key);    
-                    }else{
-                        this._listService.addArticleAndAddToList(this.sList,obj);
+            let article$=this._listService.getArticleByName(obj.name).map(x=>x);
+               article$.subscribe(x=>{
+                    if(item){
+                        article$.unsubscribe();
+                        if(x && x.length>0){
+                            item.$key=x[0].$key;
+                            this.addArticleToLIst(x[0].$key);    
+                        }else{
+                            this._listService.addArticleAndAddToList(this.sList,obj);
+                        }
                     }
                     
                 })
@@ -406,12 +424,12 @@ export class ListComponent implements OnInit {
     }
 
     toggleCatalog(evt){
-        let parentNode=evt.target.parentElement;
-        let currentEle=parentNode.getElementsByClassName('slist-articles')[0];
-        if(currentEle.style.display=='none'){
-            currentEle.style.display='block';
+        // let parentNode=evt.target.parentElement;
+        // let currentEle=parentNode.getElementsByClassName('slist-articles')[0];
+        if(evt.style.display=='none'){
+            evt.style.display='block';
         }else{
-            currentEle.style.display='none';
+            evt.style.display='none';
         }
     }
 

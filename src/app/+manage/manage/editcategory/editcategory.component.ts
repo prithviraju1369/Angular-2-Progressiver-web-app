@@ -44,6 +44,7 @@ export class EditCategoryComponent implements OnInit {
         private router: Router
     ) {
         this.af = af;
+        this.db = new PouchDB("sList");
     }
 
     ngOnInit() {
@@ -68,7 +69,7 @@ export class EditCategoryComponent implements OnInit {
             return err;
             }
             if(docs && docs.rows.length>0){
-            self.url=docs.rows[0].doc.email;
+            self.url=docs.rows[0].doc.user;
             self.getCategory();
             }
         });

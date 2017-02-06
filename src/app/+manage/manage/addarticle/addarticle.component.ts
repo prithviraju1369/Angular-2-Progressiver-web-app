@@ -65,8 +65,8 @@ export class AddArticleComponent implements OnInit {
             return err;
             }
             if(docs && docs.rows.length>0){
-            self.url=docs.rows[0].doc.email;
-            this.getAllCategoriesForUser();
+            self.url=docs.rows[0].doc.user;
+            self.getAllCategoriesForUser();
             }
         });
     }

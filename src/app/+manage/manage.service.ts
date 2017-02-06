@@ -5,6 +5,8 @@ import {user,list} from './../model/user';
 
 import { AngularFire, FirebaseListObservable, FirebaseRef} from 'angularfire2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+
+declare var PouchDB: any;
 @Injectable()
 export class ManageService {
     af: AngularFire;
@@ -13,9 +15,11 @@ export class ManageService {
     private user;
 	private sId;
     private myUsers;
+     db:any;
     constructor( @Inject(FirebaseRef) public fb, private http: Http, af: AngularFire,private router: Router,private route: ActivatedRoute,) {
         this.af = af;
-        this.getAllRelatedUsers();
+        // this.getAllRelatedUsers();
+        this.db = new PouchDB("sList");
         this.user=this.route.params
             .switchMap((params: Params) => {
                 this.url = params['email'];
@@ -23,8 +27,23 @@ export class ManageService {
                 this.sId = params['id'];
                 return Observable.from([1,2,3]).map(x=>x);
             });
-        this.user.subscribe(c=>console.log(c));
+        this.user.subscribe(c=>{
+            this.syncChanges();
+        });
 
+    }
+
+    syncChanges(){
+        let self=this;
+        this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
+            if(err){
+            console.log(err);
+            return err;
+            }
+            if(docs && docs.rows.length>0){
+            self.url=docs.rows[0].doc.user;
+            }
+        });
     }
 
     getAllDefaultCatalog(): any{
@@ -81,11 +100,12 @@ export class ManageService {
 				
 		// 	}
 		// })
-        this.myUsers.forEach(function(item){
-            let obj:any={};
-            obj[item]=true;
-            addToCatalog.update(obj);
-        });
+        // this.myUsers.forEach(function(item){
+        //     let obj:any={};
+        //     obj[item]=true;
+        //     addToCatalog.update(obj);
+        // });
+        this.getAllRelatedUsers(categoryAdded.key)
 
 	}
 	
@@ -93,11 +113,12 @@ export class ManageService {
 		let categories=this.af.database.object(`/catalog/english/${catId}`);
 		let categoryAdded=categories.update({name:obj.name,order:obj.order});
 		let addToCatalog=this.af.database.object(`catalog/english/${catId}/users`)
-        this.myUsers.forEach(function(item){
-            let obj:any={};
-            obj[item]=true;
-            addToCatalog.update(obj);
-        });
+        // this.myUsers.forEach(function(item){
+        //     let obj:any={};
+        //     obj[item]=true;
+        //     addToCatalog.update(obj);
+        // });
+        this.getAllRelatedUsers(catId)
 
 	}
 
@@ -180,7 +201,8 @@ export class ManageService {
 
     
 
-    getAllRelatedUsers(){
+    getAllRelatedUsers(catId){
+        let addToCatalog=this.af.database.object(`catalog/english/${catId}/users`)
         let sListUsers=this.af.database.list('sList').map(x=>{
             return this.getRelatedUsers(x);
         });
@@ -188,6 +210,11 @@ export class ManageService {
             this.myUsers=[];
             if(x && x.length>0){
                 this.myUsers=x;
+                this.myUsers.forEach(function(item){
+                    let obj:any={};
+                    obj[item]=true;
+                    addToCatalog.update(obj);
+                });
             }
         })
     }

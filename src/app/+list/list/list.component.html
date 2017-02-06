@@ -7,8 +7,8 @@
             </md-input-container>
         </form>
         <div class="slist-article-direction" style="margin: 1em 0;">
-            <div class="slist-article" *ngFor="let a of searchArticles" (tap)="addToLIst(a)" [style.background]="a.backGroundColor">
-                <div class="" >
+            <div class="slist-article" *ngFor="let a of searchArticles"  [style.background]="a.backGroundColor">
+                <div class="article-item" (tap)="addToLIst(a)">
                     {{a.name}}
                 </div>
             </div>
@@ -17,9 +17,9 @@
     </div>
     <div class="slist-articles" style="margin: 1em 0;">
         <div class="slist-article-direction">
-            <div class="slist-article" *ngFor="let a of articlesList" (tap)="selectedArticleInList(a)" style="background: #F24646">
+            <div class="slist-article" *ngFor="let a of articlesList"  style="background: #F24646">
                 <div style="width: 80%;"><span class="info-icon" *ngIf="a.description">i</span></div>
-                    <div class="slist-article-item">
+                    <div class="slist-article-item" (tap)="selectedArticleInList(a)">
                         <span style="height:40%">{{a.description}}</span>
                         <span style="height:40%">{{a.name}}</span>
                     </div>
@@ -71,12 +71,16 @@
     </div>
     
 <div class="slist-catalog" style="margin: 1em 0;">
-    <div *ngFor="let p of usersCatalogs; let i=index">
-        <h3 (tap)="toggleCatalog($event)">{{ p.name }}</h3>
-        <div style="display:none;" class="slist-articles">
+    <div *ngFor="let p of usersCatalogs; let i=index" style="margin: 1em 0;">
+        <span class="sList-catalog-item-name-default" >
+            <i *ngIf=" userarticle.style.display=='none'" class="material-icons">keyboard_arrow_down</i>
+            <i *ngIf=" userarticle.style.display!='none'" class="material-icons">keyboard_arrow_up</i>
+            <span (tap)="toggleCatalog(userarticle)" style="cursor: pointer;">{{ p.name }}</span>
+        </span>
+        <div style="display:none;" class="slist-articles" #userarticle>
         <div class="slist-article-direction">
             <div class="slist-article" *ngFor="let a of p.articles" (tap)="addToLIst(a)">
-                <div class="" >
+                <div class="article-item" >
                     {{a.name}}
                 </div>
             </div>
@@ -85,12 +89,16 @@
 </div>
 </div>
 <div class="slist-catalog" style="margin: 1em 0;">
-    <div *ngFor="let p of catalogs; let i=index">
-        <h3 (tap)="toggleCatalog($event)">{{ p.name }}</h3>
-        <div style="display:none;" class="slist-articles">
+    <div *ngFor="let p of catalogs; let i=index" style="margin: 1em 0;">
+        <span class="sList-catalog-item-name-default" >
+            <i *ngIf=" articles.style.display=='none'" class="material-icons">keyboard_arrow_down</i>
+            <i *ngIf=" articles.style.display!='none'" class="material-icons">keyboard_arrow_up</i>
+            <span (tap)="toggleCatalog(articles)" style="cursor: pointer;">{{ p.name }}</span>
+        </span>
+        <div style="display:none;" class="slist-articles" #articles>
         <div class="slist-article-direction">
             <div class="slist-article" *ngFor="let a of p.articles" (tap)="addToLIst(a)">
-                <div class="" >
+                <div class="article-item" >
                     {{a.name}}
                 </div>
             </div>

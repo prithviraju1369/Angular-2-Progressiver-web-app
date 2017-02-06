@@ -55,9 +55,10 @@ export class ClearComponent implements OnInit {
         document.getElementById('delete').style.display='block';
     }
 
-    clearArticles(){
+    clearArticles(evt){
+        evt.preventDefault();
         this.af.database.list(`sList/${this.sList}/articles`).remove();
-        this.router.navigate([`list/${this.sList}`,{email:this.url}]);
+        this.router.navigate([`list/${this.sList}`,{email:this.url,clearArticle:true}]);
     }
 
     cancelClearArticles(){

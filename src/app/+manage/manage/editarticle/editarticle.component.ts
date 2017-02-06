@@ -48,6 +48,7 @@ export class EditArticleComponent implements OnInit,OnDestroy {
         private router: Router
     ) {
         this.af = af;
+		this.db = new PouchDB("sList");
     }
 
     ngOnInit() {
@@ -76,7 +77,7 @@ export class EditArticleComponent implements OnInit,OnDestroy {
             return err;
             }
             if(docs && docs.rows.length>0){
-            self.url=docs.rows[0].doc.email;
+            self.url=docs.rows[0].doc.user;
             self.getAllCategoriesForUser();
 			self.getArticle();
             }
