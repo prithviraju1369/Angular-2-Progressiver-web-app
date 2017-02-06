@@ -1,0 +1,22 @@
+<div class="box-alignment">
+    <div class="item-alignment title"><b>My shopping lists</b></div>
+    <div *ngIf="!sLists">
+        <div class="mylists-no">No shopping lists found</div>
+        <div class="mylists-no">If you use a new device, please search for your lists</div>
+        <md-input-container style="width: 100%">
+            <input md-input placeholder="name"  name="name" [(ngModel)]="name">
+        </md-input-container>
+        <md-input-container style="width: 100%">
+            <input md-input placeholder="email"  name="email" [(ngModel)]="email">
+        </md-input-container>
+        <button md-button style="background:gray;margin: auto;display: flex;align-items: center;justify-content: center;" (tap)="searchSLists()">search</button>
+    </div>
+    <div *ngIf="sLists && sLists.length>0">
+        <div class="mylists-no" style="color: #1c5792"> Recently used shopping lists</div>
+        <div *ngFor="let a of sLists" class="sList" (tap)="goToSlist(a)">
+            <div class="list-details"><h5>{{a.title}}</h5></div>
+            <div class="list-details">{{a.description}}</div>
+        </div>
+        <button md-button style="background:gray;margin: auto;display: flex;align-items: center;justify-content: center;" (tap)="createNewList()">Create new shopping list</button>
+    </div>
+</div>

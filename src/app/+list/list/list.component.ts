@@ -11,6 +11,8 @@ import { list } from './../../model/user';
 import { Subject } from 'rxjs/Subject';
 import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
 
+declare var PouchDB: any;
+
 export class catalog{
     constructor(
         public id?: string,
@@ -42,6 +44,7 @@ export class ListComponent implements OnInit {
     private url;
     private sList;
     private user;
+    db:any;
     af: AngularFire;
     catalogs:catalog[]=[];
     usersCatalogs:catalog[]=[];
@@ -57,6 +60,7 @@ export class ListComponent implements OnInit {
         private router: Router
     ) {
         this.af = af;
+        this.db = new PouchDB("sList");
     }
 
     ngOnInit() {
@@ -64,6 +68,7 @@ export class ListComponent implements OnInit {
             .switchMap((params: Params) => {
                 this.url = params['email'];
                 this.sList = params['id'];
+                this.getOrAddUsernameToLocalDB();
                 return Observable.from([1,2,3]).map(x=>x);
             });
         this.user.subscribe(c=>console.log(c));
@@ -83,7 +88,55 @@ export class ListComponent implements OnInit {
             this.searchArticles=x;
         });   
         this.getAllArticles();     
+        this.showSideMenu()
     }
+    showSideMenu(){
+        
+        document.getElementById('edit').style.display='block';
+        document.getElementById('clear').style.display='block';
+        document.getElementById('finished').style.display='block';
+        document.getElementById('delete').style.display='block';
+    }
+
+    getOrAddUsernameToLocalDB(){
+        let self=this;
+        self.db.allDocs({include_docs: true, descending: true}, function(err, doc) {
+                if(err){
+                    console.log(err)
+                    return;
+                }
+                if(doc.rows.length>0){
+                    self.setLocalUser(doc.rows[0].doc);
+                }else{
+                    self.addUserToLocalDB();
+                }
+            });
+    }
+
+    setLocalUser(obj){
+        let self=this;
+        if(this.url==obj.user){
+            this.db.get(obj._id).then(function (doc) {
+                debugger
+                doc.sList=self.sList;
+                doc.user = self.url;
+                return self.db.put(doc);
+            });
+        }else{
+            this.db.get(obj._id).then(function (doc) {
+                debugger
+                doc.user = self.url;
+                doc.sList=self.sList;
+                return self.db.put(doc);
+            });
+        }
+    }
+
+    addUserToLocalDB(){
+        this.db.post({user:this.url});
+    }
+
+    
 
     performSearch(inp):Array<any>{
         if(inp.trim()==''){

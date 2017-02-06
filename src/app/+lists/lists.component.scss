@@ -1,0 +1,30 @@
+.box-alignment{
+    margin:2em 1em;
+}
+
+.item-alignment{
+    margin: 2em 1em;
+}
+
+.mylists-no{
+    text-align: center;
+    margin: 1em;
+}
+.sList{
+    margin:1em;
+    display: flex;
+    background: green;
+    flex-direction: column;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 1em;
+}
+.list-details{
+    color: white;
+}
+.newlist{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}

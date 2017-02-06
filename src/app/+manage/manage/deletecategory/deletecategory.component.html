@@ -1,0 +1,21 @@
+<div class="box-alignment">
+    <div class="item-alignment title"><b>Delete Category</b></div>
+    <div class="delete-warning">
+        <div class="delete-align">
+            <h3>WARNING</h3>
+        </div>
+        <div>
+        <div>
+            <div class="delete-align">
+                Deleting category <span>{{modelValue}}</span> will remove this category and all items within that category
+            </div>
+            <div class="delete-align">
+                Do you really want to delete this category?
+            </div>
+        </div>
+        <div class="delete-buttons">
+            <button style="background: #a94442" md-button (tap)="deleteCategory(category.$key)">Delete</button>
+            <button style="background: gray" md-button (tap)="cancelDeleteCategory()">Delete</button>
+        </div>
+    </div>
+</div>

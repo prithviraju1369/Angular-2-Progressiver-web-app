@@ -1,22 +1,43 @@
 <div class="slist">
 <h3>Manage Catalog</h3>
 <div>
-    <a [routerLink]="['/manage/addarticle']">Add new article</a>
+    <a [routerLink]="['/manage/addarticle']">
+        <img class="manage-catalog-item" height="24px;" width="24px;" src="./../assets/images/nav_manage_catalog.png">
+        <span style="margin: 1em;color: orange">Add new article</span>
+    </a>
 </div>
 <div>
-    <a [routerLink]="['/manage/addcategory']">Add new category</a>
+    <a [routerLink]="['/manage/addcategory']">
+        <img class="manage-catalog-item" height="24px;" width="24px;" src="./../assets/images/nav_manage_catalog.png">
+        <span style="margin: 1em;color: orange">Add new category</span>
+    </a>
 </div>
 <div class="slist-catalog">
     <div *ngFor="let p of usersCatalogs; let i=index">
-        <h3 (tap)="toggleCatalog($event)">{{ p.name }}</h3>
-        <p><a [routerLink]="['/manage/editcategory',{catId:p.id}]">Edit</a></p>
-        <div style="display:none;" class="slist-articles">
+        <div class="sList-catalog-item">
+            <span class="sList-catalog-item-name" >
+            <i *ngIf=" article.style.display=='none'" class="material-icons">keyboard_arrow_down</i>
+            <i *ngIf=" article.style.display!='none'" class="material-icons">keyboard_arrow_up</i>
+            <span (tap)="toggleCatalog(article)">{{ p.name }}</span>
+        </span>
+        <span style="margin: auto 1em;"><a [routerLink]="['/manage/editcategory',{catId:p.id}]"><img class="manage-catalog-item" height="24px;" width="24px;" src="./../assets/images/edit-button.png"></a></span>
+        </div>
+        <div style="display:none;" class="slist-articles" #article>
         <div class="slist-article-direction">
             <div class="slist-article" *ngFor="let a of p.articles">
-                <div class="">
-                    {{a.name}}
-                    <p><a [routerLink]="['/manage/editarticle',{artId:a.$key,catId:p.id}]">Edit</a></p>
-                    <p (tap)="deleteArticle(a.$key,p.id)">Delete</p>
+                <div class="manage-article-item" #article>
+                    <div class="manage-article-item-name">{{a.name}}</div>
+                    <div class="manage-article-item-buttons" #deleteButton>
+                        <span><a [routerLink]="['/manage/editarticle',{artId:a.$key,catId:p.id}]"><img class="manage-catalog-item" height="24px;" width="24px;" src="./../assets/images/edit-button.png"></a></span>
+                        <span (tap)="showDelete(deleteButton,delete)" style="cursor: pointer;"><img class="manage-catalog-item" height="24px;" width="24px;" src="./../assets/images/delete_button.png"></span>
+                    </div>
+                    <div #delete style="display:none;">
+                        <span>Delete this article?</span>
+                        <div>
+                            <button md-button (tap)="deleteArticle(a.$key,p.id)">Delete</button>
+                            <button md-button (tap)="hideDelete(deleteButton,delete)">Cancel</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -25,10 +46,14 @@
 </div>
 <div class="slist-catalog">
     <div *ngFor="let p of catalogs; let i=index">
-        <h3 (tap)="toggleCatalog($event)">{{ p.name }}</h3>
-        <div style="display:none;" class="slist-articles">
+        <span class="sList-catalog-item-name-default" >
+            <i *ngIf=" article.style.display=='none'" class="material-icons">keyboard_arrow_down`</i>
+            <i *ngIf=" article.style.display!='none'" class="material-icons">keyboard_arrow_up</i>
+            <span (tap)="toggleCatalog(article)">{{ p.name }}</span>
+        </span>
+        <div style="display:none;" class="slist-articles" #article>
         <div class="slist-article-direction">
-            <div class="slist-article" *ngFor="let a of p.articles">
+            <div class="slist-article manage-article-item-name-default" *ngFor="let a of p.articles">
                 <div class="">
                     {{a.name}}
                 </div>

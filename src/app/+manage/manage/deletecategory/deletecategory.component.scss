@@ -1,0 +1,41 @@
+.box-alignment{
+    margin:2em 1em;
+}
+
+.item-alignment{
+    margin: 2em 1em;
+}
+.button-container{
+    margin-top:5em;
+    display:flex;
+    flex-direction: row;
+}
+.buttons{
+    width: 50%;
+    text-align: center;
+    
+}
+
+.button-align{
+    color: gray;
+}
+
+.delete-warning{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.delete-align{
+    margin: 1em;
+    color:#a94442;
+}
+.delete-buttons{
+    margin: 1em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}

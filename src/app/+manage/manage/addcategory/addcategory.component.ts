@@ -11,6 +11,8 @@ import { list } from './../../../model/user';
 
 import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
 
+declare var PouchDB: any;
+
 export class catalog{
     constructor(
         public id?: string,
@@ -28,6 +30,7 @@ export class catalog{
 
 export class AddCategoryComponent implements OnInit {
     private url;
+    db:any;
     private user;
 	private sId;
 	private modelValue;
@@ -41,18 +44,35 @@ export class AddCategoryComponent implements OnInit {
         private router: Router
     ) {
         this.af = af;
+        this.db = new PouchDB("sList");
     }
 
     ngOnInit() {
         this.user=this.route.params
             .switchMap((params: Params) => {
-                this.url = '-K_PcS3U-bzP0Jgye_Xo';
+                // this.url = '-K_PcS3U-bzP0Jgye_Xo';
                 this.sId = params['id'];
                 return Observable.from([1,2,3]).map(x=>x);
             });
-        this.user.subscribe(c=>console.log(c));
-        this.getAllCategoriesForUser();
+        this.user.subscribe(c=>{
+            this.syncChanges();
+        });
     }
+    syncChanges(){
+        let self=this;
+        this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
+            if(err){
+            console.log(err);
+            return err;
+            }
+            if(docs && docs.rows.length>0){
+            self.url=docs.rows[0].doc.email;
+            self.getAllCategoriesForUser();
+            }
+        });
+    }
+
+
     getAllCategoriesForUser(){
         // this.list.push({name:'Category'});
         let categoryObs=this._manageService.getAllCategoriesForUser(this.url);

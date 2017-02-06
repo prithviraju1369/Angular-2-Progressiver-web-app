@@ -1,0 +1,24 @@
+.create-container{
+    height:100%;
+    text-align: center;
+}
+.create-container h3{
+    text-align: start;
+}
+.create-alignment{
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+}
+select{
+    margin: 1em 0;
+}
+.form-align-items{
+    align-items: center;
+    display: flex;
+}
+button{
+    margin: auto;
+    background: gray;
+    border-radius: 5px;
+}

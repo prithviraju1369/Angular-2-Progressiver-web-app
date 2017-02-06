@@ -7,24 +7,37 @@
 .slist-myItems{
     min-height: 20vh;
 }
-.slist-catalog h3{
-    background: orange;
+.slist-catalog div span{
+    margin: 1em 0;
     cursor: pointer;
     padding: 5px 0;
+}
+.sList-catalog-item-name{
+    background: orange;
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 30px;
+}
+.sList-catalog-item-name-default{
+    background: orange;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 30px;
 }
 .slist-article-direction{
     display: flex;
     flex-direction: row;
     overflow-x: auto;
+    overflow-y: hidden;
 }
 .slist-article{
     display: inline;
 }
 .slist-article{
-    height: 100px;
-    width: 100px;
-    border-radius: 5px;
-    background: #90CAF9;
     flex-grow: 1;
     flex-shrink: 0;
     flex-basis: 10em;
@@ -34,4 +47,53 @@
     justify-content: center;
     align-items: center;
     margin:0 2px;
+}
+
+.manage-catalog-item{
+    display:inline-block;
+    vertical-align: middle;
+}
+
+div a{
+    cursor:pointer;
+    text-decoration: none;
+}
+
+.manage-article-item{
+    width:100%;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.manage-article-item-name{
+    width:50%;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    border-radius: 5px;
+    background: #90CAF9;
+}
+
+.manage-article-item-name-default{
+    width:100%;
+    height: 100px;
+    border-radius: 5px;
+    background: #90CAF9;
+}
+
+.manage-article-item-buttons{
+    width:25%;
+    height: 100px;
+    margin: 0 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.sList-catalog-item{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
 }

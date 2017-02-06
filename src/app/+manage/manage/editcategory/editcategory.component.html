@@ -1,1 +1,4 @@
 <sharedaddoredit [title]="title" [titleValue]="category.name"  [modelValue]="category.order" [list]="list" (onSaved)="onSaved($event)"></sharedaddoredit>
+<div class="delete-flex">
+    <button style="background: #a94442" md-button (tap)="deleteCategory(category.$key)">Delete</button>
+</div>

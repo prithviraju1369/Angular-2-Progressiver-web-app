@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { list } from './../../model/user';
 import { Subject } from 'rxjs/Subject';
 import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
-
+declare var PouchDB: any;
 export class catalog{
     constructor(
         public id?: string,
@@ -29,6 +29,7 @@ export class catalog{
 export class ManageComponent implements OnInit {
     private url;
     private user;
+    db:any;
     af: AngularFire;
     catalogs:catalog[]=[];
     usersCatalogs:catalog[]=[];
@@ -47,15 +48,29 @@ export class ManageComponent implements OnInit {
     ngOnInit() {
         this.user=this.route.params
             .switchMap((params: Params) => {
-                this.url = '-K_PcS3U-bzP0Jgye_Xo';
+                // this.url = '-K_PcS3U-bzP0Jgye_Xo';
                 return Observable.from([1,2,3]).map(x=>x);
             });
-        this.user.subscribe(c=>console.log(c));
-        this.getCatalog();
-        this.getUsersCatalog();
-        
-        
-        this.getAllArticles();     
+        this.user.subscribe(x=>{
+            this.syncChanges();
+        });
+            
+    }
+
+    syncChanges(){
+        let self=this;
+        this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
+            if(err){
+            console.log(err);
+            return err;
+            }
+            if(docs && docs.rows.length>0){
+            self.url=docs.rows[0].doc.email;
+                self.getCatalog();
+                self.getUsersCatalog();
+                self.getAllArticles(); 
+            }
+        });
     }
 
     getAllArticles(){
@@ -233,16 +248,26 @@ export class ManageComponent implements OnInit {
 
 
     toggleCatalog(evt){
-        let parentNode=evt.target.parentElement;
-        let currentEle=parentNode.getElementsByClassName('slist-articles')[0];
-        if(currentEle.style.display=='none'){
-            currentEle.style.display='block';
+        // let parentNode=evt.target.parentElement;
+        // let currentEle=parentNode.getElementsByClassName('slist-articles')[0];
+        if(evt.style.display=='none'){
+            evt.style.display='block';
         }else{
-            currentEle.style.display='none';
+            evt.style.display='none';
         }
     }
 
     deleteArticle(artId,catId){
         this._manageService.removeArticleFromCategory(artId,catId);
+    }
+
+    showDelete(deleteButton,deleteArticle){
+        deleteButton.style.display='none';
+        deleteArticle.style.display='block';
+    }
+
+    hideDelete(deleteButton,deleteArticle){
+        deleteButton.style.display='flex';
+        deleteArticle.style.display='none';
     }
 }

@@ -18,7 +18,7 @@ export class ManageService {
         this.getAllRelatedUsers();
         this.user=this.route.params
             .switchMap((params: Params) => {
-                this.url = '-K_PcS3U-bzP0Jgye_Xo';
+                this.url = params['email'];
                 debugger
                 this.sId = params['id'];
                 return Observable.from([1,2,3]).map(x=>x);
@@ -172,6 +172,11 @@ export class ManageService {
 			}
 		})
 	}
+
+    deleteCategory(id){
+        let category=this.af.database.object(`catalog/english/${id}`);
+        category.remove();
+    }
 
     
 

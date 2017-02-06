@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { list } from './../../../model/user';
 
 import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
-
+declare var PouchDB: any;
 export class catalog{
     constructor(
         public id?: string,
@@ -37,6 +37,7 @@ export class EditCategoryComponent implements OnInit {
     title:string='Edit Category';
     list:Array<any>=[];
     category:Object={};
+    db:any;
     constructor(@Inject(FirebaseRef) public fb,  af: AngularFire,
         public _manageService: ManageService,
         private route: ActivatedRoute,
@@ -48,15 +49,30 @@ export class EditCategoryComponent implements OnInit {
     ngOnInit() {
         this.user=this.route.params
             .switchMap((params: Params) => {
-                this.url = '-K_PcS3U-bzP0Jgye_Xo';
+                // this.url = '-K_PcS3U-bzP0Jgye_Xo';
 				this.sId=params['id'];
                 this.catId=params['catId'];
                 return Observable.from([1,2,3]).map(x=>x);
             });
-        this.user.subscribe(c=>console.log(c));
-        this.getCategory();
+        this.user.subscribe(c=>{
+            this.syncChanges();
+        });
+        
     }
     
+    syncChanges(){
+        let self=this;
+        this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
+            if(err){
+            console.log(err);
+            return err;
+            }
+            if(docs && docs.rows.length>0){
+            self.url=docs.rows[0].doc.email;
+            self.getCategory();
+            }
+        });
+    }
 
     getCategory(){
         let getCategory$=this._manageService.getCategoryById(this.catId);
@@ -93,5 +109,9 @@ export class EditCategoryComponent implements OnInit {
 		this._manageService.editCategory(obj,this.catId);
 		this.router.navigate(['manage']);
 	}
+
+    deleteCategory(id){
+        this.router.navigate(['manage/deletecategory',id])
+    }
 
 }

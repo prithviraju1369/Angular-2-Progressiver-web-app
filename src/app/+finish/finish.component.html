@@ -1,0 +1,16 @@
+    <div class="help-container help-alignment">
+        <h3>Finished shopping?</h3>
+        <div>
+            <div>
+                <md-checkbox [(ngModel)]="finished">Yes! Mark shopping list as "finished"</md-checkbox>
+            </div>
+            <div>
+                <md-checkbox [(ngModel)]="articles">Remove all items from shopping list</md-checkbox>
+                <div>Tick this checkbox to remove all articles from your current shopping list. Otherwise all articles stay in your shopping list,labeled as articles to buy</div>
+            </div>
+        </div>
+        <div class="delete-buttons">
+            <button style="background: gray" md-button (tap)="finsihSlist()">Save</button>
+            <button style="background: gray" md-button (tap)="cancel()">cancel</button>
+        </div>
+    </div>

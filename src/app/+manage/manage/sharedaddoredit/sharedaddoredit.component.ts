@@ -1,5 +1,6 @@
 import { Component, OnInit, Input,Output,EventEmitter} from '@angular/core';
 
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,11 +16,19 @@ export class SharedAddOrEditComponent {
 	@Input() modelValue:string;
 	@Output() onSaved = new EventEmitter<any>();
 	
+	constructor(private router: Router){
+
+	}
+
 	Save(){
 		let obj:any={};
 		obj.name=this.titleValue;
 		obj.order=this.modelValue;
 		this.onSaved.emit(obj);
+	}
+
+	Cancel(){
+		this.router.navigate(['manage']);
 	}
 	
 }
