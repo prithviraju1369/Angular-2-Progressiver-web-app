@@ -33,27 +33,27 @@
                     <span class="sidenav-tems-align">My shopping lists</span>
                 </a>
             </div>
-            <div class="nav-item" *ngIf="localUser && sList">
-                <a [routerLink]="['/editlist',{email:localUser,sList:sList}]">
+            <div class="nav-item" style="display: none" id="edit">
+                <a [routerLink]="['/editlist',{email:localUser}]">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_edit_shopping_list.png">
                     <span class="sidenav-tems-align">Edit shopping list</span>
                 </a>
             </div>
-            <div class="nav-item" *ngIf="localUser && sList">
-                <a [routerLink]="['/clearist',{email:localUser,sList:sList}]">
+            <div class="nav-item" style="display: none" id="clear">
+                <a [routerLink]="['/clearlist',{email:localUser}]">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_clear_shopping_list.png">
                     <span class="sidenav-tems-align">Clear shopping list</span>
                 </a>
             </div>
-            <div class="nav-item" *ngIf="localUser && sList">
-                <a [routerLink]="['/deleteList',{email:localUser,sList:sList}]">
+            <div class="nav-item" style="display: none" id="delete">
+                <a [routerLink]="['/deletelist',{email:localUser}]">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_delete-shopping_list.png">
                     <span class="sidenav-tems-align">Delete shopping list</span>
                 </a>
             </div>
-            <div class="nav-item" *ngIf="localUser && sList">
-                <a [routerLink]="['/help']">
-                    <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_help.png">
+            <div class="nav-item" style="display: none" id="finished">
+                <a [routerLink]="['/finishlist']">
+                    <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_mark_shopping_as_finished.png">
                     <span class="sidenav-tems-align">Mark shopping as finished</span>
                 </a>
             </div>
