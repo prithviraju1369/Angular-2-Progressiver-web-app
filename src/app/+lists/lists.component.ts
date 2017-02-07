@@ -28,7 +28,7 @@ export class ListsComponent implements OnInit {
     private url;
     af:any;
     db:any;
-    constructor(public _userService: UsersService,@Inject(FirebaseRef) public fb,  af: AngularFire,
+    constructor(public _userService: UsersService,  af: AngularFire,
         private route: ActivatedRoute,
         private router: Router) {
         this.db = new PouchDB("sList");

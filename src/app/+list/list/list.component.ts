@@ -51,11 +51,12 @@ export class ListComponent implements OnInit,OnDestroy  {
     usersCatalogs:catalog[]=[];
     searchitems: Observable<Array<string>>;
     articles:Array<any>=[];
+    title:any;
     searchArticles:Array<any>=[];
     articlesList:Array<listArticle>=[];
     selectedArticleList:listArticle={};
     private searchTerms = new Subject<string>();
-    constructor(@Inject(FirebaseRef) public fb,  af: AngularFire,
+    constructor(  af: AngularFire,
         public _listService: ListService,
         private route: ActivatedRoute,
         private router: Router
@@ -104,6 +105,13 @@ export class ListComponent implements OnInit,OnDestroy  {
         });   
         this.getAllArticles();     
         this.showSideMenu();
+        this.getSTitle();
+    }
+
+    getSTitle(){
+        this._listService.getSDetails(this.sList).map(x=>x.title).subscribe(x=>{
+            this.title=x;
+        })
     }
     showSideMenu(){
         

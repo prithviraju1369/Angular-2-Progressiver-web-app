@@ -27,7 +27,7 @@ export class FinishComponent implements OnInit {
     finished:any;
     articles:any;
     constructor(public _userService: UsersService,private route: ActivatedRoute,
-        private router: Router,@Inject(FirebaseRef) public fb,af: AngularFire) {
+        private router: Router,af: AngularFire) {
 this.db = new PouchDB("sList");
         this.af = af;
     }

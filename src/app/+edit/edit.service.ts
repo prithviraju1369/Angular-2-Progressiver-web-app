@@ -23,10 +23,8 @@ export class EditService {
     roorRef;
     sListUsersRef;
     mailedUsers:Array<any>=[];
-    constructor( @Inject(FirebaseRef) public fb, private http: Http, af: AngularFire) {
+    constructor(  private http: Http, af: AngularFire) {
         this.af = af;
-        this.roorRef = fb.database().ref('users');
-        this.sListUsersRef=fb.database().ref('sListUsers');
         
     }
 
@@ -55,7 +53,7 @@ export class EditService {
         if (this.invitedUsers.indexOf(usr.$key) < 0) {
             this.invitedUsers.push(usr.$key);
             // this.sListUsersKey.update(this.invitedUsers);
-            this.sListUsersRef.child(this.sList.getKey()).update(insertData);
+            this.af.database.object(`sListUsers/${this.sList.getKey()}`).update(insertData);
             // this.sendEmailToUser(usr.$key);
         }
     }

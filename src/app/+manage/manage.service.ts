@@ -16,7 +16,7 @@ export class ManageService {
 	private sId;
     private myUsers;
      db:any;
-    constructor( @Inject(FirebaseRef) public fb, private http: Http, af: AngularFire,private router: Router,private route: ActivatedRoute,) {
+    constructor(  private http: Http, af: AngularFire,private router: Router,private route: ActivatedRoute,) {
         this.af = af;
         // this.getAllRelatedUsers();
         this.db = new PouchDB("sList");

@@ -37,7 +37,7 @@ export class ManageComponent implements OnInit {
     articles:Array<any>=[];
     searchArticles:Array<any>=[];
     private searchTerms = new Subject<string>();
-    constructor(@Inject(FirebaseRef) public fb,  af: AngularFire,
+    constructor(  af: AngularFire,
         public _manageService: ManageService,
         private route: ActivatedRoute,
         private router: Router

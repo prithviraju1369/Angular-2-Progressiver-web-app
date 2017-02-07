@@ -38,7 +38,7 @@ export class AddCategoryComponent implements OnInit {
     list:Array<any>=[];
     af: AngularFire;
     catalogs:catalog[]=[];
-    constructor(@Inject(FirebaseRef) public fb,  af: AngularFire,
+    constructor(  af: AngularFire,
         public _manageService: ManageService,
         private route: ActivatedRoute,
         private router: Router

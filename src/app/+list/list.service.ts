@@ -13,7 +13,7 @@ export class ListService {
     private user;
 	private sId;
     private myUsers;
-    constructor( @Inject(FirebaseRef) public fb, private http: Http, af: AngularFire,private router: Router,private route: ActivatedRoute,) {
+    constructor(  private http: Http, af: AngularFire,private router: Router,private route: ActivatedRoute,) {
         this.af = af;
         this.getAllRelatedUsers();
         this.user=this.route.params
@@ -25,6 +25,10 @@ export class ListService {
             });
         this.user.subscribe(c=>console.log(c));
 
+    }
+
+    getSDetails(sListId){
+        return this.af.database.object(`sList/${sListId}`);
     }
 
     addArticleToList(sList,art){

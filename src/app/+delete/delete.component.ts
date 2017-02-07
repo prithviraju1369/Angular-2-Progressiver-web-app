@@ -25,7 +25,7 @@ export class DeleteComponent implements OnInit {
     modelValue:any;
     localDBID;
     constructor(public _userService: UsersService,private route: ActivatedRoute,
-        private router: Router,@Inject(FirebaseRef) public fb,af: AngularFire) {
+        private router: Router,af: AngularFire) {
 this.db = new PouchDB("sList");
         this.af = af;
     }

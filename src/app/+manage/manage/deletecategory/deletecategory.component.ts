@@ -39,7 +39,7 @@ export class DeleteCategoryComponent implements OnInit {
     title:string='Edit Category';
     list:Array<any>=[];
     category:Object={};
-    constructor(@Inject(FirebaseRef) public fb,  af: AngularFire,
+    constructor(  af: AngularFire,
         public _manageService: ManageService,
         private route: ActivatedRoute,
         private router: Router
