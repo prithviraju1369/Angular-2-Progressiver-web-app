@@ -19,9 +19,9 @@ export class EditService {
     testArry: Observable<Array<user>>;
     invitedUsers: Array<any> = [];
     private sList: any;
+    private sListKey: any;
     private sListUsersKey: any;
     roorRef;
-    sListUsersRef;
     mailedUsers:Array<any>=[];
     constructor(  private http: Http, af: AngularFire) {
         this.af = af;
@@ -30,6 +30,7 @@ export class EditService {
 
     editSList(key,list: list) {
         const sListRef = this.af.database.object(`sList/${key}`);
+        this.sListKey=key;
         sListRef.update(list);
         
     }
@@ -46,14 +47,29 @@ export class EditService {
 
     createSListUser(usr: any): void {
         console.log(this.sList);
-        let sListKey=usr.$key;
+        let userKey=usr.$key;
         let insertData={};
-        insertData[sListKey]=true;
+        insertData[userKey]=true;
         let testme = this.af.database.object(`sListUsers`);
         if (this.invitedUsers.indexOf(usr.$key) < 0) {
             this.invitedUsers.push(usr.$key);
             // this.sListUsersKey.update(this.invitedUsers);
-            this.af.database.object(`sListUsers/${this.sList.getKey()}`).update(insertData);
+             let dataExists=this.af.database.list(`sListUsers/${this.sListKey}`).map(x=>x)
+                .subscribe(x=>{
+                    debugger
+                    if(x && x.length>0){
+                        let exists=false;
+                        for(let i=0;i<x.length;i++){
+                            if(x[i].$key==userKey){
+                                exists=true;
+                            }
+                        }
+                        if(!exists)
+                            this.af.database.object(`sListUsers/${this.sListKey}`).update(insertData);
+                            dataExists.unsubscribe();
+                    }
+                })
+            // this.af.database.object(`sListUsers/${this.sListKey}`).update(insertData);
             // this.sendEmailToUser(usr.$key);
         }
     }
@@ -144,11 +160,25 @@ export class EditService {
     }
 
     getSListData(id){
+        this.sListKey=id;
         return this.af.database.object(`sList/${id}`).map(x=>x);
     }
 
     getSListUsersData(id){
         return this.af.database.object(`sListUsers/${id}`).map(x=>x);
+    }
+
+    getIdFromEmail(email){
+        return this.af.database.list(`users`,{
+            query:{
+                orderByChild:'email',
+                equalTo:email
+            }
+        }).map(x=>x);
+    }
+    removeUserFromsListUsers(key){
+        let item=this.af.database.object(`sListUsers/${this.sListKey}/${key}`);
+        item.remove();
     }
     
 }

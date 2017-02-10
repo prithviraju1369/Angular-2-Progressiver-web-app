@@ -23,8 +23,13 @@
                 <h5>Invite user</h5>
             </div>
             
-            <md-input-container style="width: 100%" *ngFor="let usr of users ;let in=index" >
-                <input md-input placeholder="email address" type="email" [(ngModel)]="users[in]" name="inviteduser{{in}}" >
+            <div *ngFor="let usr of users ;let in=index" style="width: 100%;display: flex;margin-bottom: 1em;">
+                <span>{{usr}}</span>
+                <i class="material-icons" (tap)="removeFromSListUsers(usr)">clear</i>
+            </div>
+
+            <md-input-container style="width: 100%" *ngFor="let usr of usersEdit ;let in=index;trackBy:customTrackBy" >
+                <input md-input placeholder="email address" type="email" [(ngModel)]="usersEdit[in]" name="inviteduser{{in}}" >
             </md-input-container>
             <div class="form-align-items" >
                 <md-icon style="cursor: pointer;" (tap)="addInvitedUsers()">add</md-icon>

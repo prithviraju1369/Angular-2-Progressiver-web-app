@@ -24,6 +24,7 @@ export class EditComponent implements OnInit,OnDestroy {
     model=new list(false);
     title:string;
     users=[];
+    usersEdit=[];
     af: AngularFire;
     usersFirebase=[];
     initialEmail:string;
@@ -88,13 +89,16 @@ export class EditComponent implements OnInit,OnDestroy {
         let sListData=this._editService.getSListUsersData(obj.sList);
         sListData.subscribe(x=>{
             if(x){
+                this.users=[];
                 for (var property in x) {
                         if (x.hasOwnProperty(property)) {
-                            self.af.database.object(`/users/${property}`).subscribe(p=>{
-                                debugger
-                                if(p.email !=self.model.email)
-                                this.users.push(p.email);
-                            });
+                            if(x[property] == false || x[property] == true){
+                                self.af.database.object(`/users/${property}`).subscribe(p=>{
+                                    debugger
+                                    if(p.email !=self.model.email)
+                                    this.users.push(p.email);
+                                });
+                            }
                         }
                     }
             }
@@ -109,11 +113,15 @@ export class EditComponent implements OnInit,OnDestroy {
         // this.model.users.push(this.initialEmail);
         this.array=[];
         this.inviteUsers=JSON.parse(JSON.stringify(this.users));
+        for(let i=0;i<this.usersEdit.length;i++){
+            this.inviteUsers.push(this.usersEdit[i]);
+        }
+        this.inviteUsers.push(this.model.email);
         console.log(this.inviteUsers);
         this.CheckUsers();
     }
     addInvitedUsers(){
-        this.users.push('');
+        this.usersEdit.push('');
     }
     customTrackBy(index: number, obj: any): any {
         return index;
@@ -141,8 +149,15 @@ export class EditComponent implements OnInit,OnDestroy {
         }
         
         this.model.isFinished=false;
-        let sListTemp:list =this.model;
-        sListTemp.users=[];
+        let sListTemp:list ={
+            email:this.model.email,
+            isFinished:false,
+            description:this.model.description,
+            title:this.model.title,
+            language:this.model.language,
+            name:this.model.name
+        };
+        
         let sListCreated$=self._editService.editSList(this.sList,sListTemp);
         
         self._editService.resetSList();
@@ -171,8 +186,9 @@ export class EditComponent implements OnInit,OnDestroy {
                         {
                             if(self.sList) 
                             {
+                                debugger
                                 let userEmailKey=self.emailedUsers.find(self.findUserEmailKey,self);
-                                self.router.navigate([`list/${self.sListKey}`,{email:userEmailKey.$key}])
+                                self.router.navigate([`list/${self.sList}`,{email:userEmailKey.$key}])
                             }
                         }
                     }
@@ -232,6 +248,15 @@ export class EditComponent implements OnInit,OnDestroy {
                 // Log errors if any
                 console.log(err);
             });
+    }
+
+    removeFromSListUsers(item){
+        let id=this._editService.getIdFromEmail(item);
+        id.subscribe(x=>{
+            if(x && x.length>0){
+                let removeId=this._editService.removeUserFromsListUsers(x[0].$key);
+            }
+        })
     }
 
 }
