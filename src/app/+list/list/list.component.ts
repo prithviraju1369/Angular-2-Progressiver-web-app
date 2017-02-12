@@ -29,6 +29,7 @@ export class listArticle{
         public description?: string,
         public amount?: string,   
         public price?: string,
+        public backGroundColor?:string
         
         ){}   
 }
@@ -232,6 +233,11 @@ export class ListComponent implements OnInit,OnDestroy  {
                         item.id=x[i].id;
                         item.description=x[i].description;
                         item.isBasked=x[i].isBasked;
+                        if(x[i].isBasked){                                                
+                            item.backGroundColor='#6B8E23';
+                        }else {
+                            item.backGroundColor='#F24646';
+                        }
                         item.amount=x[i].amount;
                         item.price=x[i].price;
                         this.articlesList.push(item);

@@ -318,6 +318,7 @@ export class ListService {
             debugger
             if(x && x.length>0){
                 self.af.database.object(`sList/${sListId}/articles/${x[0].$key}`).remove();
+                article.unsubscribe();
             }
         })
     }
