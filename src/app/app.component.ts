@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild,OnDestroy,HostListener } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
@@ -17,22 +17,24 @@ export class AppComponent implements OnInit,OnDestroy {
   private user;
   private sList;
   @ViewChild('start') start;
-
+  
+  @HostListener('window:resize', ['$event'])  onResize(event) {
+    this.detectDevice();
+  }
   constructor(private route: ActivatedRoute,
         private router: Router){
     this.db = new PouchDB("sList");
   }
-
+ 
 
   
   isMobile;
 
   ngOnInit() {
     let self=this;
-    debugger
+    
     this.user=this.route.params
             .switchMap((params: Params) => {
-              debugger
                 this.url = params['email'];
                 this.sList = params['id'];
                 return Observable.from([1,2,3]).map(x=>x);

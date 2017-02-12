@@ -15,6 +15,12 @@
             
         </div>
     </div>
+
+    <div class="slist-articles" style="margin: 1em 0;display: flex;justify-content: center;align-items: center;flex-direction: column;" *ngIf="articlesList.length==0">
+        <span style="margin: 1em;"><b>Empty shopping list</b></span>
+        <span style="margin: 1em;">Add articles to your shopping list by searching or browsing through the article catalog</span>
+    </div>
+
     <div class="slist-articles" style="margin: 1em 0;">
         <div class="slist-article-direction">
             <div class="slist-article" *ngFor="let a of articlesList"  style="background: #F24646">

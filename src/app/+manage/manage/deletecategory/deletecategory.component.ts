@@ -34,6 +34,7 @@ export class DeleteCategoryComponent implements OnInit {
     private sId;
     private catId;
 	private modelValue;
+    private language;
     af: AngularFire;
     catalogs:catalog[]=[];
     title:string='Edit Category';
@@ -53,6 +54,7 @@ export class DeleteCategoryComponent implements OnInit {
             .switchMap((params: Params) => {
                 // this.url = '-K_PcS3U-bzP0Jgye_Xo';
 				this.catId=params['id'];
+                this.language=params['lan'];
                 // this.catId=params['catId'];
                 return Observable.from([1,2,3]).map(x=>x);
             });
@@ -77,7 +79,7 @@ export class DeleteCategoryComponent implements OnInit {
     }
 
     getCategory(){
-        let getCategory$=this._manageService.getCategoryById(this.catId);
+        let getCategory$=this._manageService.getCategoryById(this.catId,this.language);
         getCategory$.subscribe(x=>{
             this.category=x;
             this.modelValue=x.name;
@@ -87,9 +89,7 @@ export class DeleteCategoryComponent implements OnInit {
         this.router.navigate(['manage']);
     }
     deleteCategory(id){
-        this._manageService.deleteCategory(id);
-        this.router.navigate(['manage']);
+        this._manageService.deleteCategory(id,this.language);
+        this.router.navigate(['manage',{lan:this.language}]);
     }
-	
-
 }

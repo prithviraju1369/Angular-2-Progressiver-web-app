@@ -12,6 +12,14 @@
             <option *ngFor="let lan of list" [value]="lan.value">{{lan.name}}</option>
           </select>
     </div>
+
+    <div class="item-alignment" *ngIf="showLanguage">
+            <select id="language" name="Catalog language" style="width: 50%;display:flex;"
+                    required
+                    [(ngModel)]="language" name="language">
+                <option *ngFor="let lan of languages" [value]="lan">{{lan}}</option>
+            </select>
+    </div>
 	
     <div class="button-container">
         <div class="buttons">

@@ -20,7 +20,7 @@
             <i *ngIf=" article.style.display!='none'" class="material-icons">keyboard_arrow_up</i>
             <span (tap)="toggleCatalog(article)">{{ p.name }}</span>
         </span>
-        <span style="margin: auto 1em;"><a [routerLink]="['/manage/editcategory',{catId:p.id}]"><img class="manage-catalog-item" height="24px;" width="24px;" src="./../assets/images/edit-button.png"></a></span>
+        <span style="margin: auto 1em;"><a [routerLink]="['/manage/editcategory',{catId:p.id,lan:p.language}]"><img class="manage-catalog-item" height="24px;" width="24px;" src="./../assets/images/edit-button.png"></a></span>
         </div>
         <div style="display:none;" class="slist-articles" #article>
         <div class="slist-article-direction">
@@ -34,7 +34,7 @@
                     <div #delete style="display:none;">
                         <span style="color: #a94442">Delete this article?</span>
                         <div>
-                            <button md-button (tap)="deleteArticle(a.$key,p.id)" style="background: #a94442">Delete</button>
+                            <button md-button (tap)="deleteArticle(a.$key,p.id,p.language)" style="background: #a94442">Delete</button>
                             <button md-button (tap)="hideDelete(deleteButton,delete)" style="background: grey">Cancel</button>
                         </div>
                     </div>

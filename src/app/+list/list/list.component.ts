@@ -44,6 +44,7 @@ export class ListComponent implements OnInit,OnDestroy  {
     private url;
     private sList;
     private user;
+    private search;
     db:any;
     clearArticle:any;
     af: AngularFire;
@@ -70,12 +71,14 @@ export class ListComponent implements OnInit,OnDestroy  {
         console.log("Removed event listener"); 
         
     }
-
+    /// load initial required data
     ngOnInit() {
         this.user=this.route.params
             .switchMap((params: Params) => {
+                /// stored in browse db(PouchDB)
                 this.url = params['email'];
                 this.sList = params['id'];
+                /// clear articles from Shopping list when true
                 this.clearArticle = params['clearArticle'];
                 if( params['again'] =="true"){
                     this.af.database.list(`sList/${this.sList}/articles`).remove();
@@ -84,15 +87,17 @@ export class ListComponent implements OnInit,OnDestroy  {
                     this.router.navigate([`list/${this.sList}`,{email:this.url,clearArticle:true,again:true}]);                    
                     window.location.reload();
                 }
+
+                ///get or add user from/to local database Pouchdb
                 this.getOrAddUsernameToLocalDB();
                 return Observable.from([1,2,3]).map(x=>x);
             });
         this.user.subscribe(c=>console.log(c));
-        this.getCatalog();
-        this.getUsersCatalog();
-
+        
+        // get all articles for shopping list
         this.getArticleBySlist();
         
+        /// search article observable
         const search=document.getElementById("listSearch");
         let search$=Observable.fromEvent(search,"keyup")
             .map((x:any)=>x.target.value)
@@ -103,14 +108,24 @@ export class ListComponent implements OnInit,OnDestroy  {
         search$.subscribe(x=>{
             this.searchArticles=x;
         });   
+
+        /// get all articles for search purpose
         this.getAllArticles();     
+
+        /// show extra side nav menus
         this.showSideMenu();
+
+        //get title for shopping list 
         this.getSTitle();
     }
 
     getSTitle(){
-        this._listService.getSDetails(this.sList).map(x=>x.title).subscribe(x=>{
-            this.title=x;
+        this._listService.getSDetails(this.sList).map(x=>x).subscribe(x=>{
+            this.title=x.title;
+            
+            // get catalog based on the user selected shopping list language
+            this.getCatalog(x.language.toLowerCase());
+            this.getUsersCatalog(x.language.toLowerCase());
         })
     }
     showSideMenu(){
@@ -129,8 +144,10 @@ export class ListComponent implements OnInit,OnDestroy  {
                     return;
                 }
                 if(doc.rows.length>0){
+                    //get user from localdb
                     self.setLocalUser(doc.rows[0].doc);
                 }else{
+                    //set to local db
                     self.addUserToLocalDB();
                 }
             });
@@ -140,14 +157,12 @@ export class ListComponent implements OnInit,OnDestroy  {
         let self=this;
         if(this.url==obj.user){
             this.db.get(obj._id).then(function (doc) {
-                debugger
                 doc.sList=self.sList;
                 doc.user = self.url;
                 return self.db.put(doc);
             });
         }else{
             this.db.get(obj._id).then(function (doc) {
-                debugger
                 doc.user = self.url;
                 doc.sList=self.sList;
                 return self.db.put(doc);
@@ -160,7 +175,7 @@ export class ListComponent implements OnInit,OnDestroy  {
     }
 
     
-
+    /// find article from the list of all articles
     performSearch(inp):Array<any>{
         if(inp.trim()==''){
             return [];
@@ -207,8 +222,9 @@ export class ListComponent implements OnInit,OnDestroy  {
     }
 
     getArticleBySlist(){
-        this._listService.getArticlesForSlist(this.sList).map(x=>x)
-            .subscribe(x=>{
+        let articles=this._listService.getArticlesForSlist(this.sList).map(x=>x);
+           articles.subscribe(x=>{
+                debugger
                 this.articlesList=[];
                 if(x && x.length){
                     for(let i=0;i<x.length;i++){
@@ -219,14 +235,15 @@ export class ListComponent implements OnInit,OnDestroy  {
                         item.amount=x[i].amount;
                         item.price=x[i].price;
                         this.articlesList.push(item);
-                        this.af.database.object(`/articles/${x[i].id}`).subscribe(p=>{
-                            if(p){
-                                for(let j=0;j<this.articlesList.length;j++){
-                                    if(this.articlesList[j].id==p.$key){
-                                        this.articlesList[j].name=p.name;
+                        let articleDetail=this.af.database.object(`/articles/${x[i].id}`);
+                            articleDetail.subscribe(p=>{
+                                if(p){
+                                    for(let j=0;j<this.articlesList.length;j++){
+                                        if(this.articlesList[j].id==p.$key){
+                                            this.articlesList[j].name=p.name;
+                                        }
                                     }
                                 }
-                            }
                                 
                             });
                     }
@@ -236,6 +253,7 @@ export class ListComponent implements OnInit,OnDestroy  {
 
     addToLIst(item:any){
         this.searchArticles=[];
+        this.search='';
         if(item.$key){
             this.addArticleToLIst(item.$key);
         }else{
@@ -246,13 +264,15 @@ export class ListComponent implements OnInit,OnDestroy  {
             let article$=this._listService.getArticleByName(obj.name).map(x=>x);
                article$.subscribe(x=>{
                     if(item){
-                        article$.unsubscribe();
+                        
                         if(x && x.length>0){
                             item.$key=x[0].$key;
                             this.addArticleToLIst(x[0].$key);    
                         }else{
                             this._listService.addArticleAndAddToList(this.sList,obj);
                         }
+
+                        article$.unsubscribe();
                     }
                     
                 })
@@ -268,9 +288,9 @@ export class ListComponent implements OnInit,OnDestroy  {
 
     }
 
-    getUsersCatalog(){
+    getUsersCatalog(language){
         let self=this;
-        let items = this.af.database.list('/catalog/english',{
+        let items = this.af.database.list(`/catalog/${language}`,{
                         query:{
                         orderByChild: 'isDefault',
                         equalTo:false
@@ -301,9 +321,9 @@ export class ListComponent implements OnInit,OnDestroy  {
     }
    
 
-    getCatalog(){
+    getCatalog(language){
         let self=this;
-        let items = this.af.database.list('/catalog/english',{
+        let items = this.af.database.list(`/catalog/${language}`,{
                         query:{
                         orderByChild: 'isDefault',
                         equalTo:true
@@ -450,6 +470,10 @@ export class ListComponent implements OnInit,OnDestroy  {
     addArticleAmount(amount){
         var regex = /(\d+)/g;
         let split='';
+        if(amount=='' || amount === undefined || parseInt(amount)<=0){
+            this.selectedArticleList.amount="1";
+            return ;
+        }
         let num=amount.match(regex);
         num=this.getNumberFromString(amount);
         if(num){
@@ -466,6 +490,9 @@ export class ListComponent implements OnInit,OnDestroy  {
                     this.selectedArticleList.amount=(Math.round(num*10)/10)+"g";
                 }
             }else{
+                if(amount==''){
+                    this.selectedArticleList.amount="1";
+                }
                 this.selectedArticleList.amount=(parseFloat((Math.round(amount*10)/10).toString())+parseFloat("1")).toString();
             }
         }
@@ -484,8 +511,13 @@ export class ListComponent implements OnInit,OnDestroy  {
     reduceArticleAmount(amount){
         var regex = /(\d+)/g;
         let split='';
-        let num=amount.match(regex);
+        if(amount=='' || amount === undefined || parseInt(amount)<=0){
+            return ;
+        }
+        let num;
+        num=amount.match(regex);
         num=this.getNumberFromString(amount);
+        
         if(num){
             if(this.isKg(amount)){
                 num=parseFloat(num)-parseFloat("0.1");

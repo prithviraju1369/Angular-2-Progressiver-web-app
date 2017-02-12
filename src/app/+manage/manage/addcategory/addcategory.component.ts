@@ -92,8 +92,12 @@ export class AddCategoryComponent implements OnInit {
     }
 	
 	onSaved(obj){
-		obj.isDefault=false;
-		this._manageService.addCategory(obj);
+        let item:any={
+            name:obj.name,
+		    order:obj.order
+        };
+		item.isDefault=false;
+        this._manageService.addCategory(item,obj.language);
 		this.router.navigate(['manage']);
 	}
     

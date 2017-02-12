@@ -99,6 +99,7 @@ export class EditArticleComponent implements OnInit,OnDestroy {
 				let item={
 					name:val.name,
 					value:val.$key,
+					language:val.language
 				}
 				this.list.push(item);
 			}
@@ -134,20 +135,23 @@ export class EditArticleComponent implements OnInit,OnDestroy {
 	}
 	
 	checkArticleExists(obj){
+		let languageObj=this.list.find(function(item){
+            return item.value==obj.order;
+        })
 		let self=this;
 		this.checkArticle$=this._manageService.checkArticleExists(obj.name);
 			this.checkArticle$.subscribe(x=>{
 				if(x && x.length>0){
-					self._manageService.addArticleToCategory(x[0].$key,obj.order)
+					self._manageService.addArticleToCategory(x[0].$key,obj.order,languageObj.language)
 				}else{
 					let item={
 						name:obj.name,
 						isDefault:false
 					};
-					self._manageService.addArticleAndAddToCategory(item,obj.order)
+					self._manageService.addArticleAndAddToCategory(item,obj.order,languageObj.language)
 				}
 				if(obj.order != this.catId && x && x.length >0){
-					self._manageService.removeArticleFromCategory(x[0].$key,this.catId)
+					self._manageService.removeArticleFromCategory(x[0].$key,this.catId,languageObj.language)
 				}
 			});
 	}

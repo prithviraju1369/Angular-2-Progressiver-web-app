@@ -46,21 +46,21 @@ export class ManageService {
         });
     }
 
-    getAllDefaultCatalog(): any{
-        let a;
-        let items = this.af.database.list('/catalog/english')
-        .map(x=>x).subscribe(x=>a);
-        return a;
-    }
+    // getAllDefaultCatalog(): any{
+    //     let a;
+    //     let items = this.af.database.list('/catalog/english')
+    //     .map(x=>x).subscribe(x=>a);
+    //     return a;
+    // }
     getArticles(data):any{
         return this.af.database.object(`/articles/${data}`).subscribe(x=>x);
     }
-    getAllCategories():Observable<any>{
-        let a;
-        let items=this.af.database.list('/catalog/english')
-                .map(x=>x);
-        return items;
-    }
+    // getAllCategories():Observable<any>{
+    //     let a;
+    //     let items=this.af.database.list('/catalog/english')
+    //             .map(x=>x);
+    //     return items;
+    // }
     getAllArticles():Observable<any>{
         let items=this.af.database.list('/articles')
             .map(x=>x);
@@ -76,18 +76,34 @@ export class ManageService {
         })
     }
     getAllCategoriesForUser(user:string):Observable<any>{
-		return this.af.database.list('/catalog/english', {
+		let english=this.af.database.list('/catalog/english', {
             query: {
                 orderByChild: `users/${user}`,
                 equalTo:true
             }
-        })
+        }).map(x=>{
+            for(let i=0;i<x.length;i++){
+                x[i].language='english';
+            }
+        });
+        let german=this.af.database.list('/catalog/german', {
+            query: {
+                orderByChild: `users/${user}`,
+                equalTo:true
+            }
+        }).map(x=>{
+            for(let i=0;i<x.length;i++){
+                x[i].language='english';
+            }
+        });
+        return english.concat(german);
 	}
 	
-	addCategory(obj:Object):void{
-		let categories=this.af.database.list('/catalog/english');
+	addCategory(obj:Object,language:any):void{
+
+		let categories=this.af.database.list(`/catalog/${language}`);
 		let categoryAdded=categories.push(obj);
-		let addToCatalog=this.af.database.object(`catalog/english/${categoryAdded.key}/users`)
+		let addToCatalog=this.af.database.object(`catalog/${language}/${categoryAdded.key}/users`)
 		// let sListUsers=this.af.database.list(`/sListUsers/${sId}`);
 		// sListUsers.subscribe((x:any)=>{
 		// 	console.log(x);
@@ -105,25 +121,25 @@ export class ManageService {
         //     obj[item]=true;
         //     addToCatalog.update(obj);
         // });
-        this.getAllRelatedUsers(categoryAdded.key)
+        this.getAllRelatedUsers(categoryAdded.key,language);
 
 	}
 	
-	editCategory(obj:any,catId:string):void{
-		let categories=this.af.database.object(`/catalog/english/${catId}`);
+	editCategory(obj:any,catId:string,language:string):void{
+		let categories=this.af.database.object(`/catalog/${language}/${catId}`);
 		let categoryAdded=categories.update({name:obj.name,order:obj.order});
-		let addToCatalog=this.af.database.object(`catalog/english/${catId}/users`)
+		let addToCatalog=this.af.database.object(`catalog/${language}/${catId}/users`)
         // this.myUsers.forEach(function(item){
         //     let obj:any={};
         //     obj[item]=true;
         //     addToCatalog.update(obj);
         // });
-        this.getAllRelatedUsers(catId)
+        this.getAllRelatedUsers(catId,language);
 
 	}
 
-    getCategoryById(id:string):Observable<any>{
-        let category=this.af.database.object(`catalog/english/${id}`).map(x=>x);
+    getCategoryById(id:string,language:string):Observable<any>{
+        let category=this.af.database.object(`catalog/${language}/${id}`).map(x=>x);
 
         return category;
     }
@@ -138,10 +154,10 @@ export class ManageService {
 		return article;
 	}
 	
-	addArticleToCategory(key:string,catKey:string):void{
+	addArticleToCategory(key:string,catKey:string,language:string):void{
 		if(key){
-			let addArticleToCategory=this.af.database.list(`catalog/english/${catKey}/articles`);
-			let checkArticleInCategory=this.af.database.list(`catalog/english/${catKey}/articles`).map(x=>{
+			let addArticleToCategory=this.af.database.list(`catalog/${language}/${catKey}/articles`);
+			let checkArticleInCategory=this.af.database.list(`catalog/${language}/${catKey}/articles`).map(x=>{
 				let exists=false;
 				for(let i=0;i<x.length;i++){
 					if(x[i].$value==key){
@@ -159,11 +175,11 @@ export class ManageService {
 		}
 	}
 	
-	addArticleAndAddToCategory(obj,catId){
+	addArticleAndAddToCategory(obj,catId,language){
 		let addArticle=this.af.database.list('articles');
 		let articleAdded= addArticle.push(obj);
 		var key=articleAdded.key;
-		this.addArticleToCategory(key,catId);
+		this.addArticleToCategory(key,catId,language);
 	}
 	
 	addArticle(obj){
@@ -175,8 +191,8 @@ export class ManageService {
         return this.af.database.object(`/articles/${id}`);
     }
 	
-	removeArticleFromCategory(artId,catId){
-		let removeFromCategory=this.af.database.list(`catalog/english/${catId}/articles`).map(x=>{
+	removeArticleFromCategory(artId,catId,language){
+		let removeFromCategory=this.af.database.list(`catalog/${language}/${catId}/articles`).map(x=>{
 				let val='';
 				for(let i=0;i<x.length;i++){
 					if(x[i].$value==artId){
@@ -189,20 +205,20 @@ export class ManageService {
 			
 		removeFromCategory.subscribe(x=>{
 			if(x!=''){
-				this.af.database.object(`catalog/english/${catId}/articles/${x}`).remove();
+				this.af.database.object(`catalog/${language}/${catId}/articles/${x}`).remove();
 			}
 		})
 	}
 
-    deleteCategory(id){
-        let category=this.af.database.object(`catalog/english/${id}`);
+    deleteCategory(id,language){
+        let category=this.af.database.object(`catalog/${language}/${id}`);
         category.remove();
     }
 
     
 
-    getAllRelatedUsers(catId){
-        let addToCatalog=this.af.database.object(`catalog/english/${catId}/users`)
+    getAllRelatedUsers(catId,language){
+        let addToCatalog=this.af.database.object(`catalog/${language}/${catId}/users`)
         let sListUsers=this.af.database.list('sList').map(x=>{
             return this.getRelatedUsers(x);
         });

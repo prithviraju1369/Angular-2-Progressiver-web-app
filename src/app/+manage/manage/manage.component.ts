@@ -85,14 +85,30 @@ export class ManageComponent implements OnInit {
     
     getUsersCatalog(){
         let self=this;
-        let items = this.af.database.list('/catalog/english',{
+        let englishitems = this.af.database.list('/catalog/english',{
                         query:{
                         orderByChild: 'isDefault',
                         equalTo:false
                         }
                     }).map(x=>{
+                        for(let i=0;i<x.length;i++){
+                            x[i].language='english';
+                        }
                         return x;
-                    }).subscribe(x=>{
+                    });
+        let germanitems = this.af.database.list('/catalog/german',{
+            query:{
+            orderByChild: 'isDefault',
+            equalTo:false
+            }
+        }).map(x=>{
+            for(let i=0;i<x.length;i++){
+                    x[i].language='german';
+                }
+            return x;
+        });
+                    
+                    englishitems.concat(germanitems).subscribe(x=>{
                         let self=this;
                         this.usersCatalogs=[];
                         if(x!=undefined){
@@ -100,6 +116,7 @@ export class ManageComponent implements OnInit {
                             let item={
                                 name:x[i].name,
                                 id:x[i].$key,
+                                language:x[i].language,
                                 articles:[]
                             };
                             this.usersCatalogs.push(item);
@@ -118,12 +135,15 @@ export class ManageComponent implements OnInit {
 
     getCatalog(){
         let self=this;
-        let items = this.af.database.list('/catalog/english',{
+        let englishitems = this.af.database.list('/catalog/english',{
                         query:{
                         orderByChild: 'isDefault',
                         equalTo:true
                         }
                     }).map(x=>{
+                        for(let i=0;i<x.length;i++){
+                            x[i].language='english';
+                        }
                         return x.sort(function(a, b){
                             var keyA = a.order,
                                 keyB = b.order;
@@ -132,7 +152,26 @@ export class ManageComponent implements OnInit {
                             if(keyA > keyB) return 1;
                             return 0;
                         });
-                    }).subscribe(x=>{
+                    })
+            let germanitems = this.af.database.list('/catalog/german',{
+                query:{
+                orderByChild: 'isDefault',
+                equalTo:true
+                }
+            }).map(x=>{
+                for(let i=0;i<x.length;i++){
+                    x[i].language='german';
+                }
+                return x.sort(function(a, b){
+                    var keyA = a.order,
+                        keyB = b.order;
+                    // Compare the 2 dates
+                    if(keyA < keyB) return -1;
+                    if(keyA > keyB) return 1;
+                    return 0;
+                });
+            });
+                    englishitems.concat(germanitems).subscribe(x=>{
                         let self=this;
                         this.catalogs=[];
                         if(x!=undefined){
@@ -258,8 +297,8 @@ export class ManageComponent implements OnInit {
         }
     }
 
-    deleteArticle(artId,catId){
-        this._manageService.removeArticleFromCategory(artId,catId);
+    deleteArticle(artId,catId,language){
+        this._manageService.removeArticleFromCategory(artId,catId,language);
     }
 
     showDelete(deleteButton,deleteArticle){

@@ -31,6 +31,7 @@ export class EditCategoryComponent implements OnInit {
     private user;
     private sId;
     private catId;
+    private language;
 	private modelValue;
     af: AngularFire;
     catalogs:catalog[]=[];
@@ -53,6 +54,7 @@ export class EditCategoryComponent implements OnInit {
                 // this.url = '-K_PcS3U-bzP0Jgye_Xo';
 				this.sId=params['id'];
                 this.catId=params['catId'];
+                this.language=params['lan'];
                 return Observable.from([1,2,3]).map(x=>x);
             });
         this.user.subscribe(c=>{
@@ -76,7 +78,7 @@ export class EditCategoryComponent implements OnInit {
     }
 
     getCategory(){
-        let getCategory$=this._manageService.getCategoryById(this.catId);
+        let getCategory$=this._manageService.getCategoryById(this.catId,this.language);
         getCategory$.subscribe(x=>{
             this.category=x;
             this.modelValue=x.order;
@@ -107,7 +109,7 @@ export class EditCategoryComponent implements OnInit {
 	
 	onSaved(obj){
 		obj.isDefault=false;
-		this._manageService.editCategory(obj,this.catId);
+		this._manageService.editCategory(obj,this.catId,this.language);
 		this.router.navigate(['manage']);
 	}
 

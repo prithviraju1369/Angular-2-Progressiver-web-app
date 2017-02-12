@@ -27,7 +27,7 @@ export class CreateComponent implements OnInit,OnDestroy {
     initialEmail:string;
     inviteUsers:Array<string>;
     emailedUsers:Array<any>=[];
-    languages = ['English', 'German'];
+    languages = ['Select catalog language','English', 'German'];
     exists:user[];
     notexists:user[];
     array:Array<any>=[];
@@ -43,6 +43,7 @@ export class CreateComponent implements OnInit,OnDestroy {
     }
 
     ngOnInit() {
+        this.model.language=this.languages[0];
         this.getUsers();
         this.addArticles();
     }
