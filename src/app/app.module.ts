@@ -15,6 +15,8 @@ import { UsersService } from './services/users.service';
 
 import { AppComponent } from './app.component';
 
+
+/// app main bootstrap
 @NgModule({
   declarations: [
     AppComponent

@@ -7,7 +7,7 @@ import { FinishComponent }   from './finish.component';
 import {UsersService} from './../services/users.service';
 import { MaterialModule } from '@angular/material';
 
-
+// finish module bootstrap
 @NgModule({
   imports: [
     FinishRoutingModule,SharedModule,CommonModule,MaterialModule,FormsModule

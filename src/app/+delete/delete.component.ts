@@ -32,9 +32,12 @@ this.db = new PouchDB("sList");
 
     ngOnInit() {
         // this.getUsers();
+
         this.syncChanges();
         this.showSideMenu();
     }
+
+    // show side nav extras
     showSideMenu(){
         
         document.getElementById('edit').style.display='block';
@@ -42,6 +45,8 @@ this.db = new PouchDB("sList");
         document.getElementById('finished').style.display='block';
         document.getElementById('delete').style.display='block';
     }
+
+    //get or set email id from localDB
      syncChanges(){
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
@@ -59,11 +64,14 @@ this.db = new PouchDB("sList");
         });
     }
 
+    // get shopping list details by id
     getSListDetail(){
         this.af.database.object(`sList/${this.sList}`).map(x=>x).subscribe(x=>{
             this.modelValue=x.title;
         })
     }
+
+    // delete shopping list by id
 
     deleteSList(){
         let self=this;
@@ -77,6 +85,7 @@ this.db = new PouchDB("sList");
         this.router.navigate([`lists`,{email:this.url}]);
     }
 
+// cancel redirect ti lists
     cancel(){
         this.router.navigate([`lists`,{email:this.url}]);
     }

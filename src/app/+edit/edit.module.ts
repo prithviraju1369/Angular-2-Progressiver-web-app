@@ -9,7 +9,7 @@ import {UsersService} from './../services/users.service';
 import { MaterialModule } from '@angular/material';
 import { AngularFireModule } from 'angularfire2';
 import { firebaseConfig } from './../config/firebase-config';
-
+// edit shopping list module bootstrap
 @NgModule({
   imports: [
     EditRoutingModule,SharedModule,

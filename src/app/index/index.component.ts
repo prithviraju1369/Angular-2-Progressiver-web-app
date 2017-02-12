@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 })
 export class IndexComponent implements OnInit {
     
+    // redirect to home page
     constructor(private router: Router) {
         this.router.navigate(['home']);
     }

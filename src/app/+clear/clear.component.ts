@@ -33,6 +33,8 @@ export class ClearComponent implements OnInit {
         this.syncChanges();
         this.showSideMenu()
     }
+
+    // get or set email and shopping list from local db (PouchDB)
      syncChanges(){
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
@@ -47,6 +49,8 @@ export class ClearComponent implements OnInit {
             }
         });
     }
+
+    // show side nav (extras)
     showSideMenu(){
         
         document.getElementById('edit').style.display='block';
@@ -55,11 +59,15 @@ export class ClearComponent implements OnInit {
         document.getElementById('delete').style.display='block';
     }
 
+
+    // remove all articles from shopping list
     clearArticles(evt){
         evt.preventDefault();
         this.af.database.list(`sList/${this.sList}/articles`).remove();
-        this.router.navigate([`list/${this.sList}`,{email:this.url,clearArticle:true}]);
+        this.router.navigate([`list/${this.sList}`,{email:this.url}]);
     }
+
+    // on cancel click redirect to list
 
     cancelClearArticles(){
         this.router.navigate([`list/${this.sList}`,{email:this.url}]);

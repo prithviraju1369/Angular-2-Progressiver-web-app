@@ -7,7 +7,7 @@ import { ClearComponent }   from './clear.component';
 import {UsersService} from './../services/users.service';
 import { MaterialModule } from '@angular/material';
 
-
+// clear module bootstrao
 @NgModule({
   imports: [
     ClearRoutingModule,SharedModule,CommonModule,MaterialModule

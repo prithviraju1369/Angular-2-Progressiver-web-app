@@ -37,6 +37,8 @@ this.db = new PouchDB("sList");
         this.syncChanges();
         this.showSideMenu();
     }
+
+    // get user email id from localDB (PouchDB)
      syncChanges(){
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
@@ -53,6 +55,7 @@ this.db = new PouchDB("sList");
         });
     }
 
+    // showside menu extra
     showSideMenu(){
         
         document.getElementById('edit').style.display='block';
@@ -60,6 +63,8 @@ this.db = new PouchDB("sList");
         document.getElementById('finished').style.display='block';
         document.getElementById('delete').style.display='block';
     }
+
+    // finishSlist change isFinished to true
 
     finsihSlist(){
         let self=this;
@@ -75,7 +80,7 @@ this.db = new PouchDB("sList");
         }
         this.router.navigate([`lists`,{email:this.url}]);
     }
-
+    // cancel button click redirect to list page
     cancel(){
         this.router.navigate([`lists`,{email:this.url}]);
     }

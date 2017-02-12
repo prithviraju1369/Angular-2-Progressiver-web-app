@@ -63,7 +63,7 @@ export class DeleteCategoryComponent implements OnInit {
         });
         
     }
-    
+    /// get user email from local databas(pouch db)
     syncChanges(){
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
@@ -77,7 +77,7 @@ export class DeleteCategoryComponent implements OnInit {
             }
         });
     }
-
+    // get category
     getCategory(){
         let getCategory$=this._manageService.getCategoryById(this.catId,this.language);
         getCategory$.subscribe(x=>{
@@ -85,9 +85,13 @@ export class DeleteCategoryComponent implements OnInit {
             this.modelValue=x.name;
         })
     }
+
+    // cancelDeleteCategory click redirect to manage page
 	cancelDeleteCategory(){
         this.router.navigate(['manage']);
     }
+
+    // delete category by id and language
     deleteCategory(id){
         this._manageService.deleteCategory(id,this.language);
         this.router.navigate(['manage',{lan:this.language}]);

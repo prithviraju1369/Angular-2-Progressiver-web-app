@@ -24,17 +24,8 @@ export class HomeComponent implements OnInit,OnDestroy  {
     }
 
     ngOnInit() {
-        this.getUsers();
+        
     }
-     getUsers(){
-        // Get all comments
-         this._userService.getUsersFirebase()
-                           .subscribe(
-                               users => this.users = users, //Bind to view
-                                err => {
-                                    // Log errors if any
-                                    console.log(err);
-                                });
-    }
+     
 
 }

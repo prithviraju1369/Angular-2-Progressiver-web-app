@@ -49,10 +49,15 @@ export class EditComponent implements OnInit,OnDestroy {
     }
 
     ngOnInit() {
+        // get all users
         this.getUsers();
+        // get shoppingList by id
         this.getSId();
+        // show menu
         this.showSideMenu();
     }
+
+    // show side menu extas
     showSideMenu(){
         
         document.getElementById('edit').style.display='block';
@@ -76,6 +81,7 @@ export class EditComponent implements OnInit,OnDestroy {
       });
     }
 
+    // get shoppingList by shoppingList id
     setSid(obj){
         let sListData=this._editService.getSListData(obj.sList);
         sListData.subscribe(x=>{
@@ -84,6 +90,8 @@ export class EditComponent implements OnInit,OnDestroy {
             }
         })
     }
+    
+    // get shoppingList users by id
     getSIdUsers(obj){
         let self=this;
         let sListData=this._editService.getSListUsersData(obj.sList);
@@ -107,6 +115,8 @@ export class EditComponent implements OnInit,OnDestroy {
     ngOnDestroy(){
         // this.reqSubscribe.unsubscribe();
     }
+
+    // edit shoppingList
     EditList(){
         console.log(this.model);
         // this.model.users.push(this.model.email);
@@ -120,12 +130,17 @@ export class EditComponent implements OnInit,OnDestroy {
         console.log(this.inviteUsers);
         this.CheckUsers();
     }
+    // add inviteUsers
     addInvitedUsers(){
         this.usersEdit.push('');
     }
+
+    // angular2 pipe for filtering in ui
     customTrackBy(index: number, obj: any): any {
         return index;
     }
+
+    // item not exists
     ItemNotIn(obj){
         let exists=this.exists.filter(function(item){
             return item.email === obj.email;
@@ -136,6 +151,8 @@ export class EditComponent implements OnInit,OnDestroy {
             return true;
         }
     }
+
+    // check if users exists and edit shoppingList and save users
     CheckUsers(){
         let self=this;
         self.emailedUsers=[];
@@ -201,31 +218,38 @@ export class EditComponent implements OnInit,OnDestroy {
         // }
         
     }
+    // find user email by key
     findUserEmailKey(item:any):boolean{
         return item.email==this.model.email;
     }
+
+    // send email by keys
     sendKeys(data: any):Observable<any>{
         return data;
     }
     
+    // send email (not used)
     sendEmail(usr:any):void{
         if(usr){
             this._editService.sendEmailToUser(usr);
         }
     }
-    
+    // create shopping list user
     createSListUser(usr) : void{
         if(usr){
             this._editService.createSListUser(usr);
             console.log(usr);
         }
     }
+
+    // get users 
     getUserObjs(usr:user):Observable<user>{
         var self=this;
         return self._editService.getItemFromFirebase(usr.email)
             .map(x=>x);
     }
     
+    // add if users not exists
     addIfnotExists(usr:user):Observable<user> {
         var self=this;
         let exists=self.usersFirebase.filter((item)=>item.email==usr.email);
@@ -237,6 +261,8 @@ export class EditComponent implements OnInit,OnDestroy {
         arr.push(usr);
         return Observable.from(arr);
     }
+
+    // get users
     getUsers() {
         this._editService.getUsersFirebase()
             .subscribe(
@@ -250,6 +276,7 @@ export class EditComponent implements OnInit,OnDestroy {
             });
     }
 
+    // remove users from shopping list
     removeFromSListUsers(item){
         let id=this._editService.getIdFromEmail(item);
         id.subscribe(x=>{

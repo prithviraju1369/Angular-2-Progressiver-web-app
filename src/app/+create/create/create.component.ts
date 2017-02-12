@@ -44,7 +44,9 @@ export class CreateComponent implements OnInit,OnDestroy {
 
     ngOnInit() {
         this.model.language=this.languages[0];
+        // get all users
         this.getUsers();
+        // add articles
         this.addArticles();
     }
     addArticles(){
@@ -66,23 +68,31 @@ export class CreateComponent implements OnInit,OnDestroy {
     ngOnDestroy(){
         // this.reqSubscribe.unsubscribe();
     }
+
+    // create shoppingList
     CreateList(){
         console.log(this.model);
         // this.model.users.push(this.model.email);
         // this.model.users.push(this.initialEmail);
         this.array=[];
         this.inviteUsers=JSON.parse(JSON.stringify(this.users));
-        this.inviteUsers.push(this.initialEmail);
+        if(this.initialEmail && this.initialEmail!=""){
+            this.inviteUsers.push(this.initialEmail);
+        }
         this.inviteUsers.push(this.model.email);
         console.log(this.inviteUsers);
         this.CheckUsers();
     }
+
+    // add inviteUsers
     addInvitedUsers(){
         this.users.push('');
     }
+    // angular2 pipe for filtering in ui
     customTrackBy(index: number, obj: any): any {
         return index;
     }
+    // item not exists
     ItemNotIn(obj){
         let exists=this.exists.filter(function(item){
             return item.email === obj.email;
@@ -93,6 +103,7 @@ export class CreateComponent implements OnInit,OnDestroy {
             return true;
         }
     }
+    // check if users exists and edit shoppingList and save users
     CheckUsers(){
         let self=this;
         self.emailedUsers=[];
@@ -153,31 +164,36 @@ export class CreateComponent implements OnInit,OnDestroy {
         // }
         
     }
+
+    // find user email by key
     findUserEmailKey(item:any):boolean{
         return item.email==this.model.email;
     }
+
+    // send email by keys
     sendKeys(data: any):Observable<any>{
         return data;
     }
-    
     sendEmail(usr:any):void{
         if(usr){
             this._createService.sendEmailToUser(usr);
         }
     }
-    
+    // create shopping list user
     createSListUser(usr) : void{
         if(usr){
             this._createService.createSListUser(usr);
             console.log(usr);
         }
     }
+
+    // get users 
     getUserObjs(usr:user):Observable<user>{
         var self=this;
         return self._createService.getItemFromFirebase(usr.email)
             .map(x=>x);
     }
-    
+    // add if users not exists
     addIfnotExists(usr:user):Observable<user> {
         var self=this;
         let exists=self.usersFirebase.filter((item)=>item.email==usr.email);
@@ -189,6 +205,7 @@ export class CreateComponent implements OnInit,OnDestroy {
         arr.push(usr);
         return Observable.from(arr);
     }
+    // get users
     getUsers() {
         this._createService.getUsersFirebase()
             .subscribe(

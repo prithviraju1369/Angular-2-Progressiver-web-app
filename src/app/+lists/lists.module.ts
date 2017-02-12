@@ -8,6 +8,8 @@ import { ListsComponent }   from './lists.component';
 import {UsersService} from './../services/users.service';
 import { MaterialModule } from '@angular/material';
 
+
+// show user shopping lists module
 @NgModule({
   imports: [
     ListsRoutingModule,SharedModule,CommonModule,FormsModule,MaterialModule

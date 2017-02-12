@@ -23,15 +23,6 @@ export class HelpComponent implements OnInit {
     ngOnInit() {
         // this.getUsers();
     }
-     getUsers(){
-        // Get all comments
-         this._userService.getUsers()
-                           .subscribe(
-                               users => this.abtusers = users, //Bind to view
-                                err => {
-                                    // Log errors if any
-                                    console.log(err);
-                                });
-    }
+     
 
 }

@@ -20,24 +20,7 @@ app.use(bodyParser.json())
 var transporter = nodemailer.createTransport('smtps://prithviraju1369%40gmail.com:Narenamrit1369@smtp.gmail.com');
 var siteUrl;
 var sendUrl;
-// app.post('/api/email',function(req,res){
-//     siteUrl=req.protocol + '://' + req.get('host');
-//     sendUrl= siteUrl+"/#/list/"+req.body.$key+";email="+req.body.email;
-//     var mailOptions = {
-//         from: 'prithviraju1369@gmail.com', // sender address
-//         to: req.body.email, // list of receivers
-//         subject: 'Hello ✔', // Subject line
-//         text: 'Hello world ?', // plaintext body
-//         html: '<p>test</p><a href='+sendUrl+'>Click here to Go</a>' // html body
-//     };
-//     // send mail with defined transport object
-//     transporter.sendMail(mailOptions, function(error, info){
-//         if(error){
-//             return console.log(error);
-//         }
-//         console.log('Message sent: ' + info.response);
-//     });
-// });
+
 
 
 // firebase server initialization
@@ -49,6 +32,7 @@ firebaseAdmin.initializeApp({
 
 var listRef = firebaseAdmin.database().ref();
 
+// sListUsers collection child_changed event send email 
 listRef.child('sListUsers').on('child_changed', function(dataSnapshot) { 
     const msg= dataSnapshot.val();
     const key= dataSnapshot.key;
@@ -70,6 +54,8 @@ listRef.child('sListUsers').on('child_changed', function(dataSnapshot) {
     }
     
 });
+
+// email id from user id
 var queryEmail=function(key,property){
     listRef.child('users').orderByKey().equalTo(property).limitToLast(1).on("value",function(data){
         var obj =data.val();
@@ -80,6 +66,8 @@ var queryEmail=function(key,property){
 }
 
 
+
+//send email
 var sendEmail=function(key,property,mailId){
     // siteUrl=req.protocol + '://' + req.get('host');
     siteUrl="https://angular2-progressive-app.herokuapp.com";

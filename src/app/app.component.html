@@ -22,49 +22,49 @@
     <md-sidenav *ngIf="isMobile" #start mode="over" opened="false" (open)="closeStartButton.focus()">
         <div class="nav-container">
             <div class="nav-item">
-                <a [routerLink]="['/create']">
+                <a [routerLink]="['/create']" (tap)="start.close()">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_create_new_shopping_list.png">
                     <span class="sidenav-tems-align">Create new shopping list</span>
                 </a>
             </div>
             <div class="nav-item">
-                <a [routerLink]="['/lists',{email:localUser}]">
+                <a [routerLink]="['/lists',{email:localUser}]" (tap)="start.close()">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_my_shopping_list.png">
                     <span class="sidenav-tems-align">My shopping lists</span>
                 </a>
             </div>
             <div class="nav-item" style="display: none" id="edit">
-                <a [routerLink]="['/editlist',{email:localUser}]">
+                <a [routerLink]="['/editlist',{email:localUser}]" (tap)="start.close()">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_edit_shopping_list.png">
                     <span class="sidenav-tems-align">Edit shopping list</span>
                 </a>
             </div>
             <div class="nav-item" style="display: none" id="clear">
-                <a [routerLink]="['/clearlist',{email:localUser}]">
+                <a [routerLink]="['/clearlist',{email:localUser}]" (tap)="start.close()">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_clear_shopping_list.png">
                     <span class="sidenav-tems-align">Clear shopping list</span>
                 </a>
             </div>
             <div class="nav-item" style="display: none" id="delete">
-                <a [routerLink]="['/deletelist',{email:localUser}]">
+                <a [routerLink]="['/deletelist',{email:localUser}]" (tap)="start.close()">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_delete-shopping_list.png">
                     <span class="sidenav-tems-align">Delete shopping list</span>
                 </a>
             </div>
             <div class="nav-item" style="display: none" id="finished">
-                <a [routerLink]="['/finishlist']">
+                <a [routerLink]="['/finishlist']" (tap)="start.close()">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_mark_shopping_as_finished.png">
                     <span class="sidenav-tems-align">Mark shopping as finished</span>
                 </a>
             </div>
             <div class="nav-item" *ngIf="localUser">
-                <a [routerLink]="['/manage']">
+                <a [routerLink]="['/manage']" (tap)="start.close()">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_manage_catalog.png">
                     <span class="sidenav-tems-align">Manage catalog</span>
                 </a>
             </div>
             <div class="nav-item">
-                <a [routerLink]="['/help']">
+                <a [routerLink]="['/help']" (tap)="start.close()">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_help.png">
                     <span class="sidenav-tems-align">Help</span>
                 </a>

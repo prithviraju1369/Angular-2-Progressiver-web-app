@@ -57,7 +57,7 @@ export class ManageComponent implements OnInit {
         });
             
     }
-
+    // get email id from the local database(PouchDB)
     syncChanges(){
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
@@ -73,7 +73,7 @@ export class ManageComponent implements OnInit {
             }
         });
     }
-
+    // get all articles
     getAllArticles(){
         let articles$=this._manageService.getAllArticles();
         articles$.subscribe(x=>{
@@ -82,7 +82,7 @@ export class ManageComponent implements OnInit {
     }
 
    
-    
+    // get users from catalog by language english and german (user defined)
     getUsersCatalog(){
         let self=this;
         let englishitems = this.af.database.list('/catalog/english',{
@@ -108,19 +108,19 @@ export class ManageComponent implements OnInit {
             return x;
         });
                     
-                    englishitems.concat(germanitems).subscribe(x=>{
-                        let self=this;
-                        this.usersCatalogs=[];
-                        if(x!=undefined){
-                        for(let i=0;i<x.length;i++){
-                            let item={
-                                name:x[i].name,
-                                id:x[i].$key,
-                                language:x[i].language,
-                                articles:[]
-                            };
-                            this.usersCatalogs.push(item);
-                            for (var property in x[i].articles) {
+            englishitems.concat(germanitems).subscribe(x=>{
+                let self=this;
+                this.usersCatalogs=[];
+                if(x!=undefined){
+                for(let i=0;i<x.length;i++){
+                    let item={
+                        name:x[i].name,
+                        id:x[i].$key,
+                        language:x[i].language,
+                        articles:[]
+                    };
+                        this.usersCatalogs.push(item);
+                        for (var property in x[i].articles) {
                         if (x[i].articles.hasOwnProperty(property)) {
                             self.af.database.object(`/articles/${x[i].articles[property]}`).subscribe(x=>{
                                 this.usersCatalogs[i].articles.push(x);
@@ -132,7 +132,7 @@ export class ManageComponent implements OnInit {
         });
     }
    
-
+// get users from catalog by language english and german (default)
     getCatalog(){
         let self=this;
         let englishitems = this.af.database.list('/catalog/english',{
@@ -193,6 +193,7 @@ export class ManageComponent implements OnInit {
         });
     }
 
+    // add to catalog
     pushToCatalog(item){
         let updated:boolean=false;
         for(let i=0;i<this.catalogs.length;i++){
@@ -206,7 +207,7 @@ export class ManageComponent implements OnInit {
             this.catalogs.push(item);
         
     }
-
+    // catalog mapping (user defined)
     changeInCatalogs( item, id ) {
         for(var i = 0; i <= this.catalogs.length; i++){
             if(this.catalogs[i] && this.catalogs[i].id==id){
@@ -234,6 +235,7 @@ export class ManageComponent implements OnInit {
         
     }
 
+    // catalog mapping (default)
     changeInUsersCatalogs( item, id ) {
         for(var i = 0; i <= this.catalogs.length; i++){
             if(this.usersCatalogs[i] && this.usersCatalogs[i].id==id){
@@ -245,6 +247,7 @@ export class ManageComponent implements OnInit {
         }
     }
 	
+    // catalog article mapping (user defined)
 	pushToUserArticles(item,id){
         let updated:boolean=false;
         for(let i=0;i<this.usersCatalogs.length;i++){
@@ -265,7 +268,7 @@ export class ManageComponent implements OnInit {
         }
     }
 
-
+// catalog article mapping (default)
     pushToArticles(item,id){
         let updated:boolean=false;
         for(let i=0;i<this.catalogs.length;i++){
@@ -286,7 +289,7 @@ export class ManageComponent implements OnInit {
         }
     }
 
-
+// toggle catalog on ui based on user interaction (tap/click events)
     toggleCatalog(evt){
         // let parentNode=evt.target.parentElement;
         // let currentEle=parentNode.getElementsByClassName('slist-articles')[0];
@@ -297,15 +300,18 @@ export class ManageComponent implements OnInit {
         }
     }
 
+    // delete article
     deleteArticle(artId,catId,language){
         this._manageService.removeArticleFromCategory(artId,catId,language);
     }
 
+    // show delete ui
     showDelete(deleteButton,deleteArticle){
         deleteButton.style.display='none';
         deleteArticle.style.display='block';
     }
 
+    // hide delete option
     hideDelete(deleteButton,deleteArticle){
         deleteButton.style.display='flex';
         deleteArticle.style.display='none';

@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
     styleUrls: ['./sharedaddoredit.component.scss'],
 })
 
+
+/// manage module shared component
 export class SharedAddOrEditComponent implements OnInit {
     @Input() title:string;
     @Input() list: Array<any>;
@@ -25,7 +27,7 @@ export class SharedAddOrEditComponent implements OnInit {
 	ngOnInit(){
 		this.language=this.languages[0];
 	}
-
+	// save option click
 	Save(){
 		let obj:any={};
 		obj.name=this.titleValue;
@@ -35,7 +37,7 @@ export class SharedAddOrEditComponent implements OnInit {
 		}
 		this.onSaved.emit(obj);
 	}
-
+	// Cancel redirect to manage page
 	Cancel(){
 		this.router.navigate(['manage']);
 	}

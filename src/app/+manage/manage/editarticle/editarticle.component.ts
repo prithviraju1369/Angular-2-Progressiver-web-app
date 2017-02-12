@@ -68,7 +68,7 @@ export class EditArticleComponent implements OnInit,OnDestroy {
         
 		
     }
-
+/// get user email from local databas(pouch db)
 	syncChanges(){
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
@@ -78,7 +78,9 @@ export class EditArticleComponent implements OnInit,OnDestroy {
             }
             if(docs && docs.rows.length>0){
             self.url=docs.rows[0].doc.user;
+			// get all Category for user
             self.getAllCategoriesForUser();
+			// get article for user
 			self.getArticle();
             }
         });
@@ -117,6 +119,8 @@ export class EditArticleComponent implements OnInit,OnDestroy {
 			}
 		});
 	}
+
+	// on save click from shared component
 	onSaved(obj){
 		obj.isDefault=false;
 		//this._manageService.editCategory(obj,this.sId,this.catId);
@@ -126,6 +130,7 @@ export class EditArticleComponent implements OnInit,OnDestroy {
 		this.router.navigate(['manage']);
 	}
 	
+	// check if categoryObs changed 
 	objChanged(obj):boolean{
 		let objChangedValue=true;
 		if(obj.name == this.article.name && obj.order == this.catId){
@@ -134,6 +139,7 @@ export class EditArticleComponent implements OnInit,OnDestroy {
 		return objChangedValue;
 	}
 	
+	// check if article exists
 	checkArticleExists(obj){
 		let languageObj=this.list.find(function(item){
             return item.value==obj.order;

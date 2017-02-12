@@ -17,7 +17,7 @@ import { MaterialModule } from '@angular/material';
 import { AngularFireModule } from 'angularfire2';
 import { firebaseConfig } from './../config/firebase-config';
 
-
+// manage lazy loaded module bootstrapping
 @NgModule({
   imports: [
     ManageRoutingModule,SharedModule,

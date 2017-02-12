@@ -7,7 +7,7 @@ import { DeleteComponent }   from './delete.component';
 import {UsersService} from './../services/users.service';
 import { MaterialModule } from '@angular/material';
 
-
+// delete module bootstrap
 @NgModule({
   imports: [
     DeleteRoutingModule,SharedModule,CommonModule,MaterialModule

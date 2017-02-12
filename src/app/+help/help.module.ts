@@ -6,7 +6,7 @@ import { SharedModule } from './../shared/shared.module';
 import { HelpComponent }   from './help.component';
 import {UsersService} from './../services/users.service';
 
-
+// help module bootstrap
 @NgModule({
   imports: [
     HelpRoutingModule,SharedModule,CommonModule

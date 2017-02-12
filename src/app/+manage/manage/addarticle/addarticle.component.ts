@@ -57,6 +57,7 @@ export class AddArticleComponent implements OnInit {
         });
         
     }
+    /// get user email from local databas(pouch db)
     syncChanges(){
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
@@ -70,7 +71,7 @@ export class AddArticleComponent implements OnInit {
             }
         });
     }
-
+// get all Category for user
    getAllCategoriesForUser(){
         // this.list.push({name:'Category'});
         let categoryObs=this._manageService.getAllCategoriesForUser(this.url);
@@ -89,7 +90,7 @@ export class AddArticleComponent implements OnInit {
 			
         });
     }
-	
+	// on save click from SharedComponent
 	onSaved(obj){
 		obj.isDefault=false;
 		this.checkArticleExists(obj);

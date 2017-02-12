@@ -1,3 +1,5 @@
+
+/// firebase frontend configuration
 export const firebaseConfig = {
     apiKey: "AIzaSyAOSs1ZxVXWKo_vp-uxD5NxXpK3k7KpoUg",
     authDomain: "shoppinglist-12407.firebaseapp.com",

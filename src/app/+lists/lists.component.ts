@@ -26,6 +26,7 @@ export class ListsComponent implements OnInit {
     private email;
     private sLists;
     private url;
+    sListsEmpty:Boolean;
     af:any;
     db:any;
     constructor(public _userService: UsersService,  af: AngularFire,
@@ -33,13 +34,14 @@ export class ListsComponent implements OnInit {
         private router: Router) {
         this.db = new PouchDB("sList");
         this.af = af;
+        this.sListsEmpty=false;
     }
 
     ngOnInit() {
         this.syncChanges();
         // this.getUsers();
     }
-
+/// get user email from local databas(pouch db)
     syncChanges(){
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
@@ -54,7 +56,7 @@ export class ListsComponent implements OnInit {
             }
         });
     }
-
+// search sLists based on name and email id
     searchSLists(){
         let self=this;
         this.af.database.list(`users`,{
@@ -70,32 +72,54 @@ export class ListsComponent implements OnInit {
         })
     }
 
-
+// get all list and map user shpping lists
 
     getAllLists(){
         let self=this;
-        this.af.database.list('sList').map(x=>{
+        this.af.database.list('sListUsers').map(x=>{
             return x;
         }).subscribe(x=>{
             this.sLists=[];
+            debugger
             if(x && x.length>0){
+                // for(let i=0;i<x.length;i++){
+                //     if(x[i] && x[i].users && x[i].users.length){
+                //         for(let j=0;j<x[i].users.length;j++){
+                //             if(x[i].users[j]==this.url){
+                //                 self.sLists.push(x[i]);
+                //             }    
+                //         }
+                //     }
+                // }
                 for(let i=0;i<x.length;i++){
-                    if(x[i] && x[i].users && x[i].users.length){
-                        for(let j=0;j<x[i].users.length;j++){
-                            if(x[i].users[j]==this.url){
-                                self.sLists.push(x[i]);
-                            }    
+                     for (var property in x[i]) {
+                        if (x[i].hasOwnProperty(property)) {
+                            if(x[i][property].toString() == "true" || x[i][property].toString() == "false"){
+                                if(property == this.url){
+
+                                    self.af.database.object(`sList/${x[i].$key}`).map(x=>x)
+                                        .subscribe(x=>{
+                                            if(x && x.title){
+                                                self.sLists.push(x);
+                                            }
+                                        })
+                                }
+                            }
                         }
                     }
                 }
+            }else{
+                this.sListsEmpty=true;
             }
         })
     }
 
+//go to shopping list page on click
     goToSlist(item){
         this.router.navigate(['list',item.$key,{email:this.url}]);
     }
 
+// create new shopping list go to create page 
     createNewList(){
         this.router.navigate(['create']);
     }

@@ -2,7 +2,7 @@
         <h3>Create new shopping list</h3>
         <form>
             <md-input-container style="width: 100%">
-                <input md-input placeholder="Title" name="title" [(ngModel)]="model.title" >
+                <input md-input placeholder="Title" name="title" [(ngModel)]="model.title" required>
             </md-input-container>
             <md-input-container style="width: 100%">
                 <input md-input placeholder="Description"  name="description" [(ngModel)]="model.description">
@@ -12,10 +12,10 @@
                   [(ngModel)]="model.language" name="language">
             <option *ngFor="let lan of languages" [value]="lan">{{lan}}</option>
           </select>
-            <md-input-container style="width: 50%;display:flex;">
+            <md-input-container style="width: 100%;display:flex;">
                 <input md-input placeholder="Your name"  name="name" [(ngModel)]="model.name">
             </md-input-container>
-            <md-input-container style="width: 50%;display: flex;">
+            <md-input-container style="width: 100%;display: flex;">
                 <input md-input type="email" placeholder="Your email address"  name="email" [(ngModel)]="model.email">
             </md-input-container>
             <div class="form-align-items">  

@@ -26,6 +26,7 @@ export class CreateService {
         this.af = af;
     }
 
+// create shopping list by id
     createSList(list: list): FirebaseObjectObservable<any> {
         const sListRef = this.af.database.list(`sList`);
 
@@ -34,17 +35,20 @@ export class CreateService {
 
         return this.af.database.object(`sList/${this.sList.getKey()}`);
     }
+    //reset inivied and emailed users
     resetSList():void{
         this.resetInvitedUsers();
         this.resetMailedUsers;
     }
+    //reset inivied users
     resetInvitedUsers(): void {
         this.invitedUsers.length = 0;
     }
+    //reset emailed users
     resetMailedUsers(): void {
         this.mailedUsers.length = 0;
     }
-
+//create Shopping list
     createSListUser(usr: any): void {
         console.log(this.sList);
         let sListKey=usr.$key;
@@ -58,6 +62,7 @@ export class CreateService {
             // this.sendEmailToUser(usr.$key);
         }
     }
+    // send email to user (not used)
     sendEmailToUser(usr:any):void{
         if (this.mailedUsers.indexOf(usr.$key) < 0) {
             this.mailedUsers.push(usr.$key);
@@ -67,11 +72,12 @@ export class CreateService {
             result.subscribe(x=>console.log(x));
         }
     }
+    // add user to users collection
     addtoFirebase(element: user): void {
         const users = this.af.database.list(`users`);
         users.push(element);
     }
-
+//get user by email
     getItemFromFirebase(email: string): Observable<user> {
         let tempUsr: user;
         const usr = this.af.database.list('users', {
@@ -89,6 +95,7 @@ export class CreateService {
         });
         return usr;
     }
+    //add id user not exists
     addIfNotExists(email: string): Observable<user[]> {
         const usr = this.af.database.list('users', {
             query: {
@@ -107,10 +114,12 @@ export class CreateService {
         return result;
 
     }
+    // get all users
     getUsersFirebase(): Observable<any[]> {
         var result = this.af.database.list('/users');
         return result;
     }
+    // dump default cataloge english
     createFirebaseCatalog(catalog:Object){
          const addArticle = this.af.database.list(`articles`);
          const addCatalog = this.af.database.list(`catalog/english`);
@@ -143,5 +152,6 @@ export class CreateService {
             }
         }
     }
+    
     
 }

@@ -9,6 +9,8 @@ declare var PouchDB: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
+// App component initilization with OnInit and OnDestroy life cycle callbacks
 export class AppComponent implements OnInit,OnDestroy {
   title = 'app works!';
   localUser:any;
@@ -18,9 +20,11 @@ export class AppComponent implements OnInit,OnDestroy {
   private sList;
   @ViewChild('start') start;
   
+  // window resize check for the device dimenions
   @HostListener('window:resize', ['$event'])  onResize(event) {
     this.detectDevice();
   }
+
   constructor(private route: ActivatedRoute,
         private router: Router){
     this.db = new PouchDB("sList");
@@ -30,9 +34,11 @@ export class AppComponent implements OnInit,OnDestroy {
   
   isMobile;
 
+  // called on component creation
   ngOnInit() {
     let self=this;
     
+    // get emal or slistid on page route if exists
     this.user=this.route.params
             .switchMap((params: Params) => {
                 this.url = params['email'];
@@ -40,10 +46,12 @@ export class AppComponent implements OnInit,OnDestroy {
                 return Observable.from([1,2,3]).map(x=>x);
             });
         this.user.subscribe(c=>console.log(c));
+
     this.detectDevice();
-      
+    // get user email id from local database(pouch db)
     this.syncChanges();
-    
+
+        
   }
   syncChanges(){
     let self=this;
@@ -61,6 +69,7 @@ export class AppComponent implements OnInit,OnDestroy {
   ngOnDestroy(){
   }
 
+  // hide side nav
   hideNav(){
     this.start.toggle();
   }
@@ -70,6 +79,8 @@ export class AppComponent implements OnInit,OnDestroy {
       this.localUser=obj.user;
   }
 
+  
+  // device specifications for mobile
   detectDevice(){
     if(window.innerWidth <= 800){ 
       this.isMobile=true;

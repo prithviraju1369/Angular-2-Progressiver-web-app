@@ -22,3 +22,6 @@ button{
     background: gray;
     border-radius: 5px;
 }
+input.ng-dirty.ng-invalid {
+  color: red
+}

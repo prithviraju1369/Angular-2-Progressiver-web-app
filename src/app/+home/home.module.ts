@@ -6,6 +6,8 @@ import { SharedModule } from './../shared/shared.module';
 import { HomeComponent }   from './home/home.component';
 import {UsersService} from './../services/users.service';
 import { MaterialModule } from '@angular/material';
+
+// home module bootstrap
 @NgModule({
   imports: [
     HomeRoutingModule,SharedModule,

@@ -1,10 +1,12 @@
+
+// user class
 export class user{
     constructor(
         public email: string
         ){}   
 }
 
-
+// list class 
 export class list{
     constructor(
         public isFinished:boolean,

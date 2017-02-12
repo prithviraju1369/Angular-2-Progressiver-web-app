@@ -75,7 +75,26 @@
         <button md-raised-button style="margin:1em auto;">Ok</button>
         </div>
     </div>
-    
+
+<div class="slist-catalog" style="margin: 1em 0;">
+    <div style="margin: 1em 0;">
+        <span class="sList-catalog-item-name-default" >
+            <i *ngIf=" userarticleRecent.style.display=='none'" class="material-icons">keyboard_arrow_down</i>
+            <i *ngIf=" userarticleRecent.style.display!='none'" class="material-icons">keyboard_arrow_up</i>
+            <span (tap)="toggleCatalog(userarticleRecent)" style="cursor: pointer;">Recent articles</span>
+        </span>
+        <div style="display:none;" class="slist-articles" #userarticleRecent>
+        <div class="slist-article-direction">
+            <div class="slist-article" *ngFor="let a of recentArticles" style="background: #F24646">
+                <div class="article-item" >
+                    {{a}}
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+</div>
+
 <div class="slist-catalog" style="margin: 1em 0;">
     <div *ngFor="let p of usersCatalogs; let i=index" style="margin: 1em 0;">
         <span class="sList-catalog-item-name-default" >
@@ -94,6 +113,8 @@
 </div>
 </div>
 </div>
+
+
 <div class="slist-catalog" style="margin: 1em 0;">
     <div *ngFor="let p of catalogs; let i=index" style="margin: 1em 0;">
         <span class="sList-catalog-item-name-default" >

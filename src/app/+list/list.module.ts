@@ -12,7 +12,7 @@ import { MaterialModule } from '@angular/material';
 import { AngularFireModule } from 'angularfire2';
 import { firebaseConfig } from './../config/firebase-config';
 
-
+// shopping list module bootstrapping
 @NgModule({
   imports: [
     ListRoutingModule,SharedModule,
