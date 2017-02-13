@@ -61,9 +61,18 @@ export class AppComponent implements OnInit,OnDestroy {
           return err;
         }
         if(docs && docs.rows.length>0){
+          self.sList=docs.rows[0].doc.sList;
           self.setLocalUser(docs.rows[0].doc);
         }
       });
+  }
+
+  goToShoppingLIst(){
+    if(this.sList){
+      this.router.navigate(['list',this.sList,{email:this.localUser}]);
+    }else{
+      this.router.navigate(['home']);
+    }
   }
 
   ngOnDestroy(){

@@ -240,8 +240,8 @@ export class ListService {
             if(x && x.length>0){
                 articleItem.update(x[0].$key,{
                     isBasked:item.isBasked ?item.isBasked:false,
-                    description:item.description,
-                    amount:item.amount
+                    description:item.description?item.description:'',
+                    amount:item.amount?item.amount:''
                 });
             }
         })       

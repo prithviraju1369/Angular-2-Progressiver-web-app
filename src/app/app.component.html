@@ -6,7 +6,7 @@
     </span> Fergg!
 </span>
 <span style="flex:1 1 auto;"></span>
-<span class="toolbar-img-align">
+<span class="toolbar-img-align" style="cursor: pointer;" (tap)="goToShoppingLIst()">
     <img src="./../assets/images/logo_fergg_100px.jpg">
     </span>
 
@@ -22,13 +22,13 @@
     <md-sidenav *ngIf="isMobile" #start mode="over" opened="false" (open)="closeStartButton.focus()">
         <div class="nav-container">
             <div class="nav-item">
-                <a [routerLink]="['/create']" (tap)="start.close()">
+                <a [routerLink]="['/create']" (tap)="start.close()" style="outline: none;">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_create_new_shopping_list.png">
                     <span class="sidenav-tems-align">Create new shopping list</span>
                 </a>
             </div>
             <div class="nav-item">
-                <a [routerLink]="['/lists',{email:localUser}]" (tap)="start.close()">
+                <a [routerLink]="['/lists']" (tap)="start.close()">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_my_shopping_list.png">
                     <span class="sidenav-tems-align">My shopping lists</span>
                 </a>
@@ -82,7 +82,7 @@
                 </a>
             </div>
             <div class="nav-item">
-                <a [routerLink]="['/lists',{email:localUser}]">
+                <a [routerLink]="['/lists']">
                     <img class="sidenav-tems-align" height="24px;" width="24px;" src="./../assets/images/nav_my_shopping_list.png">
                     <span class="sidenav-tems-align">My shopping lists</span>
                 </a>
