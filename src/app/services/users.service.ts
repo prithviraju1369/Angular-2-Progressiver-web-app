@@ -1,7 +1,7 @@
 import { Injectable }     from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import {user} from './../model/user';
+import { Observable } from 'rxjs/Rx';
+import { user } from './../model/user';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 // Import RxJs required methods
 // import 'rxjs/add/operator/map';
@@ -13,7 +13,7 @@ export class UsersService{
      private users = '/users';
     af:AngularFire;
     constructor(private http:Http,af:AngularFire){
-        this.af=af;
+        this.af = af;
     }
     getUsers() : Observable<user[]>{
          // ...using get request

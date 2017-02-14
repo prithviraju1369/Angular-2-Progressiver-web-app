@@ -1,14 +1,15 @@
-import { Component, OnInit ,Inject} from '@angular/core';
+import { Component, OnInit, Inject} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable, FirebaseRef } from 'angularfire2';
+import { Observable } from 'rxjs/Observable';
 
 import { SharedComponent } from './../../../shared/shared.component';
 import { ManageService } from './../../manage.service';
 import { user } from './../../../model/user';
-import { Observable } from 'rxjs/Observable';
 import { list } from './../../../model/user';
 
-import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
 declare var PouchDB: any;
+
 export class catalog{
     constructor(
         public id?: string,
@@ -57,28 +58,28 @@ export class AddArticleComponent implements OnInit {
         });
         
     }
-    /// get user email from local databas(pouch db)
-    syncChanges(){
+    // get user email from local databas(pouch db)
+    syncChanges() {
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
-            if(err){
+            if (err){
             console.log(err);
             return err;
             }
-            if(docs && docs.rows.length>0){
+            if (docs && docs.rows.length>0){
             self.url=docs.rows[0].doc.user;
             self.getAllCategoriesForUser();
             }
         });
     }
 // get all Category for user
-   getAllCategoriesForUser(){
+   getAllCategoriesForUser() {
         // this.list.push({name:'Category'});
         let categoryObs=this._manageService.getAllCategoriesForUser(this.url);
         categoryObs.subscribe(x=>{
 			this.list=[];
             this.listDup=x;
-			for(let i=0;i<x.length;i++){
+			for (let i=0;i<x.length;i++){
 				let val:any=x[i];
 				let item={
 					name:val.name,
@@ -106,9 +107,9 @@ export class AddArticleComponent implements OnInit {
 		let self=this;
 		this._manageService.checkArticleExists(obj.name)
 			.subscribe(x=>{
-				if(x && x.length>0){
+				if (x && x.length>0){
 					self._manageService.addArticleToCategory(x[0].$key,obj.order,languageObj.language)
-				}else{
+				} else {
 					let item={
 						name:obj.name,
 						isDefault:false

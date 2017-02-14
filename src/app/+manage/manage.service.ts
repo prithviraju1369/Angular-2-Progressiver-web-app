@@ -2,7 +2,6 @@ import { Injectable, Inject, OnInit}     from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {user,list} from './../model/user';
-
 import { AngularFire, FirebaseListObservable, FirebaseRef} from 'angularfire2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -36,20 +35,20 @@ export class ManageService {
 
     }
     // sync user email id from local PouchDB
-    syncChanges(){
+    syncChanges() {
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
-            if(err){
+            if (err){
             console.log(err);
             return err;
             }
-            if(docs && docs.rows.length>0){
+            if (docs && docs.rows.length>0){
             self.url=docs.rows[0].doc.user;
             }
         });
     }
 
-    /// get article by id
+    // get article by id
     getArticles(data):any{
         return this.af.database.object(`/articles/${data}`).subscribe(x=>x);
     }
@@ -78,7 +77,7 @@ export class ManageService {
                 equalTo:true
             }
         }).map(x=>{
-            for(let i=0;i<x.length;i++){
+            for (let i=0;i<x.length;i++){
                 x[i].language='english';
             }
         });
@@ -88,7 +87,7 @@ export class ManageService {
                 equalTo:true
             }
         }).map(x=>{
-            for(let i=0;i<x.length;i++){
+            for (let i=0;i<x.length;i++){
                 x[i].language='english';
             }
         });
@@ -131,14 +130,14 @@ export class ManageService {
 	}
 	
 
-    /// add article to category
+    // add article to category
 	addArticleToCategory(key:string,catKey:string,language:string):void{
-		if(key){
+		if (key){
 			let addArticleToCategory=this.af.database.list(`catalog/${language}/${catKey}/articles`);
 			let checkArticleInCategory=this.af.database.list(`catalog/${language}/${catKey}/articles`).map(x=>{
 				let exists=false;
-				for(let i=0;i<x.length;i++){
-					if(x[i].$value==key){
+				for (let i=0;i<x.length;i++){
+					if (x[i].$value==key){
 						exists=true;
 					}
 				}
@@ -146,7 +145,7 @@ export class ManageService {
 			})
 			
 			checkArticleInCategory.subscribe(x=>{
-				if(!x){
+				if (!x){
 					addArticleToCategory.push(key);
 				}
 			});
@@ -180,8 +179,8 @@ export class ManageService {
         //check if article exists in articles collection
 		let removeFromCategory=this.af.database.list(`catalog/${language}/${catId}/articles`).map(x=>{
 				let val='';
-				for(let i=0;i<x.length;i++){
-					if(x[i].$value==artId){
+				for (let i=0;i<x.length;i++){
+					if (x[i].$value==artId){
 					debugger;
 						val=x[i].$key;
 					}
@@ -190,7 +189,7 @@ export class ManageService {
 			})
 			
 		removeFromCategory.subscribe(x=>{
-			if(x!=''){
+			if (x!=''){
 				this.af.database.object(`catalog/${language}/${catId}/articles/${x}`).remove();
 			}
 		})
@@ -210,7 +209,7 @@ export class ManageService {
         });
         sListUsers.subscribe(x=>{
             this.myUsers=[];
-            if(x && x.length>0){
+            if (x && x.length>0){
                 this.myUsers=x;
                 this.myUsers.forEach(function(item){
                     let obj:any={};
@@ -226,15 +225,15 @@ export class ManageService {
         let arr=[];
         let arrFinal=[];
         let arrMap=x.map(function(item){ return item.users});
-        for(let i=0;i<arrMap.length;i++){
-            if(arrMap[i]){
-                if(arrMap[i].includes(this.url)){
+        for (let i=0;i<arrMap.length;i++){
+            if (arrMap[i]){
+                if (arrMap[i].includes(this.url)){
                     arr.push(arrMap[i]);
                 }
             }
         }    
-        for(let j=0;j<arr.length;j++){
-            for(let k=0;k<arr[j].length;k++){
+        for (let j=0;j<arr.length;j++){
+            for (let k=0;k<arr[j].length;k++){
                 arrFinal.push(arr[j][k]);
             }    
         }

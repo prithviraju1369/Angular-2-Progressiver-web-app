@@ -1,5 +1,5 @@
-
-/// firebase frontend configuration
+// firebase frontend configuration
+// See https://console.firebase.google.com/project/fergg-c183c/database/data to live view the data
 export const firebaseConfig = {
     apiKey: "AIzaSyAOSs1ZxVXWKo_vp-uxD5NxXpK3k7KpoUg",
     authDomain: "shoppinglist-12407.firebaseapp.com",

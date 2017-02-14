@@ -1,10 +1,11 @@
-import { Injectable, Inject, OnInit}     from '@angular/core';
+import { Injectable, Inject, OnInit} from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import {user,list} from './../model/user';
-
-import { AngularFire, FirebaseListObservable, FirebaseRef} from 'angularfire2';
+import { Observable } from 'rxjs/Rx';
+import { AngularFire, FirebaseListObservable, FirebaseRef } from 'angularfire2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+
+import { user,list } from './../model/user';
+
 @Injectable()
 export class ListService {
     af: AngularFire;
@@ -13,13 +14,13 @@ export class ListService {
     private user;
 	private sId;
     private myUsers;
-    constructor(  private http: Http, af: AngularFire,private router: Router,private route: ActivatedRoute,) {
+    constructor(private http: Http, af: AngularFire,private router: Router,private route: ActivatedRoute,) {
         this.af = af;
         this.getAllRelatedUsers();
         this.user=this.route.params
+            // learned in last Angular course last thursday
             .switchMap((params: Params) => {
                 this.url = params['email'];
-                debugger
                 this.sId = params['id'];
                 return Observable.from([1,2,3]).map(x=>x);
             });
@@ -31,18 +32,18 @@ export class ListService {
         return this.af.database.object(`sList/${sListId}`);
     }
     // add article to list
-    addArticleToList(sList,art){
-        let articleInList=this.af.database.list(`/sList/${sList}/articles`);
+    addArticleToList(sList,art) {
+        let articleInList = this.af.database.list(`/sList/${sList}/articles`);
         // check if exists
-        let findArtInList=this.af.database.list(`/sList/${sList}/articles`,{
+        let findArtInList = this.af.database.list(`/sList/${sList}/articles`,{
             query:{
                 orderByChild:'id',
                 equalTo:art.id
             }
         }).map(x=>x).subscribe(x=>{
             debugger
-            if(x && x.length>0){}else{
-                if(sList){
+            if (x && x.length>0){} else {
+                if (sList){
                     findArtInList.unsubscribe();
                 articleInList.push(art);
                 }
@@ -62,13 +63,13 @@ export class ListService {
         }).map(x=>x);
         checkInAArticle.subscribe(x=>{
             debugger
-            if(x && x.length>0){
+            if (x && x.length>0){
                 let obj={
                     id:x[0].$key
                 }
                 this.addArticleToList(sList,obj);        
-            }else{
-                let articleAdded:any= addArticle.push(obj);
+            } else {
+                let articleAdded:any = addArticle.push(obj);
                 this.addArticleToList(sList,articleAdded.key); 
             }
         });
@@ -77,30 +78,26 @@ export class ListService {
     // get article by id
     getArticles(data):any{
         return this.af.database.object(`/articles/${data}`).subscribe(x=>{
-            debugger
             return x;
         });
     }
 // get articles from shopping list by shopping list id
     getArticlesForSlist(sList){
         let articles=this.af.database.list(`/sList/${sList}/articles`).map(x=>{
-            debugger
             return x;
         });
-        debugger
         return articles;
     }
 
 
-// get artciile by name
+    // get article by name
     getArticleByName(name):any{
-        let getArticle= this.af.database.list(`/articles`, {
+        let getArticle = this.af.database.list(`/articles`, {
             query:{
                 orderByChild:'name',
                 equalTo:name
             }
         }).map(x=>{
-            debugger
             return x;
         });
         return getArticle;
@@ -110,13 +107,12 @@ export class ListService {
     getAllArticles():Observable<any>{
         let items=this.af.database.list('/articles')
             .map(x=>{
-                debugger
                 return x;
             });
         return items;
     }
 
-    /// search articles
+    // search articles
     searchArticles(val:string):Observable<any>{
         
         return this.af.database.list('articles', {
@@ -137,7 +133,6 @@ export class ListService {
 				equalTo:obj
 			}
 		}).map(x=>{
-            debugger
             return x;
         });
 		return article;
@@ -152,14 +147,13 @@ export class ListService {
 	
 
     // get all related users
-
-    getAllRelatedUsers(){
+    getAllRelatedUsers() {
         let sListUsers=this.af.database.list('sList').map(x=>{
             return this.getRelatedUsers(x);
         });
         sListUsers.subscribe(x=>{
             this.myUsers=[];
-            if(x && x.length>0){
+            if (x && x.length>0){
                 this.myUsers=x;
             }
         })
@@ -169,44 +163,41 @@ export class ListService {
         let arr=[];
         let arrFinal=[];
         let arrMap=x.map(function(item){ return item.users});
-        for(let i=0;i<arrMap.length;i++){
-            if(arrMap[i]){
-                if(arrMap[i].includes(this.url)){
+        for (let i=0;i<arrMap.length;i++){
+            if (arrMap[i]){
+                if (arrMap[i].includes(this.url)){
                     arr.push(arrMap[i]);
                 }
             }
         }    
-        for(let j=0;j<arr.length;j++){
-            for(let k=0;k<arr[j].length;k++){
+        for (let j=0;j<arr.length;j++){
+            for (let k=0;k<arr[j].length;k++){
                 arrFinal.push(arr[j][k]);
             }    
         }
-
         return arrFinal.filter((v, i, a) => a.indexOf(v) === i); ;
     }
 
-    /// make article as isbasked true
-
+    // make article as isbasked true
     addIsBasked(key,sListId){
-        let articleItem=this.af.database.list(`sList/${sListId}/articles/`);
+        let articleItems=this.af.database.list(`sList/${sListId}/articles/`);
         let article=this.af.database.list(`sList/${sListId}/articles/`,{
             query:{
                 orderByChild:'id',
                 equalTo:key
             }
         }).map(
-            
             x=>x
         ).subscribe(x=>{
             debugger
-            if(x && x.length>0){
-                articleItem.update(x[0].$key,{isBasked:true});
+            if (x && x.length>0){
+                articleItems.update(x[0].$key,{isBasked:true});
             }
         })
     }
 
 
-// remove article from shopping list
+    // remove article from shopping list
     removeArticleFromSList(key,sListId){
         let self=this;
         let articleItem=this.af.database.list(`sList/${sListId}/articles/`);
@@ -219,7 +210,7 @@ export class ListService {
             x=>x
         ).subscribe(x=>{
             debugger
-            if(x && x.length>0){
+            if (x && x.length>0){
                 self.af.database.object(`sList/${sListId}/articles/${x[0].$key}`).remove();
                 article.unsubscribe();
             }
@@ -237,7 +228,7 @@ export class ListService {
             x=>x
         ).subscribe(x=>{
             debugger
-            if(x && x.length>0){
+            if (x && x.length>0){
                 articleItem.update(x[0].$key,{
                     isBasked:item.isBasked ?item.isBasked:false,
                     description:item.description?item.description:'',
@@ -246,7 +237,7 @@ export class ListService {
             }
         })       
     }
-// get recent articles (to be used later)
+    // get recent articles (to be used later)
     getRecentSListArticles(sList){
         return this.af.database.list(`sList/${sList}/articles`).map(arr=>{
             debugger

@@ -1,13 +1,12 @@
-import { Injectable, Inject}     from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import {user,list} from './../model/user';
-
+import { Observable } from 'rxjs/Rx';
 import { AngularFire, FirebaseListObservable,FirebaseObjectObservable, FirebaseRef} from 'angularfire2';
-
 // Import RxJs required methods
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
+
+import { user, list } from './../model/user';
 
 @Injectable()
 export class EditService {
@@ -63,14 +62,14 @@ export class EditService {
              let dataExists=this.af.database.list(`sListUsers/${this.sListKey}`).map(x=>x)
                 .subscribe(x=>{
                     debugger
-                    if(x && x.length>0){
+                    if (x && x.length>0){
                         let exists=false;
-                        for(let i=0;i<x.length;i++){
-                            if(x[i].$key==userKey){
+                        for (let i=0;i<x.length;i++){
+                            if (x[i].$key==userKey){
                                 exists=true;
                             }
                         }
-                        if(!exists)
+                        if (!exists)
                             this.af.database.object(`sListUsers/${this.sListKey}`).update(insertData);
                             dataExists.unsubscribe();
                     }
@@ -158,7 +157,7 @@ export class EditService {
                 catalogObj["articles"]=[];
                
                 let propertyAdded=addCatalog.push(catalogObj)
-                for(var i=0;i<catalog[property].length;i++)
+                for (var i=0;i<catalog[property].length;i++)
                 {
                       let val=catalog[property][i];
                       var obj={

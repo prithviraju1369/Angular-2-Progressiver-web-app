@@ -24,9 +24,10 @@
     <div class="slist-articles" style="margin: 1em 0;">
         <div class="slist-article-direction">
             <div class="slist-article" *ngFor="let a of articlesList"  [style.background]="a.backGroundColor">
-                <div style="width: 90%;margin: 0.1em;"><span class="info-icon" *ngIf="a.description">i</span></div>
+                <!--<div style="width: 90%;margin: 0.1em;"></div>-->
                     <div class="slist-article-item" (tap)="selectedArticleInList(a)">
-                        <span style="height: 60%;text-align: center;justify-content: center;display: flex;flex-direction: column;">{{a.amount}}</span>
+                        <span class="info-icon" *ngIf="a.description" style="align-self: flex-end;margin: 5px;">i</span>
+                        <span style="height: 50%;text-align: center;justify-content: center;display: flex;flex-direction: column;">{{a.amount}}</span>
                         <span style="height:40%">{{a.name}}</span>
                     </div>
             </div>

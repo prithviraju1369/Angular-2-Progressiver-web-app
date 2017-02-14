@@ -1,15 +1,13 @@
-import { Component, OnInit ,Inject} from '@angular/core';
+import { Component, OnInit, Inject} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable, FirebaseRef } from 'angularfire2';
+import { Observable } from 'rxjs/Observable';
 
 import { SharedComponent } from './../../../shared/shared.component';
 import { ManageService } from './../../manage.service';
 import { user } from './../../../model/user';
-
-import { Observable } from 'rxjs/Observable';
-
 import { list } from './../../../model/user';
 
-import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
 declare var PouchDB: any;
 
 export class catalog{
@@ -63,22 +61,22 @@ export class DeleteCategoryComponent implements OnInit {
         });
         
     }
-    /// get user email from local databas(pouch db)
-    syncChanges(){
+    // get user email from local databas(pouch db)
+    syncChanges() {
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
-            if(err){
+            if (err){
             console.log(err);
             return err;
             }
-            if(docs && docs.rows.length>0){
+            if (docs && docs.rows.length>0){
             self.url=docs.rows[0].doc.user;
             self.getCategory();
             }
         });
     }
     // get category
-    getCategory(){
+    getCategory() {
         let getCategory$=this._manageService.getCategoryById(this.catId,this.language);
         getCategory$.subscribe(x=>{
             this.category=x;
@@ -87,7 +85,7 @@ export class DeleteCategoryComponent implements OnInit {
     }
 
     // cancelDeleteCategory click redirect to manage page
-	cancelDeleteCategory(){
+	cancelDeleteCategory() {
         this.router.navigate(['manage']);
     }
 

@@ -1,13 +1,12 @@
-import { Injectable, Inject}     from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import {user,list} from './../model/user';
-
+import { Observable } from 'rxjs/Rx';
 import { AngularFire, FirebaseListObservable,FirebaseObjectObservable, FirebaseRef} from 'angularfire2';
-
 // Import RxJs required methods
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
+
+import { user,list } from './../model/user';
 
 @Injectable()
 export class CreateService {
@@ -22,25 +21,24 @@ export class CreateService {
     roorRef;
     sListUsersRef;
     mailedUsers:Array<any>=[];
-    constructor(  private http: Http, af: AngularFire) {
+    constructor(private http: Http, af: AngularFire) {
         this.af = af;
     }
 
-// create shopping list by id
+    // create shopping list by id
     createSList(list: list): FirebaseObjectObservable<any> {
         const sListRef = this.af.database.list(`sList`);
-
         this.sList = sListRef.push(list);
         this.sListUsersKey = this.sList.child("users");
 
         return this.af.database.object(`sList/${this.sList.getKey()}`);
     }
-    //reset inivied and emailed users
+    //reset invited and emailed users
     resetSList():void{
         this.resetInvitedUsers();
         this.resetMailedUsers;
     }
-    //reset inivied users
+    //reset invited users
     resetInvitedUsers(): void {
         this.invitedUsers.length = 0;
     }
@@ -48,7 +46,7 @@ export class CreateService {
     resetMailedUsers(): void {
         this.mailedUsers.length = 0;
     }
-//create Shopping list
+    //create dhopping list
     createSListUser(usr: any): void {
         console.log(this.sList);
         let sListKey=usr.$key;
@@ -77,7 +75,7 @@ export class CreateService {
         const users = this.af.database.list(`users`);
         users.push(element);
     }
-//get user by email
+    //get user by email
     getItemFromFirebase(email: string): Observable<user> {
         let tempUsr: user;
         const usr = this.af.database.list('users', {
@@ -134,7 +132,7 @@ export class CreateService {
                 catalogObj["articles"]=[];
                
                 let propertyAdded=addCatalog.push(catalogObj)
-                for(var i=0;i<catalog[property].length;i++)
+                for (var i=0;i<catalog[property].length;i++)
                 {
                       let val=catalog[property][i];
                       var obj={

@@ -1,14 +1,15 @@
 import { Injectable, Inject}     from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { SharedComponent } from './../shared/shared.component';
-import { UsersService } from './../services/users.service';
-import {user} from './../model/user';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { AngularFire, FirebaseListObservable,FirebaseObjectObservable, FirebaseRef} from 'angularfire2';
-
+import { AngularFire, FirebaseListObservable,FirebaseObjectObservable, FirebaseRef } from 'angularfire2';
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
+
+import { SharedComponent } from './../shared/shared.component';
+import { UsersService } from './../services/users.service';
+import { user } from './../model/user';
+
 declare var PouchDB: any;
 
 @Component({
@@ -38,7 +39,7 @@ this.db = new PouchDB("sList");
     }
 
     // show side nav extras
-    showSideMenu(){
+    showSideMenu() {
         
         document.getElementById('edit').style.display='block';
         document.getElementById('clear').style.display='block';
@@ -47,14 +48,14 @@ this.db = new PouchDB("sList");
     }
 
     //get or set email id from localDB
-     syncChanges(){
+     syncChanges() {
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
-            if(err){
+            if (err){
             console.log(err);
             return err;
             }
-            if(docs && docs.rows.length>0){
+            if (docs && docs.rows.length>0){
                 debugger
                self.sList=docs.rows[0].doc.sList;
                self.url=docs.rows[0].doc.user;
@@ -65,7 +66,7 @@ this.db = new PouchDB("sList");
     }
 
     // get shopping list details by id
-    getSListDetail(){
+    getSListDetail() {
         this.af.database.object(`sList/${this.sList}`).map(x=>x).subscribe(x=>{
             this.modelValue=x.title;
         })
@@ -73,7 +74,7 @@ this.db = new PouchDB("sList");
 
     // delete shopping list by id
 
-    deleteSList(){
+    deleteSList() {
         let self=this;
         this.af.database.list(`sList/${this.sList}`).remove();
         this.db.get(this.localDBID).then(function (doc) {
@@ -86,7 +87,7 @@ this.db = new PouchDB("sList");
     }
 
 // cancel redirect ti lists
-    cancel(){
+    cancel() {
         this.router.navigate([`lists`,{email:this.url}]);
     }
 

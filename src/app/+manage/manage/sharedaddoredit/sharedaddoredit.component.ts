@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 
 
-/// manage module shared component
+// manage module shared component
 export class SharedAddOrEditComponent implements OnInit {
     @Input() title:string;
     @Input() list: Array<any>;
@@ -24,21 +24,21 @@ export class SharedAddOrEditComponent implements OnInit {
 		
 	}
 
-	ngOnInit(){
+	ngOnInit() {
 		this.language=this.languages[0];
 	}
 	// save option click
-	Save(){
+	Save() {
 		let obj:any={};
 		obj.name=this.titleValue;
 		obj.order=this.modelValue;
-		if(this.showLanguage){
+		if (this.showLanguage){
 			obj.language=this.language;
 		}
 		this.onSaved.emit(obj);
 	}
 	// Cancel redirect to manage page
-	Cancel(){
+	Cancel() {
 		this.router.navigate(['manage']);
 	}
 	

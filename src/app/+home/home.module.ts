@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from '@angular/material';
 
 import { HomeRoutingModule } from './home.routing';
 import { SharedModule } from './../shared/shared.module';
-import { HomeComponent }   from './home/home.component';
-import {UsersService} from './../services/users.service';
-import { MaterialModule } from '@angular/material';
+import { HomeComponent } from './home/home.component';
+import { UsersService } from './../services/users.service';
 
 // home module bootstrap
 @NgModule({

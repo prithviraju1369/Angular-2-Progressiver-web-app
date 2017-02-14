@@ -1,15 +1,12 @@
-import { Component, OnInit ,Inject} from '@angular/core';
+import { Component, OnInit, Inject} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable, FirebaseRef } from 'angularfire2';
+import { Observable } from 'rxjs/Observable';
 
 import { SharedComponent } from './../../../shared/shared.component';
 import { ManageService } from './../../manage.service';
 import { user } from './../../../model/user';
-
-import { Observable } from 'rxjs/Observable';
-
 import { list } from './../../../model/user';
-
-import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
 
 declare var PouchDB: any;
 
@@ -58,15 +55,15 @@ export class AddCategoryComponent implements OnInit {
             this.syncChanges();
         });
     }
-    /// get user email from local databas(pouch db)
-    syncChanges(){
+    // get user email from local databas(pouch db)
+    syncChanges() {
         let self=this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
-            if(err){
+            if (err){
             console.log(err);
             return err;
             }
-            if(docs && docs.rows.length>0){
+            if (docs && docs.rows.length>0){
             self.url=docs.rows[0].doc.user;
             self.getAllCategoriesForUser();
             }
@@ -74,14 +71,14 @@ export class AddCategoryComponent implements OnInit {
     }
 
     // get all Category for user
-    getAllCategoriesForUser(){
+    getAllCategoriesForUser() {
         // this.list.push({name:'Category'});
         let categoryObs=this._manageService.getAllCategoriesForUser(this.url);
         categoryObs.subscribe(x=>{
             this.modelValue=x.length+1;
 			let listArr=Array.apply(1, {length: this.modelValue}).map(Number.call, Number);
 			let listArrMap= listArr.map(function(val){return ++val;});
-			for(let i=0;i<listArrMap.length;i++){
+			for (let i=0;i<listArrMap.length;i++){
 			let val=listArrMap[i];
 				let item={
 					name:val,

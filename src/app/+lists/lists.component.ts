@@ -1,19 +1,15 @@
-import { Component, OnInit,Inject} from '@angular/core';
+import { Component, OnInit,Inject } from '@angular/core';
 import { SharedComponent } from './../shared/shared.component';
-import { UsersService } from './../services/users.service';
-import {user} from './../model/user';
-
 import { Observable } from 'rxjs/Observable';
-
-import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
-
+import { AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef } from 'angularfire2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
 
-declare var PouchDB: any;
+import { UsersService } from './../services/users.service';
+import { user } from './../model/user';
 
+declare var PouchDB: any;
 
 @Component({
   selector: 'lists',
@@ -34,39 +30,39 @@ export class ListsComponent implements OnInit {
         private router: Router) {
         this.db = new PouchDB("sList");
         this.af = af;
-        this.sListsEmpty=false;
+        this.sListsEmpty = false;
     }
 
     ngOnInit() {
         this.syncChanges();
         // this.getUsers();
     }
-/// get user email from local databas(pouch db)
-    syncChanges(){
-        let self=this;
+// get user email from local databas(pouch db)
+    syncChanges() {
+        let self = this;
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
-            if(err){
+            if (err){
             console.log(err);
             return err;
             }
-            if(docs && docs.rows.length>0){
+            if (docs && docs.rows.length>0){
                 // this.getSLists(docs.rows[0].doc.user);
-                self.url=docs.rows[0].doc.user;
+                self.url = docs.rows[0].doc.user;
                 self.getAllLists()
             }
         });
     }
 // search sLists based on name and email id
-    searchSLists(){
-        let self=this;
+    searchSLists() {
+        let self = this;
         this.af.database.list(`users`,{
             query:{
                 orderByChild: `email`,
                 equalTo:this.email
             }
         }).map(x=>x).subscribe(p=>{
-            if(p && p.length>0){
-                self.url=p[0].$key;
+            if (p && p.length>0){
+                self.url = p[0].$key;
                 self.getAllLists();
             } 
         })
@@ -74,32 +70,32 @@ export class ListsComponent implements OnInit {
 
 // get all list and map user shpping lists
 
-    getAllLists(){
+    getAllLists() {
         let self=this;
         this.af.database.list('sListUsers').map(x=>{
             return x;
         }).subscribe(x=>{
-            this.sLists=[];
+            this.sLists = [];
             debugger
-            if(x && x.length>0){
-                // for(let i=0;i<x.length;i++){
-                //     if(x[i] && x[i].users && x[i].users.length){
-                //         for(let j=0;j<x[i].users.length;j++){
-                //             if(x[i].users[j]==this.url){
+            if (x && x.length>0){
+                // for (let i=0;i<x.length;i++){
+                //     if (x[i] && x[i].users && x[i].users.length){
+                //         for (let j=0;j<x[i].users.length;j++){
+                //             if (x[i].users[j]==this.url){
                 //                 self.sLists.push(x[i]);
                 //             }    
                 //         }
                 //     }
                 // }
-                for(let i=0;i<x.length;i++){
+                for (let i=0;i<x.length;i++){
                      for (var property in x[i]) {
                         if (x[i].hasOwnProperty(property)) {
-                            if(x[i][property].toString() == "true" || x[i][property].toString() == "false"){
-                                if(property == this.url){
+                            if (x[i][property].toString() == "true" || x[i][property].toString() == "false"){
+                                if (property == this.url){
 
                                     self.af.database.object(`sList/${x[i].$key}`).map(x=>x)
                                         .subscribe(x=>{
-                                            if(x && x.title){
+                                            if (x && x.title){
                                                 self.sLists.push(x);
                                             }
                                         })
@@ -108,8 +104,8 @@ export class ListsComponent implements OnInit {
                         }
                     }
                 }
-            }else{
-                this.sListsEmpty=true;
+            } else {
+                this.sListsEmpty = true;
             }
         })
     }
@@ -120,7 +116,7 @@ export class ListsComponent implements OnInit {
     }
 
 // create new shopping list go to create page 
-    createNewList(){
+    createNewList() {
         this.router.navigate(['create']);
     }
 
