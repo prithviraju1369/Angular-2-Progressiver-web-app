@@ -41,13 +41,13 @@ export class ListService {
                 equalTo:art.id
             }
         }).map(x=>x).subscribe(x=>{
-            debugger
             if (x && x.length>0){} else {
                 if (sList){
                     findArtInList.unsubscribe();
                 articleInList.push(art);
                 }
             }
+            findArtInList.unsubscribe();
         })
         
     }
@@ -60,8 +60,8 @@ export class ListService {
                 orderByChild:'name',
                 equalTo:obj.name
             }
-        }).map(x=>x);
-        checkInAArticle.subscribe(x=>{
+        }).map(x=>x)
+        .subscribe(x=>{
             debugger
             if (x && x.length>0){
                 let obj={
@@ -72,6 +72,7 @@ export class ListService {
                 let articleAdded:any = addArticle.push(obj);
                 this.addArticleToList(sList,articleAdded.key); 
             }
+            checkInAArticle.unsubscribe();
         });
     }
 
@@ -193,6 +194,7 @@ export class ListService {
             if (x && x.length>0){
                 articleItems.update(x[0].$key,{isBasked:true});
             }
+            article.unsubscribe();
         })
     }
 
@@ -214,6 +216,7 @@ export class ListService {
                 self.af.database.object(`sList/${sListId}/articles/${x[0].$key}`).remove();
                 article.unsubscribe();
             }
+            article.unsubscribe();
         })
     }
         // update shopping list by articles
@@ -235,6 +238,7 @@ export class ListService {
                     amount:item.amount?item.amount:''
                 });
             }
+            article.unsubscribe();
         })       
     }
     // get recent articles (to be used later)
