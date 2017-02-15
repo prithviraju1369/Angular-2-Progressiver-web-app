@@ -23,6 +23,8 @@ var sendUrl;
 
 
 
+
+
 // firebase server initialization
 firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(serviceAccount),
