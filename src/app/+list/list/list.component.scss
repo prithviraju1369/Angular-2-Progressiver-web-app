@@ -20,7 +20,11 @@
 .slist-article{
     display: inline;
 }
+.slist-article:hover{
+    box-shadow: none;
+}
 .slist-article{
+    box-shadow: 5px 5px 2px 0px #9E9E9E;
      display: inline-block;
     margin:10px 0 0 10px;
     flex-grow: 1;
