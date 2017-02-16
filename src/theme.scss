@@ -1,6 +1,6 @@
 @import '~@angular/material/core/theming/all-theme';
 
-@include md-core();
+@include mat-core();
 
 
 $my-color: (
@@ -35,18 +35,18 @@ $my-color: (
     A700: $black-87-opacity,
   )
 );
-$primary: md-palette($my-color);
-$accent: md-palette($md-amber);
+$primary: mat-palette($my-color);
+$accent: mat-palette($mat-amber);
 
-$theme: md-light-theme($primary, $accent);
+$theme: mat-light-theme($primary, $accent);
 
 @include angular-material-theme($theme);
 
 .dark-theme {
-  $dark-p: md-palette($md-pink, 700);
-  $dark-a: md-palette($md-blue-grey);
+  $dark-p: mat-palette($mat-pink, 700);
+  $dark-a: mat-palette($mat-blue-grey);
 
-  $dark-t: md-dark-theme($dark-p, $dark-a);
+  $dark-t: mat-dark-theme($dark-p, $dark-a);
 
   @include angular-material-theme($dark-t);
 }
