@@ -73,7 +73,7 @@
         <br>
         <button style="display: none;" md-button #closeStartButton (click)="start.close()">Close</button>
 </md-sidenav>
-<md-sidenav *ngIf="!isMobile" #end mode="side" align="start" opened>
+<md-sidenav class="is-mobile-sidenav" *ngIf="!isMobile" #end mode="side" align="start" opened="true">
     <div class="nav-container">
         <div class="nav-item">
                 <a [routerLink]="['/create']">

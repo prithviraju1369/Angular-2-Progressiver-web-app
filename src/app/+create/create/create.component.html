@@ -2,10 +2,10 @@
         <h3>Create new shopping list</h3>
         <form>
             <md-input-container style="width: 100%">
-                <input md-input placeholder="Title" name="title" [(ngModel)]="model.title" required>
+                <input mdInput placeholder="Title" name="title" [(ngModel)]="model.title" required>
             </md-input-container>
             <md-input-container style="width: 100%">
-                <input md-input placeholder="Description"  name="description" [(ngModel)]="model.description">
+                <input mdInput placeholder="Description"  name="description" [(ngModel)]="model.description">
             </md-input-container>
                 <select  id="language" name="Catalog language" style="width: 50%;display:flex;"
                   required
@@ -13,20 +13,20 @@
             <option *ngFor="let lan of languages" [value]="lan">{{lan}}</option>
           </select>
             <md-input-container style="width: 100%;display:flex;">
-                <input md-input placeholder="Your name"  name="name" [(ngModel)]="model.name">
+                <input mdInput placeholder="Your name"  name="name" [(ngModel)]="model.name">
             </md-input-container>
             <md-input-container style="width: 100%;display: flex;">
-                <input md-input type="email" placeholder="Your email address"  name="email" [(ngModel)]="model.email">
+                <input mdInput type="email" placeholder="Your email address"  name="email" [(ngModel)]="model.email">
             </md-input-container>
             <div class="form-align-items">  
                 <md-icon>menu</md-icon>
                 <h5>Invite user</h5>
             </div>
             <md-input-container style="width: 100%">
-                <input md-input placeholder="email address" type="email" name="initialEmail" [(ngModel)]="initialEmail">
+                <input mdInput placeholder="email address" type="email" name="initialEmail" [(ngModel)]="initialEmail">
             </md-input-container>
             <md-input-container style="width: 100%" *ngFor="let usr of users ;let in=index;trackBy:customTrackBy" >
-                <input md-input placeholder="email address" type="email" [(ngModel)]="users[in]" name="inviteduser{{in}}" >
+                <input mdInput placeholder="email address" type="email" [(ngModel)]="users[in]" name="inviteduser{{in}}" >
             </md-input-container>
             <div class="form-align-items" >
                 <md-icon style="cursor: pointer;" (tap)="addInvitedUsers()">add</md-icon>

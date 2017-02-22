@@ -3,7 +3,7 @@
     <div class="slist-search">
         <form>
             <md-input-container style="width: 100%;" >
-                <input md-input placeholder="What do you wanna buy ?" id="listSearch" #term type="search" name="search" [(ngModel)]="search">
+                <input mdInput placeholder="What do you wanna buy ?" id="listSearch" #term type="search" name="search" [(ngModel)]="search">
             </md-input-container>
         </form>
         <div class="slist-article-direction" style="margin: 1em 0;">
@@ -41,7 +41,7 @@
                 <div>
                     <span>
                     <md-input-container style="width: 50%;background: white; border-radius: 2px;" >
-                        <input md-input placeholder="Amount" type="input" name="amount" [(ngModel)]="selectedArticleList.amount">
+                        <input mdInput placeholder="Amount" type="input" name="amount" [(ngModel)]="selectedArticleList.amount">
                     </md-input-container>
                     </span>
                     <span style="flex:1"></span>
@@ -50,7 +50,7 @@
                 </div>
                 <div style="margin:1em 0">
                     <md-input-container style="width: 100%;background: white; border-radius: 2px;" >
-                        <textarea md-input placeholder="Description" type="input" name="description" [(ngModel)]="selectedArticleList.description"></textarea>
+                        <textarea mdInput placeholder="Description" type="input" name="description" [(ngModel)]="selectedArticleList.description"></textarea>
                     </md-input-container>
                 </div>
             </div>

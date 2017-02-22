@@ -17,7 +17,7 @@ app.use(bodyParser.json())
 
 //email code
 
-var transporter = nodemailer.createTransport('smtps://prithviraju1369%40gmail.com:Test@smtp.gmail.com');
+var transporter = nodemailer.createTransport('smtps://prithviraju1369%40gmail.com:Narenamrit136975@smtp.gmail.com');
 var siteUrl;
 var sendUrl;
 
