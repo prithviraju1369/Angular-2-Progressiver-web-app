@@ -116,7 +116,7 @@ export class EditCategoryComponent implements OnInit {
 
     // deleteCategory click redirect to deletecategory component
     deleteCategory(id){
-        this.router.navigate(['manage/deletecategory',id])
+        this.router.navigate(['manage/deletecategory',id,{lan:this.language}])
     }
 
 }

@@ -117,10 +117,10 @@ export class CreateService {
         var result = this.af.database.list('/users');
         return result;
     }
-    // dump default cataloge english
-    createFirebaseCatalog(catalog:Object){
+    // dump default cataloge by language
+    createFirebaseCatalog(catalog:Object,language){
          const addArticle = this.af.database.list(`articles`);
-         const addCatalog = this.af.database.list(`catalog/english`);
+         const addCatalog = this.af.database.list(`catalog/${language}`);
          for (var property in catalog) {
             if (catalog.hasOwnProperty(property)) {
                 let insertData={};
@@ -142,7 +142,7 @@ export class CreateService {
                       let articleAdded= addArticle.push(obj);
                       var key=articleAdded.key;
                       insertData[key]=true;
-                      let addToCatalog=this.af.database.list(`catalog/english/${propertyAdded.key}/articles`)
+                      let addToCatalog=this.af.database.list(`catalog/${language}/${propertyAdded.key}/articles`)
                       addToCatalog.push(key);
                       myArtcileArr.push(insertData);
                       catalogObj["articles"].push(key);

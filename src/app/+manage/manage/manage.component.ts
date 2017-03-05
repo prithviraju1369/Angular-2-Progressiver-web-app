@@ -36,6 +36,7 @@ export class ManageComponent implements OnInit {
     searchitems: Observable<Array<string>>;
     articles:Array<any>=[];
     searchArticles:Array<any>=[];
+    ownArticles:Array<any>=[];
     private searchTerms = new Subject<string>();
     constructor(  af: AngularFire,
         public _manageService: ManageService,
@@ -69,6 +70,7 @@ export class ManageComponent implements OnInit {
             self.url=docs.rows[0].doc.user;
                 self.getCatalog();
                 self.getUsersCatalog();
+                self.getOwnArticles();
                 // self.getAllArticles(); 
             }
         });
@@ -306,6 +308,22 @@ export class ManageComponent implements OnInit {
                 }
             }
         }
+    }
+
+    //get own articles
+    getOwnArticles(){
+        let ownAritcles=this._manageService.getOwnArticles(this.url);
+        ownAritcles.subscribe(x=>{
+            if(x && x.length>0){
+                for(let i=0;i<x.length;i++){
+                    this.af.database.object(`/articles/${x[i].articleId}`).subscribe(p=>{
+                                this.ownArticles.push(p);
+                            });
+                }
+            }else{
+                this.ownArticles=[];
+            }
+        })
     }
 
 // toggle catalog on ui based on user interaction (tap/click events)

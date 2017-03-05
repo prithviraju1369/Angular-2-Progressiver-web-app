@@ -95,6 +95,7 @@ export class EditArticleComponent implements OnInit,OnDestroy {
         categoryObs.subscribe(x=>{
 			this.list=[];
             this.listDup=x;
+			if(x && x.length>0){
 			for (let i=0;i<x.length;i++){
 				let val:any=x[i];
 				let item={
@@ -103,6 +104,7 @@ export class EditArticleComponent implements OnInit,OnDestroy {
 					language:val.language
 				}
 				this.list.push(item);
+			}
 			}
 			
         });

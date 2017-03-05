@@ -60,7 +60,21 @@ export class CreateComponent implements OnInit,OnDestroy {
              "Household & Health": ["Aluminium foil", "Baby food", "Bathroom cleaner", "Batteries", "Body lotion", "Candles", "Charcoal", "Cleaning supplies", "Cling film", "Conditioner", "Cotton pads", "Cotton swabs", "Dental floss", "Deodorant", "Dishwater salt", "Dishwater tabs", "Fabric softener", "Face cream", "Facial tissues", "Flowers", "Glass cleaner", "Hair gel", "Hair spray", "Hand cream", "Insect repellent", "Laundry detergent", "Light bulb", "Makeup remover", "Mouthwash", "Nail polish", "Nail polish remove", "Napkins", "Nappies", "Painkiller", "Paper towels", "Razor", "Razor blades", "Shampoo", "Shaving cream", "Shower gel", "Soap", "Sponge", "Sunscreen", "Tampons", "Tissues", "Toilet cleaner", "Toilet paper", "Tootbrush", "Toothpaste", "Vitamins", "Washing-up liquid", "Wrapping paper"],
              "Pet Supplies": ["Bird food", "Cat food", "Cat litter", "Cat treats", "Dog food", "Dog treats", "Fish food"],
              };
-        // this._createService.createFirebaseCatalog(catalog);
+             let germanCatalog={"Früchte & Gemüse": ["Ananas", "Aprikosen", "Artischocken", "Aubergine", "Avocado", "Äpfel", "Bananen", "Basilikum", "Beeren", "Birnen", "Blumenkohl", "Brokkoli", "Brombeeren", "Champignons", "Cherrytomaten", "Datten", "Erbsen", "Erdbeeren", "Feigen", "Fenchel", "Früchte", "Frühlingszwiebeln", "Gemüse", "Grapefruit", "Gurke", "Heidelbeeren", "Himbeeren", "Ingwer", "Kaki", "Karotten", "Kartoffeln", "Kirschen", "Kiwi", "Knoblauch", "Kohl", "Kohlrabi", "Koriander", "Kräuter", "Kürbis", "Lattich", "Lauch", "Limette", "Mais", "Mandarinen", "Mango", "Melone", "Nektarine", "Oliven", "Orange", "Passionsfrucht", "Peperoncini", "Peperoni", "Petersilie", "Pfefferminze", "Pfirsich", "Pflaumen", "Pilze", "Radieschen", "Randen", "Rhabarber", "Rucola", "Salat", "Salbei", "Schnittlauch", "Sellerie", "Spargel", "Spinat", "Süsskartoffeln", "Thymian", "Tomaten", "Trauben", "Wassermelone", "Zitrone", "Zucchettti", "Zwetschgen", "Zwiebeln"],
+            "Brot & Gebäck" : ["Baguette", "Blätterteig", "Brot", "Brötchen", "Gipfeli", "Knäckebrot", "Muffins", "Pizzateig", "Toast", "Waffeln", "Zopf"],
+            "Milch & Käse": ["Blauschimmelkäse", "Butter", "Creme fraiche", "Eier", "Feta", "Fondue", "Frischkäse", "Gorgonzola", "Hüttenkäse", "Joghurt", "Käse", "Kräuterbutter", "Margarine", "Mascarpone", "Milch", "Mozarella", "Parmesan", "Quark", "Raclette", "Rahm", "Reibkäse", "Ricotta", "Sauerrahm", "Sojamilch"], 
+            "Fleisch & Fisch": ["Aufschnitt", "Bratwurst", "Bresaola", "Burger", "Cervelat", "Fisch", "Fleisch", "Garnelen", "Hackfleisch", "Kalbfleisch", "Lachs", "Lamm", "Muscheln", "Poulet", "Pouletbrüstli", "Rindfleisch", "Rindsgeschnetzeltes", "Rohschinken", "Salami", "Sardellen", "Schinken", "Schnitzel", "Schweinefleisch", "Speck", "Steak", "Thon", "Thunfisch", "Wienerli", "Wurst"],
+            "Zutaten & Gewürze": ["Ahornsirup", "Apfelmus", "Aromat", "BBQ Sauce", "Backpulver", "Balsamico"],
+            "Fertig- und Tiefkühlprodukte": ["Chicken Wings", "Chinesisches Essen", "Fischstäbli"],
+            "Getreideprodukte": ["Basmati Reis", "Cornflakes", "Couscous"],
+            "Snack & Süsswaren": ["Brezeln", "Dessert"],
+            "Getränke & Tabak": ["Apfelsaft", "Bier", "Champagner"],
+            "Haushalt & Gesundheit": ["Abfallsäcke", "Abwaschmittel", "Alufolie"], 
+            "Tiefbedarf": ["Fischfutter", "Hundefutter", "Hundesnack"], 
+            "Eigene Artikel": []
+            } ;
+
+        // this._createService.createFirebaseCatalog(germanCatalog,"german");
     }
     ngOnDestroy() {
         // this.reqSubscribe.unsubscribe();

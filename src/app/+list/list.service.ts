@@ -52,8 +52,15 @@ export class ListService {
         
     }
 
+    addToOwnArticles(article,user){
+        let addArticle=this.af.database.list('ownarticles');
+        addArticle.push({articleId:article,user:user});
+    }
+
+    
+
 // add article and add article id to list
-    addArticleAndAddToList(sList,obj){
+    addArticleAndAddToList(sList,obj,user){
         let addArticle=this.af.database.list('articles');
         let checkInAArticle=this.af.database.list('articles',{
             query:{
@@ -70,7 +77,9 @@ export class ListService {
                 this.addArticleToList(sList,obj);        
             } else {
                 let articleAdded:any = addArticle.push(obj);
+                debugger
                 this.addArticleToList(sList,articleAdded.key); 
+                this.addToOwnArticles(articleAdded.key,user);
             }
             checkInAArticle.unsubscribe();
         });

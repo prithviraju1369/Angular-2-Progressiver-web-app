@@ -80,6 +80,7 @@ export class ManageService {
             for (let i=0;i<x.length;i++){
                 x[i].language='english';
             }
+            return x;
         });
         let german=this.af.database.list('/catalog/german', {
             query: {
@@ -90,6 +91,7 @@ export class ManageService {
             for (let i=0;i<x.length;i++){
                 x[i].language='english';
             }
+            return x;
         });
         return english.concat(german);
 	}
@@ -194,6 +196,16 @@ export class ManageService {
 			}
 		})
 	}
+
+    getOwnArticles(usr:string){
+        let ownarticles = this.af.database.list(`/ownarticles`,{
+            query:{
+                orderByChild:'user',
+                equalTo:usr
+            }
+        }).map(x=>x);
+        return ownarticles;
+    }
 
     // delete category by lanaguage and id
     deleteCategory(id,language){

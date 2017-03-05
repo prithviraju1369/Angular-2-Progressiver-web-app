@@ -57,6 +57,7 @@ export class ListComponent implements OnInit,OnDestroy  {
     title:any;
     searchArticles:Array<any>=[];
     articlesList:Array<listArticle>=[];
+    
     selectedArticleList:listArticle={};
     private searchTerms = new Subject<string>();
     constructor(  af: AngularFire,
@@ -98,6 +99,7 @@ export class ListComponent implements OnInit,OnDestroy  {
         
         // get all articles for shopping list
         this.getArticleBySlist();
+        
         
         /// search article observable
         const search=document.getElementById("listSearch");
@@ -282,16 +284,18 @@ export class ListComponent implements OnInit,OnDestroy  {
                             item.$key=x[0].$key;
                             this.addArticleToLIst(x[0].$key);    
                         }else{
-                            this._listService.addArticleAndAddToList(this.sList,obj);
+                            this._listService.addArticleAndAddToList(this.sList,obj,this.url);
                         }
 
-                        article$.unsubscribe();
+                        // article$.unsubscribe();
                     }
                     
                 })
             
         }
     }
+
+    
 
     // add article to shopping list
 

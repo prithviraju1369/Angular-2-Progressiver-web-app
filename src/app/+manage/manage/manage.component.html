@@ -45,6 +45,25 @@
 </div>
 </div>
 <div class="slist-catalog">
+    <div>
+        <span class="sList-catalog-item-name-default" >
+            <i *ngIf=" ownarticle.style.display=='none'" class="material-icons">keyboard_arrow_down</i>
+            <i *ngIf=" ownarticle.style.display!='none'" class="material-icons">keyboard_arrow_up</i>
+            <span (tap)="toggleCatalog(ownarticle)">My own articles</span>
+        </span>
+        <div style="display:none;" class="slist-articles" #ownarticle>
+        <div class="slist-article-direction">
+            <div class="slist-article-default manage-article-item-name-default" *ngFor="let a of ownArticles">
+                <div class="">
+                    {{a.name}}
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+</div>
+
+<div class="slist-catalog">
     <div *ngFor="let p of catalogs; let i=index">
         <span class="sList-catalog-item-name-default" >
             <i *ngIf=" article.style.display=='none'" class="material-icons">keyboard_arrow_down</i>
