@@ -1,22 +1,22 @@
     <div class="create-container create-alignment">
         <h3>Create new shopping list</h3>
-        <form>
+        <form (ngSubmit)="CreateList()" #userForm="ngForm">
             <md-input-container style="width: 100%">
                 <input mdInput placeholder="Title" name="title" [(ngModel)]="model.title" required>
             </md-input-container>
             <md-input-container style="width: 100%">
-                <input mdInput placeholder="Description"  name="description" [(ngModel)]="model.description">
+                <input mdInput placeholder="Description"  name="description" [(ngModel)]="model.description" required>
             </md-input-container>
-                <select  id="language" name="Catalog language" style="width: 50%;display:flex;"
+                <md-select  id="language" name="Catalog language" style="width: 50%;display:block;"
                   required
                   [(ngModel)]="model.language" name="language">
-            <option *ngFor="let lan of languages" [value]="lan">{{lan}}</option>
-          </select>
+            <md-option *ngFor="let lan of languages" [value]="lan">{{lan}}</md-option>
+          </md-select>
             <md-input-container style="width: 100%;display:flex;">
-                <input mdInput placeholder="Your name"  name="name" [(ngModel)]="model.name">
+                <input mdInput placeholder="Your name"  name="name" [(ngModel)]="model.name" required>
             </md-input-container>
             <md-input-container style="width: 100%;display: flex;">
-                <input mdInput type="email" placeholder="Your email address"  name="email" [(ngModel)]="model.email">
+                <input mdInput type="email" placeholder="Your email address"  name="email" [(ngModel)]="model.email" required>
             </md-input-container>
             <div class="form-align-items">  
                 <md-icon>menu</md-icon>
@@ -32,6 +32,6 @@
                 <md-icon style="cursor: pointer;" (tap)="addInvitedUsers()">add</md-icon>
                 <h5>Add more users</h5>
             </div>
-            <button md-raised-button (tap)="CreateList()">Create</button>
+            <button md-raised-button [disabled]="!userForm.valid" type="submit">Create</button>
     </form>
     </div>

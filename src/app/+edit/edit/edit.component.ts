@@ -88,6 +88,12 @@ export class EditComponent implements OnInit,OnDestroy {
             }
         })
     }
+
+    // cancel go to shopping list
+    CancelList(){
+        let userEmailKey=this.emailedUsers.find(this.findUserEmailKey,this);
+        this.router.navigate([`list/${this.sList}`,{email:userEmailKey.$key}])
+    }
     
     // get shoppingList users by id
     getSIdUsers(obj){

@@ -3,6 +3,17 @@
 @include mat-core();
 
 
+// md-input-container {
+//   .mat-input-underline{
+//     border-color: mat-color($mat-blue, 500, 1);
+//   }
+// }
+md-input-container.ng-invalid.ng-touched {
+  .mat-input-underline{
+    border-color: mat-color($mat-red, 500, 1);
+  }
+}
+
 $my-color: (
   50: #e0f2f1,
   100: #b2dfdb,

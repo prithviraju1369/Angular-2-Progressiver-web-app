@@ -82,6 +82,9 @@ export class CreateComponent implements OnInit,OnDestroy {
 
     // create shoppingList
     CreateList() {
+        if(this.model.language==this.languages[0]){
+            return;
+        }
         console.log(this.model);
         // this.model.users.push(this.model.email);
         // this.model.users.push(this.initialEmail);
