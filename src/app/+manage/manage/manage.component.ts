@@ -317,8 +317,15 @@ export class ManageComponent implements OnInit {
             if(x && x.length>0){
                 for(let i=0;i<x.length;i++){
                     this.af.database.object(`/articles/${x[i].articleId}`).subscribe(p=>{
-                                this.ownArticles.push(p);
-                            });
+                        let exists=false;
+                        for(let k=0;k<this.ownArticles.length;k++){
+                            if(this.ownArticles[k].$key==p.$key){
+                                exists=true;
+                            }
+                        }
+                        if(!exists)
+                        this.ownArticles.push(p);
+                    });
                 }
             }else{
                 this.ownArticles=[];

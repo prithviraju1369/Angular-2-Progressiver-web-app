@@ -67,7 +67,7 @@
                 <div style="height:30px;width:30px;margin:1em auto;background: #b8b8b8; cursor: pointer;" (tap)="removeArticleFromSList(selectedArticleList)">
                     <img class="slist-article-detail-button" height="30px;" width="30px;" src="./../assets/images/button_remove_from_shopping_list.png">
                 </div>
-                <div style="height:30px;width:30px;margin:1em auto;background: #b8b8b8;cursor: pointer;">
+                <div style="height:30px;width:30px;margin:1em auto;background: #b8b8b8;cursor: pointer;" (tap)="removeArticleFromCategory(selectedArticleList)">
                     <img class="slist-article-detail-button" height="30px;" width="30px;" src="./../assets/images/button_remove_from_catalog.png">
                 </div>
             </div>
@@ -76,7 +76,13 @@
         <button md-raised-button style="margin:1em auto;">Ok</button>
         </div>
     </div>
-
+    <div class="article-category-delete" style="display: none">
+        <span style="color: #a94442">Delete this article from category?</span>
+        <div>
+            <button md-button (tap)="_findArticleInCategoryAndDelete(selectedArticleList)" style="background: #a94442">Delete</button>
+            <button md-button (tap)="hideDelete()" style="background: grey">Cancel</button>
+        </div>
+    </div>
 <div class="slist-catalog" style="margin: 1em 0;">
     <div style="margin: 1em 0;">
         <span class="sList-catalog-item-name-default" >

@@ -17,6 +17,8 @@ export class catalog{
     constructor(
         public id?: string,
         public name?: string,
+        public language?:string ,
+        public isUserCatalog?:boolean ,
         public articles?:Array<any>    
         ){}   
 }
@@ -318,13 +320,17 @@ export class ListComponent implements OnInit,OnDestroy  {
                     }).map(x=>{
                         return x;
                     }).subscribe(x=>{
+                        debugger
                         let self=this;
                         this.usersCatalogs=[];
+                        this.usersCatalogs.length=0;
                         if(x!=undefined){
                         for(let i=0;i<x.length;i++){
                             let item={
                                 name:x[i].name,
                                 id:x[i].$key,
+                                language:language,
+                                isUserCatalog:true,
                                 articles:[]
                             };
                             this.usersCatalogs.push(item);
@@ -590,6 +596,40 @@ export class ListComponent implements OnInit,OnDestroy  {
         this._listService.removeArticleFromSList(item.id,this.sList);
         let box:any=document.getElementsByClassName('slist-article-details');
         box[0].style.display='none';   
+    }
+
+    // remove article from catalog
+    removeArticleFromCategory(item){
+        debugger
+        // this._findArticleInCategoryAndDelete(item.id);
+        let box:any=document.getElementsByClassName('slist-article-details');
+        box[0].style.display='none';  
+        let deleteA:any=document.getElementsByClassName('article-category-delete');
+        deleteA[0].style.display='block';  
+    }
+
+    // hide delete and show box
+    hideDelete(){
+        let box:any=document.getElementsByClassName('slist-article-details');
+        box[0].style.display='block';  
+        let deleteA:any=document.getElementsByClassName('article-category-delete');
+        deleteA[0].style.display='none';  
+    }
+
+    //find article in catalog and delete
+    _findArticleInCategoryAndDelete(item){
+        let id=item.id;
+        for(let i=0;i<this.usersCatalogs.length;i++){
+            for(let j=0;j<this.usersCatalogs[i].articles.length;j++){
+                if(this.usersCatalogs[i].articles[j].$key==id && this.usersCatalogs[i].isUserCatalog){
+                    this._listService.removeArticleFromCategory(id,this.usersCatalogs[i].id,this.usersCatalogs[i].language,this.sList);
+                    let box:any=document.getElementsByClassName('slist-article-details');
+                    box[0].style.display='none';  
+                }
+            }
+        }
+        let deleteA:any=document.getElementsByClassName('article-category-delete');
+        deleteA[0].style.display='none';
     }
 
 // update shopping list ui

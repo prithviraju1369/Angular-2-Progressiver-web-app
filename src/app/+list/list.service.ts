@@ -207,6 +207,33 @@ export class ListService {
         })
     }
 
+    // remove article from shopping list
+    removeArticleFromCategory(key,catId,language,sListId){
+        let self=this;
+        let articleItem=this.af.database.list(`catalog/${language}/${catId}/articles/`);
+        let article=this.af.database.object(`catalog/${language}/${catId}`).map(
+            x=>x
+        ).subscribe(x=>{
+            debugger
+            if (x){
+                if(x.articles){
+                    for (var property in x.articles) {
+                        if (x.articles.hasOwnProperty(property)) {
+                            if(x.articles[property]==key){
+                                debugger
+                                self.af.database.object(`catalog/${language}/${catId}/articles/${property}`).remove();
+                                self.removeArticleFromSList(x.articles[property],sListId);
+                                if(article)
+                                article.unsubscribe();
+                            }
+                        }
+                    }
+                }
+            }
+            if(article)
+            article.unsubscribe();
+        })
+    }
 
     // remove article from shopping list
     removeArticleFromSList(key,sListId){
@@ -223,8 +250,10 @@ export class ListService {
             debugger
             if (x && x.length>0){
                 self.af.database.object(`sList/${sListId}/articles/${x[0].$key}`).remove();
+                if(article)
                 article.unsubscribe();
             }
+            if(article)
             article.unsubscribe();
         })
     }
