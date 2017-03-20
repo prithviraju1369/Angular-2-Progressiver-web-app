@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { AngularFire, FirebaseListObservable, FirebaseRef } from 'angularfire2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { user,list } from './../model/user';
+import { user,list } from './../model/sharedmodel';
 
 @Injectable()
 export class ListsService {

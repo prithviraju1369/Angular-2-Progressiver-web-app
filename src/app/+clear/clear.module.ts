@@ -5,7 +5,7 @@ import { MaterialModule } from '@angular/material';
 import { ClearRoutingModule } from './clear.routing';
 import { SharedModule } from './../shared/shared.module';
 import { ClearComponent } from './clear.component';
-import { UsersService } from './../services/users.service';
+// import { UsersService } from './../services/users.service';
 
 // clear module bootstrao
 @NgModule({
@@ -13,7 +13,7 @@ import { UsersService } from './../services/users.service';
     ClearRoutingModule,SharedModule,CommonModule,MaterialModule
   ],
   exports: [],
-  declarations: [ClearComponent],
-  providers: [UsersService],
+  declarations: [ClearComponent]
+  // providers: [UsersService],
 })
 export class ClearModule { }

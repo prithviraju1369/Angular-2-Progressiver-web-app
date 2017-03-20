@@ -3,11 +3,11 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { SharedComponent } from './../../shared/shared.component';
 import { ListService } from './../list.service';
-import { user } from './../../model/user';
+import { user } from './../../model/sharedmodel';
 
 import { Observable } from 'rxjs/Observable';
 
-import { list } from './../../model/user';
+import { list } from './../../model/sharedmodel';
 import { Subject } from 'rxjs/Subject';
 import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
 

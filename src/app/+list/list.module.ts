@@ -6,7 +6,6 @@ import { ListRoutingModule } from './list.routing';
 import { SharedModule } from './../shared/shared.module';
 import { ListComponent } from './list/list.component';
 // import { ManageComponent } from './manage/manage.component';
-import { UsersService } from './../services/users.service';
 import { MaterialModule } from '@angular/material';
 import { AngularFireModule } from 'angularfire2';
 import { firebaseConfig } from './../config/firebase-config';
@@ -21,7 +20,6 @@ import { firebaseConfig } from './../config/firebase-config';
     CommonModule
   ],
   exports: [],
-  declarations: [ListComponent],
-  providers: [UsersService],
+  declarations: [ListComponent]
 })
 export class ListModule { }

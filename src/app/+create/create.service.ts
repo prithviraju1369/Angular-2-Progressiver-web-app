@@ -6,7 +6,7 @@ import { AngularFire, FirebaseListObservable,FirebaseObjectObservable, FirebaseR
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
 
-import { user,list } from './../model/user';
+import { user,list } from './../model/sharedmodel';
 
 @Injectable()
 export class CreateService {
@@ -104,14 +104,14 @@ export class CreateService {
         return usr;
     }
 
-    getUsers(): Observable<user[]> {
-        // ...using get request
-        var result = this.http.get(this.users)
-            .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-        return result;
+    // getUsers(): Observable<user[]> {
+    //     // ...using get request
+    //     var result = this.http.get(this.users)
+    //         .map((res: Response) => res.json())
+    //         .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    //     return result;
 
-    }
+    // }
     // get all users
     getUsersFirebase(): Observable<any[]> {
         var result = this.af.database.list('/users');

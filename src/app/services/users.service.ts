@@ -1,7 +1,7 @@
 import { Injectable }     from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { user } from './../model/user';
+import { user } from './../model/sharedmodel';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 // Import RxJs required methods
 // import 'rxjs/add/operator/map';

@@ -6,8 +6,8 @@ import { AngularFire, FirebaseListObservable, FirebaseObjectObservable, Firebase
 
 import { SharedComponent } from './../../shared/shared.component';
 import { EditService } from './../edit.service';
-import { user } from './../../model/user';
-import { list } from './../../model/user';
+import { user } from './../../model/sharedmodel';
+import { list } from './../../model/sharedmodel';
 
 declare var PouchDB: any;
 

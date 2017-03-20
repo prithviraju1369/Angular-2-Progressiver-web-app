@@ -5,7 +5,6 @@ import { MaterialModule } from '@angular/material';
 import { HomeRoutingModule } from './home.routing';
 import { SharedModule } from './../shared/shared.module';
 import { HomeComponent } from './home/home.component';
-import { UsersService } from './../services/users.service';
 
 // home module bootstrap
 @NgModule({
@@ -15,7 +14,6 @@ import { UsersService } from './../services/users.service';
     CommonModule
   ],
   exports: [],
-  declarations: [HomeComponent],
-  providers: [UsersService],
+  declarations: [HomeComponent]
 })
 export class HomeModule { }

@@ -1,7 +1,7 @@
 import { Injectable, Inject, OnInit}     from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
-import {user,list} from './../model/user';
+import {user,list} from './../model/sharedmodel';
 import { AngularFire, FirebaseListObservable, FirebaseRef} from 'angularfire2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -232,7 +232,7 @@ export class ManageService {
         })
     }
 
-    // related users mapping
+    // filter and find the each user from list of users avilable in databse users collection
     getRelatedUsers(x):Array<any>{
         let arr=[];
         let arrFinal=[];

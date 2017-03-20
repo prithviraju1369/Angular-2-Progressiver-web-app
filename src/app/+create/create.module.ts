@@ -7,7 +7,7 @@ import { AngularFireModule } from 'angularfire2';
 import { CreateRoutingModule } from './create.routing';
 import { SharedModule } from './../shared/shared.module';
 import { CreateComponent }   from './create/create.component';
-import { UsersService } from './../services/users.service';
+// import { UsersService } from './../services/users.service';
 import { firebaseConfig } from './../config/firebase-config';
 
 @NgModule({
@@ -19,7 +19,6 @@ import { firebaseConfig } from './../config/firebase-config';
     CommonModule
   ],
   exports: [],
-  declarations: [CreateComponent],
-  providers: [UsersService],
+  declarations: [CreateComponent]
 })
 export class CreateModule { }

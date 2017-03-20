@@ -6,7 +6,7 @@ import { AngularFire, FirebaseListObservable,FirebaseObjectObservable, FirebaseR
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
 
-import { user, list } from './../model/user';
+import { user, list } from './../model/sharedmodel';
 
 @Injectable()
 export class EditService {

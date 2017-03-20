@@ -6,8 +6,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
 
-import { UsersService } from './../services/users.service';
-import { user } from './../model/user';
+import { user } from './../model/sharedmodel';
 import { ListsService } from './lists.service';
 declare var PouchDB: any;
 

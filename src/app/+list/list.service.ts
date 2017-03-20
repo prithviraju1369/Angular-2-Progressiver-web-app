@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { AngularFire, FirebaseListObservable, FirebaseRef } from 'angularfire2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { user,list } from './../model/user';
+import { user,list } from './../model/sharedmodel';
 
 @Injectable()
 export class ListService {
@@ -69,7 +69,6 @@ export class ListService {
             }
         }).map(x=>x)
         .subscribe(x=>{
-            debugger
             if (x && x.length>0){
                 let obj={
                     id:x[0].$key
@@ -77,7 +76,6 @@ export class ListService {
                 this.addArticleToList(sList,obj);        
             } else {
                 let articleAdded:any = addArticle.push(obj);
-                debugger
                 this.addArticleToList(sList,articleAdded.key); 
                 this.addToOwnArticles(articleAdded.key,user);
             }
@@ -169,6 +167,7 @@ export class ListService {
         })
     }
 
+    // filter and find the each user from list of users avilable in databse users collection
     getRelatedUsers(x):Array<any>{
         let arr=[];
         let arrFinal=[];

@@ -5,7 +5,7 @@ import { MaterialModule } from '@angular/material';
 import { DeleteRoutingModule } from './delete.routing';
 import { SharedModule } from './../shared/shared.module';
 import { DeleteComponent } from './delete.component';
-import { UsersService } from './../services/users.service';
+// import { UsersService } from './../services/users.service';
 
 // delete module bootstrap
 @NgModule({
@@ -13,7 +13,6 @@ import { UsersService } from './../services/users.service';
     DeleteRoutingModule,SharedModule,CommonModule,MaterialModule
   ],
   exports: [],
-  declarations: [DeleteComponent],
-  providers: [UsersService],
+  declarations: [DeleteComponent]
 })
 export class DeleteModule { }

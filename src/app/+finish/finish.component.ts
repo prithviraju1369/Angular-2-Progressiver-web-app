@@ -7,8 +7,8 @@ import { AngularFire, FirebaseListObservable,FirebaseObjectObservable, FirebaseR
 // import 'rxjs/add/operator/catch';
 
 import { SharedComponent } from './../shared/shared.component';
-import { UsersService } from './../services/users.service';
-import { user } from './../model/user';
+// import { UsersService } from './../services/users.service';
+import { user } from './../model/sharedmodel';
 
 declare var PouchDB: any;
 
@@ -28,7 +28,7 @@ export class FinishComponent implements OnInit {
     localDBID;
     finished:any;
     articles:any;
-    constructor(public _userService: UsersService,private route: ActivatedRoute,
+    constructor(private route: ActivatedRoute,
         private router: Router,af: AngularFire) {
 this.db = new PouchDB("sList");
         this.af = af;

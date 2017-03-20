@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { SharedComponent } from './../../../shared/shared.component';
 import { ManageService } from './../../manage.service';
-import { user } from './../../../model/user';
-import { list } from './../../../model/user';
+import { user } from './../../../model/sharedmodel';
+import { list } from './../../../model/sharedmodel';
 
 declare var PouchDB: any;
 

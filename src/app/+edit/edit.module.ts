@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { EditRoutingModule } from './edit.routing';
 import { SharedModule } from './../shared/shared.module';
 import { EditComponent } from './edit/edit.component';
-import { UsersService } from './../services/users.service';
+// import { UsersService } from './../services/users.service';
 import { MaterialModule } from '@angular/material';
 import { AngularFireModule } from 'angularfire2';
 import { firebaseConfig } from './../config/firebase-config';
@@ -20,7 +20,6 @@ import { firebaseConfig } from './../config/firebase-config';
     CommonModule
   ],
   exports: [],
-  declarations: [EditComponent],
-  providers: [UsersService],
+  declarations: [EditComponent]
 })
 export class EditModule { }
