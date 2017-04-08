@@ -3,14 +3,13 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { SharedComponent } from './../../shared/shared.component';
 import { ManageService } from './../manage.service';
-import { user } from './../../model/sharedmodel';
+import { user } from './../../model/user';
 
 import { Observable } from 'rxjs/Observable';
 
-import { list } from './../../model/sharedmodel';
+import { list } from './../../model/user';
 import { Subject } from 'rxjs/Subject';
 import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
-declare var PouchDB: any;
 export class catalog{
     constructor(
         public id?: string,
@@ -44,10 +43,11 @@ export class ManageComponent implements OnInit {
         private router: Router
     ) {
         this.af = af;
-        this.db = new PouchDB("sList");
+        
     }
 
     ngOnInit() {
+        this.db = this._manageService.PouchDBRef();
         this.user=this.route.params
             .switchMap((params: Params) => {
                 // this.url = '-K_PcS3U-bzP0Jgye_Xo';
@@ -360,4 +360,10 @@ export class ManageComponent implements OnInit {
         deleteButton.style.display='flex';
         deleteArticle.style.display='none';
     }
+
+    deleteArticleFromMyarticles(art){
+        alert(1)
+        this._manageService.removeIfExistsMyOwnArticles(art.$key,this.url);
+    }
+
 }

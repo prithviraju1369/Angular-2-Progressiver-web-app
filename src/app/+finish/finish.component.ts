@@ -5,17 +5,17 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFire, FirebaseListObservable,FirebaseObjectObservable, FirebaseRef} from 'angularfire2';
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
-
+import { FinishService } from './finish.service';
 import { SharedComponent } from './../shared/shared.component';
-// import { UsersService } from './../services/users.service';
-import { user } from './../model/sharedmodel';
+import { user } from './../model/user';
 
 declare var PouchDB: any;
 
 @Component({
   selector: 'finish',
   templateUrl: './finish.component.html',
-  styleUrls: ['./finish.component.scss']
+  styleUrls: ['./finish.component.scss'],
+  providers:[FinishService]
 })
 
 export class FinishComponent implements OnInit {
@@ -29,12 +29,13 @@ export class FinishComponent implements OnInit {
     finished:any;
     articles:any;
     constructor(private route: ActivatedRoute,
-        private router: Router,af: AngularFire) {
-this.db = new PouchDB("sList");
+        private router: Router,af: AngularFire,private _finishService: FinishService) {
+        
         this.af = af;
     }
 
     ngOnInit() {
+        this.db = this._finishService.PouchInstance();
         // this.getUsers();
         this.syncChanges();
         this.showSideMenu();

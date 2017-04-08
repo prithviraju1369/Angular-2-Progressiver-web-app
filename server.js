@@ -6,9 +6,10 @@ var bodyParser = require('body-parser')
 var nodemailer = require('nodemailer');
 var firebaseAdmin=require('firebase-admin');
 var serviceAccount = require("./firebase-secret.js");
+var compression = require('compression');
 
 
-
+app.use(compression());
 app.use(express.static(path.join(__dirname, './dist')));
 
 app.use(bodyParser.urlencoded({ extended: false }))

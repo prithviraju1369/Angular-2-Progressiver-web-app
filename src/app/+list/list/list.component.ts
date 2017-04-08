@@ -3,11 +3,11 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { SharedComponent } from './../../shared/shared.component';
 import { ListService } from './../list.service';
-import { user } from './../../model/sharedmodel';
+import { user } from './../../model/user';
 
 import { Observable } from 'rxjs/Observable';
 
-import { list } from './../../model/sharedmodel';
+import { list } from './../../model/user';
 import { Subject } from 'rxjs/Subject';
 import {AngularFire,FirebaseListObservable,FirebaseObjectObservable,FirebaseRef} from 'angularfire2';
 
@@ -68,7 +68,7 @@ export class ListComponent implements OnInit,OnDestroy  {
         private router: Router
     ) {
         this.af = af;
-        this.db = new PouchDB("sList");
+        
     }
 
      ngOnDestroy(){
@@ -78,6 +78,7 @@ export class ListComponent implements OnInit,OnDestroy  {
     }
     /// load initial required data
     ngOnInit() {
+        this.db = this._listService.PouchDBRef();
         this.user=this.route.params
             .switchMap((params: Params) => {
                 /// stored in browse db(PouchDB)
@@ -113,7 +114,7 @@ export class ListComponent implements OnInit,OnDestroy  {
        
         search$.subscribe(x=>{
             this.searchArticles=x;
-        });   
+        }); 
 
         /// get all articles for search purpose
         this.getAllArticles();     
@@ -125,13 +126,18 @@ export class ListComponent implements OnInit,OnDestroy  {
         this.getSTitle();
     }
 
+    
+
     getSTitle(){
         this._listService.getSDetails(this.sList).map(x=>x).subscribe(x=>{
+            
+            if(x){
             this.title=x.title;
             
             // get catalog based on the user selected shopping list language
             this.getCatalog(x.language.toLowerCase());
             this.getUsersCatalog(x.language.toLowerCase());
+            }
         })
     }
     showSideMenu(){
@@ -268,7 +274,12 @@ export class ListComponent implements OnInit,OnDestroy  {
     // add articles to shopping
 
     addToLIst(item:any){
-        this.recentArticles.push(item.name);
+
+        var index = this.recentArticles.findIndex(function(o){
+            return o.$key === item.$key;
+        })
+        this.recentArticles.splice(index, 1);
+
         this.searchArticles=[];
         this.search='';
         if(item.$key){
@@ -593,6 +604,7 @@ export class ListComponent implements OnInit,OnDestroy  {
 
     // remove article from shopping list
     removeArticleFromSList(item){
+        this.recentArticles.push(item);
         this._listService.removeArticleFromSList(item.id,this.sList);
         let box:any=document.getElementsByClassName('slist-article-details');
         box[0].style.display='none';   
@@ -618,6 +630,7 @@ export class ListComponent implements OnInit,OnDestroy  {
 
     //find article in catalog and delete
     _findArticleInCategoryAndDelete(item){
+        this.recentArticles.push(item);
         let id=item.id;
         for(let i=0;i<this.usersCatalogs.length;i++){
             for(let j=0;j<this.usersCatalogs[i].articles.length;j++){

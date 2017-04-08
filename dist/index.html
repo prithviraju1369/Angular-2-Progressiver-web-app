@@ -17,5 +17,11 @@
     </div>
    </app-root>
    <script src="https://cdn.jsdelivr.net/pouchdb/6.0.5/pouchdb.min.js"></script>
-<script type="text/javascript" src="inline.ee2fefefe8be4345ccb1.bundle.js"></script><script type="text/javascript" src="vendor.a8cc84207d841c3438d2.bundle.js"></script><script type="text/javascript" src="main.f5fd1498c06b115ed4f4.bundle.js"></script></body>
+   <script>
+     if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+
+   </script>
+<script type="text/javascript" src="inline.7ee39d86eef106286507.bundle.js"></script><script type="text/javascript" src="polyfills.1e07d94a71911e748dfd.bundle.js"></script><script type="text/javascript" src="vendor.e7c1a03f5f4fc1c877da.bundle.js"></script><script type="text/javascript" src="main.ef7ab008a3a3ef57a2ae.bundle.js"></script></body>
 </html>

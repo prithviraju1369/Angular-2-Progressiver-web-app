@@ -6,7 +6,7 @@ import { AngularFire, FirebaseListObservable,FirebaseObjectObservable, FirebaseR
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
 
-import { user,list } from './../model/sharedmodel';
+import { user,list } from './../model/user';
 
 @Injectable()
 export class CreateService {
@@ -55,8 +55,10 @@ export class CreateService {
         let testme = this.af.database.object(`sListUsers`);
         if (this.invitedUsers.indexOf(usr.$key) < 0) {
             this.invitedUsers.push(usr.$key);
+            this.af.database.object(`sList/${this.sList.getKey()}/users`).update(this.invitedUsers);
             // this.sListUsersKey.update(this.invitedUsers);
             this.af.database.object(`sListUsers/${this.sList.getKey()}`).update(insertData);
+
             // this.sendEmailToUser(usr.$key);
         }
     }
@@ -104,14 +106,14 @@ export class CreateService {
         return usr;
     }
 
-    // getUsers(): Observable<user[]> {
-    //     // ...using get request
-    //     var result = this.http.get(this.users)
-    //         .map((res: Response) => res.json())
-    //         .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-    //     return result;
+    getUsers(): Observable<user[]> {
+        // ...using get request
+        var result = this.http.get(this.users)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+        return result;
 
-    // }
+    }
     // get all users
     getUsersFirebase(): Observable<any[]> {
         var result = this.af.database.list('/users');

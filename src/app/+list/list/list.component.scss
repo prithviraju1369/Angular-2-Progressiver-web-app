@@ -125,3 +125,10 @@
     border: 1px solid rgba(81, 203, 238, 1);
 }
 
+.triangle_down {
+    width: 0;
+    height: 0;
+    border-top: 10px solid #20a3bf;
+    border-left: 48px solid transparent;
+    border-right: 48px solid transparent;
+}

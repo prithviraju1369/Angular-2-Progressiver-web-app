@@ -1,8 +1,9 @@
 import { Injectable }     from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { user } from './../model/sharedmodel';
+import { user } from './../model/user';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
+declare var PouchDB: any;
 // Import RxJs required methods
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
@@ -28,5 +29,8 @@ export class UsersService{
      getUsersFirebase():Observable<any[]>{
          return this.af.database.list('/users');
      }
-    
+
+    PouchInstance(){
+        return new PouchDB("sList");
+    } 
 }

@@ -14,6 +14,7 @@ import { AddCategoryComponent } from './manage/addcategory/addcategory.component
 import { EditCategoryComponent } from './manage/editcategory/editcategory.component';
 import { DeleteCategoryComponent } from './manage/deletecategory/deletecategory.component';
 import { SharedAddOrEditComponent } from './manage/sharedaddoredit/sharedaddoredit.component';
+import { UsersService } from './../services/users.service';
 import { firebaseConfig } from './../config/firebase-config';
 
 // manage lazy loaded module bootstrapping
@@ -27,6 +28,7 @@ import { firebaseConfig } from './../config/firebase-config';
   ],
   exports: [],
   declarations: [ManageComponent,AddArticleComponent,EditCategoryComponent,EditArticleComponent,
-          AddCategoryComponent,SharedAddOrEditComponent,DeleteCategoryComponent]
+          AddCategoryComponent,SharedAddOrEditComponent,DeleteCategoryComponent],
+  providers: [UsersService],
 })
 export class ManageModule { }

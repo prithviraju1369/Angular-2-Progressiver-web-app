@@ -2,39 +2,42 @@
 <div class="slist">
     <div class="slist-search">
         <form>
-            <md-input-container style="width: 100%;" >
+            <md-input-container style="width: 100%;">
                 <input mdInput placeholder="What do you wanna buy ?" id="listSearch" #term type="search" name="search" [(ngModel)]="search">
             </md-input-container>
         </form>
         <div class="slist-article-direction" style="margin: 1em 0;">
-            <div class="slist-article" *ngFor="let a of searchArticles"  [style.background]="a.backGroundColor">
+            <div class="slist-article" *ngFor="let a of searchArticles" [style.background]="a.backGroundColor">
                 <div class="article-item" (tap)="addToLIst(a)">
                     {{a.name}}
                 </div>
             </div>
-            
+
         </div>
     </div>
 
-    <div class="slist-articles" style="margin: 1em 0;display: flex;justify-content: center;align-items: center;flex-direction: column;" *ngIf="articlesList.length==0">
+    <div class="slist-articles" style="margin: 1em 0;display: flex;justify-content: center;align-items: center;flex-direction: column;"
+        *ngIf="articlesList.length==0">
         <span style="margin: 1em;"><b>Empty shopping list</b></span>
         <span style="margin: 1em;">Add articles to your shopping list by searching or browsing through the article catalog</span>
     </div>
 
     <div class="slist-articles" style="margin: 1em 0;">
         <div class="slist-article-direction">
-            <div class="slist-article" *ngFor="let a of articlesList"  [style.background]="a.backGroundColor">
+            <div class="slist-article" *ngFor="let a of articlesList" [style.background]="a.backGroundColor">
                 <!--<div style="width: 90%;margin: 0.1em;"></div>-->
-                    <div class="slist-article-item" (tap)="selectedArticleInList(a)">
-                        <span class="info-icon" *ngIf="a.description" style="align-self: flex-end;margin: 5px;">i</span>
-                        <span style="height: 50%;text-align: center;justify-content: center;display: flex;flex-direction: column;">{{a.amount}}</span>
-                        <span style="height:40%">{{a.name}}</span>
-                    </div>
+                <div class="slist-article-item" (tap)="selectedArticleInList(a)">
+                    <span class="info-icon" *ngIf="a.description" style="align-self: flex-end;margin: 5px;">i</span>
+                    <span style="height: 50%;text-align: center;justify-content: center;display: flex;flex-direction: column;">{{a.amount}}</span>
+                    <span style="height:40%">{{a.name}}</span>
+                </div>
+
+
             </div>
         </div>
     </div>
     <!--<div class="triangle-down"></div>-->
-    <div class="slist-article-details" >
+    <div class="slist-article-details">
         <div class="slist-article-detail-box">
             <div class="slist-article-detail-box-content">
                 <div style="margin:1em;">Amount</div>
@@ -49,7 +52,7 @@
                     <span><button md-raised-button style="min-width: 0px;min-height: 50px;background: #a6a1a1;" (tap)="reduceArticleAmount(selectedArticleList.amount)">-</button></span>
                 </div>
                 <div style="margin:1em 0">
-                    <md-input-container style="width: 100%;background: white; border-radius: 2px;" >
+                    <md-input-container style="width: 100%;background: white; border-radius: 2px;">
                         <textarea mdInput placeholder="Description" type="input" name="description" [(ngModel)]="selectedArticleList.description"></textarea>
                     </md-input-container>
                 </div>
@@ -58,7 +61,8 @@
                 <p style="display: none">a</p>
             </div>
             <div class="slist-article-detail-box-buttons">
-                <div style="height:30px;width:30px;margin:1em auto;background: #b8b8b8;cursor: pointer;"  *ngIf="!selectedArticleList.isBasked" (tap)="addToBasked(selectedArticleList)">
+                <div style="height:30px;width:30px;margin:1em auto;background: #b8b8b8;cursor: pointer;" *ngIf="!selectedArticleList.isBasked"
+                    (tap)="addToBasked(selectedArticleList)">
                     <img class="slist-article-detail-button" height="30px;" width="30px;" src="./../assets/images/button_article_not_in_basket.png">
                 </div>
                 <div style="height:30px;width:30px;margin:1em auto;background: #b8b8b8;" *ngIf="selectedArticleList.isBasked">
@@ -73,7 +77,7 @@
             </div>
         </div>
         <div style="text-align: center;" (tap)="updateSList(selectedArticleList)">
-        <button md-raised-button style="margin:1em auto;">Ok</button>
+            <button md-raised-button style="margin:1em auto;">Ok</button>
         </div>
     </div>
     <div class="article-category-delete" style="display: none">
@@ -83,62 +87,62 @@
             <button md-button (tap)="hideDelete()" style="background: grey">Cancel</button>
         </div>
     </div>
-<div class="slist-catalog" style="margin: 1em 0;">
-    <div style="margin: 1em 0;">
-        <span class="sList-catalog-item-name-default" >
+    <div class="slist-catalog" style="margin: 1em 0;">
+        <div style="margin: 1em 0;">
+            <span class="sList-catalog-item-name-default">
             <i *ngIf=" userarticleRecent.style.display=='none'" class="material-icons">keyboard_arrow_down</i>
             <i *ngIf=" userarticleRecent.style.display!='none'" class="material-icons">keyboard_arrow_up</i>
             <span (tap)="toggleCatalog(userarticleRecent)" style="cursor: pointer;">Recent articles</span>
-        </span>
-        <div style="display:none;" class="slist-articles" #userarticleRecent>
-        <div class="slist-article-direction">
-            <div class="slist-article" *ngFor="let a of recentArticles" style="background: #F24646">
-                <div class="article-item" >
-                    {{a}}
+            </span>
+            <div style="display:none;" class="slist-articles" #userarticleRecent>
+                <div class="slist-article-direction">
+                    <div class="slist-article" *ngFor="let a of recentArticles" style="background: #90CAF9" (tap)="addToLIst(a)">
+                        <div class="article-item">
+                            {{a.name}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-</div>
-</div>
-</div>
+    </div>
 
-<div class="slist-catalog" style="margin: 1em 0;">
-    <div *ngFor="let p of usersCatalogs; let i=index" style="margin: 1em 0;">
-        <span class="sList-catalog-item-name-default" >
+    <div class="slist-catalog" style="margin: 1em 0;">
+        <div *ngFor="let p of usersCatalogs; let i=index" style="margin: 1em 0;">
+            <span class="sList-catalog-item-name-default">
             <i *ngIf=" userarticle.style.display=='none'" class="material-icons">keyboard_arrow_down</i>
             <i *ngIf=" userarticle.style.display!='none'" class="material-icons">keyboard_arrow_up</i>
             <span (tap)="toggleCatalog(userarticle)" style="cursor: pointer;">{{ p.name }}</span>
-        </span>
-        <div style="display:none;" class="slist-articles" #userarticle>
-        <div class="slist-article-direction">
-            <div class="slist-article" *ngFor="let a of p.articles" (tap)="addToLIst(a)">
-                <div class="article-item" >
-                    {{a.name}}
+            </span>
+            <div style="display:none;" class="slist-articles" #userarticle>
+                <div class="slist-article-direction">
+                    <div class="slist-article" *ngFor="let a of p.articles" (tap)="addToLIst(a)">
+                        <div class="article-item">
+                            {{a.name}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-</div>
-</div>
-</div>
+    </div>
 
 
 
-<div class="slist-catalog" style="margin: 1em 0;">
-    <div *ngFor="let p of catalogs; let i=index" style="margin: 1em 0;">
-        <span class="sList-catalog-item-name-default" >
+    <div class="slist-catalog" style="margin: 1em 0;">
+        <div *ngFor="let p of catalogs; let i=index" style="margin: 1em 0;">
+            <span class="sList-catalog-item-name-default">
             <i *ngIf=" articles.style.display=='none'" class="material-icons">keyboard_arrow_down</i>
             <i *ngIf=" articles.style.display!='none'" class="material-icons">keyboard_arrow_up</i>
             <span (tap)="toggleCatalog(articles)" style="cursor: pointer;">{{ p.name }}</span>
-        </span>
-        <div style="display:none;" class="slist-articles" #articles>
-        <div class="slist-article-direction">
-            <div class="slist-article" *ngFor="let a of p.articles" (tap)="addToLIst(a)">
-                <div class="article-item" >
-                    {{a.name}}
+            </span>
+            <div style="display:none;" class="slist-articles" #articles>
+                <div class="slist-article-direction">
+                    <div class="slist-article" *ngFor="let a of p.articles" (tap)="addToLIst(a)">
+                        <div class="article-item">
+                            {{a.name}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-</div>
-</div>
-</div>
+    </div>
 </div>

@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild,OnDestroy,HostListener } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { AppService } from './app.service';
 
-declare var PouchDB: any;
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers:[AppService]
 })
 
 // App component initilization with OnInit and OnDestroy life cycle callbacks
@@ -26,8 +27,8 @@ export class AppComponent implements OnInit,OnDestroy {
   }
 
   constructor(private route: ActivatedRoute,
-        private router: Router){
-    this.db = new PouchDB("sList");
+        private router: Router,public _appService: AppService){
+    
   }
  
 
@@ -36,9 +37,10 @@ export class AppComponent implements OnInit,OnDestroy {
 
   // called on component creation
   ngOnInit() {
+    this.db=this._appService.PouchInstance();
     let self=this;
     
-    // get emal or slistid on page route if exists
+    // get email or slistid on page route if exists
     this.user=this.route.params
             .switchMap((params: Params) => {
                 this.url = params['email'];
@@ -76,6 +78,9 @@ export class AppComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy(){
+    if(this.user){
+      this.user.unsubscribe();
+    }
   }
 
   // hide side nav

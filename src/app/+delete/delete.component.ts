@@ -5,17 +5,16 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFire, FirebaseListObservable,FirebaseObjectObservable, FirebaseRef } from 'angularfire2';
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
-
-import { SharedComponent } from './../shared/shared.component';
-// import { UsersService } from './../services/users.service';
-import { user } from './../model/sharedmodel';
+import { DeleteService } from './delete.service';
+import { user } from './../model/user';
 
 declare var PouchDB: any;
 
 @Component({
   selector: 'delete',
   templateUrl: './delete.component.html',
-  styleUrls: ['./delete.component.scss']
+  styleUrls: ['./delete.component.scss'],
+  providers:[DeleteService]
 })
 export class DeleteComponent implements OnInit {
     private abtusers:user[];
@@ -26,25 +25,26 @@ export class DeleteComponent implements OnInit {
     modelValue:any;
     localDBID;
     constructor(private route: ActivatedRoute,
-        private router: Router,af: AngularFire) {
-this.db = new PouchDB("sList");
+        private router: Router,af: AngularFire,private _deleteService: DeleteService) {
+        
         this.af = af;
     }
 
     ngOnInit() {
         // this.getUsers();
-
+        this.db = this._deleteService.PouchInstance();
         this.syncChanges();
         this.showSideMenu();
     }
 
     // show side nav extras
     showSideMenu() {
-        
+        if(document){
         document.getElementById('edit').style.display='block';
         document.getElementById('clear').style.display='block';
         document.getElementById('finished').style.display='block';
         document.getElementById('delete').style.display='block';
+        }
     }
 
     //get or set email id from localDB

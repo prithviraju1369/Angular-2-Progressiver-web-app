@@ -6,8 +6,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { SharedComponent } from './../../shared/shared.component';
 import { CreateService } from './../create.service';
-import { user } from './../../model/sharedmodel';
-import { list } from './../../model/sharedmodel';
+import { user } from './../../model/user';
+import { list } from './../../model/user';
 
 @Component({
     selector: 'create',

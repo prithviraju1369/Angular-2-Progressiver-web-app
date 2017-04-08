@@ -6,7 +6,7 @@ import { AngularFire, FirebaseListObservable,FirebaseObjectObservable, FirebaseR
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
 
-import { user, list } from './../model/sharedmodel';
+import { user, list } from './../model/user';
 
 @Injectable()
 export class EditService {
@@ -25,6 +25,10 @@ export class EditService {
     constructor(  private http: Http, af: AngularFire) {
         this.af = af;
         
+    }
+
+    PouchDBRef(){
+        return new PouchDB("sList");
     }
 
     // edit shopping list by id

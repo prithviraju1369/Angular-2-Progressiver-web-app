@@ -17,5 +17,11 @@
     </div>
    </app-root>
    <script src="https://cdn.jsdelivr.net/pouchdb/6.0.5/pouchdb.min.js"></script>
+   <script>
+     if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+
+   </script>
 </body>
 </html>

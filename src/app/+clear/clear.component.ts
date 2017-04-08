@@ -3,19 +3,19 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable, FirebaseRef } from 'angularfire2';
+import { ClearService } from './clear.service';
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
 
-import { SharedComponent } from './../shared/shared.component';
-// import { UsersService } from './../services/users.service';
-import { user } from './../model/sharedmodel';
+import { user } from './../model/user';
 
 declare var PouchDB: any;
 
 @Component({
   selector: 'clear',
   templateUrl: './clear.component.html',
-  styleUrls: ['./clear.component.scss']
+  styleUrls: ['./clear.component.scss'],
+  providers:[ClearService]
 })
 export class ClearComponent implements OnInit {
     private abtusers:user[];
@@ -24,12 +24,13 @@ export class ClearComponent implements OnInit {
     sList:any;
     url:any;
     constructor(private route: ActivatedRoute,
-        private router: Router,af: AngularFire) {
-        this.db = new PouchDB("sList");
+        private router: Router,af: AngularFire,private _clearService:ClearService) {
+        
         this.af = af;
     }
 
     ngOnInit() {
+        this.db = this._clearService.PouchInstance();
         // this.getUsers();
         this.syncChanges();
         this.showSideMenu()

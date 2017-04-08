@@ -57,6 +57,17 @@
                 <div class="">
                     {{a.name}}
                 </div>
+                <div class="manage-article-item-buttons" #mydeleteButton>
+                    <span><a [routerLink]="['/manage/editarticle',{artId:a.$key}]"><img class="manage-catalog-item" height="24px;" width="24px;" src="./../assets/images/edit-button.png"></a></span>
+                    <span (tap)="showDelete(mydeleteButton,mydelete)" style="cursor: pointer;"><img class="manage-catalog-item" height="24px;" width="24px;" src="./../assets/images/delete_button.png"></span>
+                </div>
+                <div #mydelete style="display:none;">
+                    <span style="color: #a94442">Delete this article?</span>
+                    <div>
+                        <button md-button (tap)="deleteArticleFromMyarticles(a)" style="background: #a94442">Delete</button>
+                        <button md-button (tap)="hideDelete(mydeleteButton,mydelete)" style="background: grey">Cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
 </div>

@@ -6,7 +6,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 // import 'rxjs/add/operator/map';
 // import 'rxjs/add/operator/catch';
 
-import { user } from './../model/sharedmodel';
+import { UsersService } from './../services/users.service';
+import { user } from './../model/user';
 import { ListsService } from './lists.service';
 declare var PouchDB: any;
 
@@ -28,12 +29,13 @@ export class ListsComponent implements OnInit {
     constructor(public _listservice: ListsService,  af: AngularFire,
         private route: ActivatedRoute,
         private router: Router) {
-        this.db = new PouchDB("sList");
+        
         this.af = af;
         this.sListsEmpty = false;
     }
 
     ngOnInit() {
+        this.db = this._listservice.PouchDBRef();
         this.syncChanges();
         this.sLists=[];
         this.getAllLists();

@@ -1,13 +1,13 @@
 import { Injectable, Inject, OnInit}     from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
-import {user,list} from './../model/sharedmodel';
+import {user,list} from './../model/user';
 import { AngularFire, FirebaseListObservable, FirebaseRef} from 'angularfire2';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 declare var PouchDB: any;
 @Injectable()
-export class ManageService {
+export class ManageService implements OnInit{
     af: AngularFire;
     items: FirebaseListObservable<any[]>;
     private url;
@@ -21,10 +21,10 @@ export class ManageService {
         this.af = af;
         // this.getAllRelatedUsers();
 
-        // PouchDB instances
-        this.db = new PouchDB("sList");
+        
         this.user=this.route.params
             .switchMap((params: Params) => {
+                if(params['email'])
                 this.url = params['email'];
                 this.sId = params['id'];
                 return Observable.from([1,2,3]).map(x=>x);
@@ -34,9 +34,15 @@ export class ManageService {
         });
 
     }
+    ngOnInit() {
+        // PouchDB instances
+        this.db = this.PouchDBRef();
+    }
     // sync user email id from local PouchDB
     syncChanges() {
+        
         let self=this;
+        if(this.db){
         this.db.allDocs({include_docs: true, descending: true}, function(err, docs) {
             if (err){
             console.log(err);
@@ -46,6 +52,13 @@ export class ManageService {
             self.url=docs.rows[0].doc.user;
             }
         });
+        }
+    }
+
+
+    PouchDBRef(){
+        if(PouchDB)
+        return new PouchDB("sList");
     }
 
     // get article by id
@@ -97,20 +110,20 @@ export class ManageService {
 	}
 	
     // add category from manage component
-	addCategory(obj:Object,language:any):void{
+	addCategory(obj:Object,language:any,user):void{
 
 		let categories=this.af.database.list(`/catalog/${language}`);
 		let categoryAdded=categories.push(obj);
 		let addToCatalog=this.af.database.object(`catalog/${language}/${categoryAdded.key}/users`)
-        this.getAllRelatedUsers(categoryAdded.key,language);
+        this.getAllRelatedUsers(categoryAdded.key,language,user);
 
 	}
     // edit category
-	editCategory(obj:any,catId:string,language:string):void{
+	editCategory(obj:any,catId:string,language:string,user):void{
 		let categories=this.af.database.object(`/catalog/${language}/${catId}`);
 		let categoryAdded=categories.update({name:obj.name,order:obj.order});
 		let addToCatalog=this.af.database.object(`catalog/${language}/${catId}/users`)
-        this.getAllRelatedUsers(catId,language);
+        this.getAllRelatedUsers(catId,language,user);
 
 	}
     // get category by id
@@ -214,12 +227,13 @@ export class ManageService {
     }
 
     // get all related users by language from category
-    getAllRelatedUsers(catId,language){
+    getAllRelatedUsers(catId,language,user){
         let addToCatalog=this.af.database.object(`catalog/${language}/${catId}/users`)
         let sListUsers=this.af.database.list('sList').map(x=>{
-            return this.getRelatedUsers(x);
+            return this.getRelatedUsers(x,user);
         });
         sListUsers.subscribe(x=>{
+            debugger
             this.myUsers=[];
             if (x && x.length>0){
                 this.myUsers=x;
@@ -232,14 +246,16 @@ export class ManageService {
         })
     }
 
-    // filter and find the each user from list of users avilable in databse users collection
-    getRelatedUsers(x):Array<any>{
+    // related users mapping
+    getRelatedUsers(x,user):Array<any>{
         let arr=[];
         let arrFinal=[];
         let arrMap=x.map(function(item){ return item.users});
+        debugger
         for (let i=0;i<arrMap.length;i++){
             if (arrMap[i]){
-                if (arrMap[i].includes(this.url)){
+                let u=this.url||user;
+                if (arrMap[i].includes(u)){
                     arr.push(arrMap[i]);
                 }
             }
@@ -249,7 +265,29 @@ export class ManageService {
                 arrFinal.push(arr[j][k]);
             }    
         }
-
+        debugger
         return arrFinal.filter((v, i, a) => a.indexOf(v) === i); ;
+    }
+
+    removeIfExistsMyOwnArticles(art,user){
+        let ownarticles = this.af.database.list(`/ownarticles`,{
+            query:{
+                orderByChild:'articleId',
+                equalTo:art
+            }
+        }).map(x=>x).subscribe(x=>{
+            if(x && x.length>0){
+                debugger
+                let filteredVal=x.filter(function(i){
+                    return i.user==user;
+                });
+                for(let i=0;i<filteredVal.length;i++){
+                    const items = this.af.database.list('/ownarticles');
+                    // to get a key, check the Example app below
+                    items.remove(filteredVal[i].$key);
+                }
+            }
+        })
+        
     }
 }

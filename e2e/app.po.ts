@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class ShoppinglistPage {
+export class Apwa1Page {
   navigateTo() {
     return browser.get('/');
   }

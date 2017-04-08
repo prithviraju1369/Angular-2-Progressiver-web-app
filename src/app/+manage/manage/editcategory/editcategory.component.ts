@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { SharedComponent } from './../../../shared/shared.component';
 import { ManageService } from './../../manage.service';
-import { user } from './../../../model/sharedmodel';
-import { list } from './../../../model/sharedmodel';
+import { user } from './../../../model/user';
+import { list } from './../../../model/user';
 
 declare var PouchDB: any;
 
@@ -44,10 +44,11 @@ export class EditCategoryComponent implements OnInit {
         private router: Router
     ) {
         this.af = af;
-        this.db = new PouchDB("sList");
+        
     }
 
     ngOnInit() {
+        this.db = this._manageService.PouchDBRef();
         this.user=this.route.params
             .switchMap((params: Params) => {
                 // this.url = '-K_PcS3U-bzP0Jgye_Xo';
@@ -110,7 +111,7 @@ export class EditCategoryComponent implements OnInit {
     // on save click from shared component
 	onSaved(obj){
 		obj.isDefault=false;
-		this._manageService.editCategory(obj,this.catId,this.language);
+		this._manageService.editCategory(obj,this.catId,this.language,this.url);
 		this.router.navigate(['manage']);
 	}
 
